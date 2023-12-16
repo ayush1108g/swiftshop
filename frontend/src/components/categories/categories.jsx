@@ -1,9 +1,12 @@
 import './categories.css';
-export default function(props){
-    return(
+import { useLocation } from 'react-router';
+export default function Categories(props) {
+    const location = useLocation();
+    console.log(location);
+    return (
         <li>
-            <img src={props.image} alt="" />
-            <h6>{props.title}</h6>
+            {location.pathname === '/' && <img src={props.image} alt={props.alt} />}
+            <h5>{props.title}</h5>
         </li>
     )
 }

@@ -4,28 +4,33 @@
 }
 .left {
   width: 50vw;
-  height: 100vh;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; */
+  /* height: 100vh; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center;  */
   /* position: fixed;
   left: 0; */
+  text-align: center;
 }
 .right {
   width: 50vw;
-  height: 100vh;
-  /* display: flex;
-  flex-direction: column;
-  /* justify-content: center;
-  align-items: center; */
+  min-height: 100vh;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center; */
   /* position: ; */
   /* right: 0; */
 }
 .productImage {
-  width: 100%;
-  height: auto;
-  /* object-fit: cover; */
+  /* width: 50vw;*/
+  height: 80vh;
+  max-width: 40vw;
+  max-height: 150vh;
+
+  object-fit: cover;
+  background-size: "cover";
 }
 .productTitle {
   font-size: 2rem;
@@ -58,4 +63,7 @@
 }
 .availabilityContent {
   color: indianred;
+}
+.description {
+  width: 30vw;
 }

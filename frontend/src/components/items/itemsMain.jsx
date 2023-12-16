@@ -4,8 +4,10 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { ToLink } from '../../App.jsx';
 import axios from 'axios';
+import { useNavigate } from "react-router";
 
 export default function MainItem() {
+    const navigate = useNavigate();
     const [data1, setData1] = useState([]);
     const [data2, setData2] = useState([]);
     const [data3, setData3] = useState([]);
@@ -135,6 +137,7 @@ export default function MainItem() {
 
     const itemHandler = (e, id) => {
         console.log(id);
+        navigate(`/${id}`);
     }
 
     return (<>
