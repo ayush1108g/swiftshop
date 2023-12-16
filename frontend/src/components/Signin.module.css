@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  position: relative;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  border: 1px solid #413232;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: white;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.buttons {
+  display: flex;
+  padding: 10px;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.pagechange {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* width: 100%; */
+  height: auto;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; /* Optional: You can adjust this to control spacing */
+}
+
+.box {
+  position: relative;
+  top:-100px;
+  left:-100px;
+  background-color: #8734cf;
+  padding: 20px;
+  border-radius: 50%;
+  scale: 300%;
+  z-index: 1;
+}
+@media screen and (max-width: 580px) {
+  .container {
+    width: 80vw;
+  }
+  p {
+    font-size: 3.5vw;
+  }
+}

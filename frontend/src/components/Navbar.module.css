@@ -1,0 +1,22 @@
+.navbar{
+    background-color: #f6f6f6;
+    color: #413232;
+    /* padding: 10px; */
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.button{
+    background-color: #413232;
+    color: #d46666;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+}
