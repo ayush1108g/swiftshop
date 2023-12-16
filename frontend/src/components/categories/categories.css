@@ -1,0 +1,34 @@
+#catagories {
+    padding: 2rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  #catagories  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  #catagories  li {
+    width: 10rem;
+    text-align: center;
+    /* border: 2px grey solid; */
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); */
+  }
+  
+  #catagories  li img {
+    border-radius: 100%;
+    height: 2rem;
+    width: 2rem;
+    object-fit: cover;
+  }
+  
+  #catagories  li h6 {
+    margin: 0.5rem 0;
+    font-size: 12px;
+  }

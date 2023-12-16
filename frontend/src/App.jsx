@@ -1,4 +1,9 @@
 import "./App.css";
+
+import MainItems from "./components/items/itemsMain";
+import Card from "./components/card/card";
+import CategoriesMain from "./components/categories/categoriesMain";
+import MainFooter from "./components/footer/mainFooter";
 // import { createHashRouter } from "react-router-dom";
 // import { RouterProvider } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -19,6 +24,11 @@ import Cart from "./pages/cart";
 // import MainItems from "./components/items/itemsMain";
 import ProductDetail from "./components/productDetail";
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+library.add(fas);
 export const ToLink = 'http://127.0.0.1:8000';
 
 
@@ -52,11 +62,12 @@ function App() {
           <div className="h2 d-flex align-item-center justify-content-center">𝐹𝓁𝒾𝓅𝓏𝑜𝓃 : 𝒯𝒽𝑒 𝐸-𝒞𝒶𝓇𝓉 𝒜𝓅𝓅
           </div>
           <Navbar />
-          <br />
-          <br />
+          <CategoriesMain></CategoriesMain>
           <RoutesWithAnimation />
         </SidebarContextProvider>
       </HashRouter>
+      {/* <Card></Card> */}
+      <MainFooter></MainFooter>
     </>
   );
 }
