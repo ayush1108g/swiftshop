@@ -10,6 +10,7 @@ export default function HomePage() {
   return (
     < div >
       {sidebarCtx.isSidebarOpen && <Sidebar />}
+
       <Outlet />
     </div >
   );
