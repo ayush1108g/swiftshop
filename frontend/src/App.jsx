@@ -1,4 +1,9 @@
 import "./App.css";
+
+import MainItems from "./components/items/itemsMain";
+import CategoriesMain from "./components/categories/categoriesMain";
+import Card from "./components/card/card";
+import MainFooter from "./components/footer/mainFooter";
 // import { createHashRouter } from "react-router-dom";
 // import { RouterProvider } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -15,7 +20,11 @@ import ForgotPassIDPage from "./pages/ForgotPass/ForgotPassIDPage";
 import ForgotPassConfirmPage from "./pages/ForgotPass/ForgotPassConfirmPage";
 import UpdateDetail from "./pages/UpdateDetail";
 import Errorpage from "./pages/Errorpage";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+library.add(fas);
 export const ToLink = 'http://127:0.0.1:8000';
 
 
@@ -50,7 +59,10 @@ function App() {
         <RoutesWithAnimation />
       </SidebarContextProvider>
     </HashRouter>
+    <CategoriesMain></CategoriesMain>
     <MainItems></MainItems>
+    <Card></Card>
+    <MainFooter></MainFooter>
     </>
   );
 }
