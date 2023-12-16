@@ -6,7 +6,17 @@ exports.productdetails = async (req, res) => {
     product_category_tree: { $regex: new RegExp(searchWord, "i") },
   };
   try {
-    const newProduct = await Product.find(query);
+    let newProduct;
+    const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
+
+    if (limit) {
+      newProduct = await Product.aggregate([
+        { $match: query },
+        { $sample: { size: limit } },
+      ]);
+    } else {
+      newProduct = await Product.find(query);
+    }
 
     res.status(200).json({
       status: "success",

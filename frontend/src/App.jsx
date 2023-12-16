@@ -15,8 +15,11 @@ import ForgotPassIDPage from "./pages/ForgotPass/ForgotPassIDPage";
 import ForgotPassConfirmPage from "./pages/ForgotPass/ForgotPassConfirmPage";
 import UpdateDetail from "./pages/UpdateDetail";
 import Errorpage from "./pages/Errorpage";
+import Cart from "./pages/cart";
+// import MainItems from "./components/items/itemsMain";
+import ProductDetail from "./components/productDetail";
 
-export const ToLink = 'http://127:0.0.1:8000';
+export const ToLink = 'http://127.0.0.1:8000';
 
 
 
@@ -32,7 +35,9 @@ function RoutesWithAnimation() {
         <Route path="/login/forgotpassword/:id/confirm" element={<ForgotPassConfirmPage />} />
         <Route path="/contactUs" element={<ContactUsPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/:productid" element={<ProductDetail />} />
         <Route path="/:id/updatedetail" element={<UpdateDetail />} />
+        <Route path="/:id/cart" element={<Cart />} />
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Errorpage />} />
       </Routes>
@@ -42,15 +47,16 @@ function RoutesWithAnimation() {
 function App() {
   return (
     <>
-    <HashRouter>
-      <SidebarContextProvider>
-        <div className="h2 d-flex align-item-center justify-content-center">𝐹𝓁𝒾𝓅𝓏𝑜𝓃 : 𝒯𝒽𝑒 𝐸-𝒞𝒶𝓇𝓉 𝒜𝓅𝓅
-        </div>
-        <Navbar />
-        <RoutesWithAnimation />
-      </SidebarContextProvider>
-    </HashRouter>
-    <MainItems></MainItems>
+      <HashRouter>
+        <SidebarContextProvider>
+          <div className="h2 d-flex align-item-center justify-content-center">𝐹𝓁𝒾𝓅𝓏𝑜𝓃 : 𝒯𝒽𝑒 𝐸-𝒞𝒶𝓇𝓉 𝒜𝓅𝓅
+          </div>
+          <Navbar />
+          <br />
+          <br />
+          <RoutesWithAnimation />
+        </SidebarContextProvider>
+      </HashRouter>
     </>
   );
 }
