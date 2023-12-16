@@ -89,7 +89,10 @@ const Navbar = (params) => {
           Home Page
         </motion.div>
       )}
-      <FaShoppingCart style={{ fontSize: '2em' }} />
+      <div className="d-flex justify-content-center">
+        <FaShoppingCart style={{ fontSize: '2em' }} />
+        <h3 style={{ userSelect: 'none' }}>Cart</h3>
+      </div>
       {isLoggedIn &&
         <>
           <div className="dropdown" >
