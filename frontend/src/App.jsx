@@ -1,4 +1,5 @@
 import "./App.css";
+import MainItems from "./components/items/itemsMain.jsx";
 // import { createHashRouter } from "react-router-dom";
 // import { RouterProvider } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,6 +17,7 @@ import ForgotPassConfirmPage from "./pages/ForgotPass/ForgotPassConfirmPage";
 import UpdateDetail from "./pages/UpdateDetail";
 import Errorpage from "./pages/Errorpage";
 export const ToLink = 'http://127:0.0.1:8000';
+
 
 
 function RoutesWithAnimation() {
@@ -39,12 +41,15 @@ function RoutesWithAnimation() {
 }
 function App() {
   return (
+    <>
     <HashRouter>
       <SidebarContextProvider>
         <Navbar />
         <RoutesWithAnimation />
       </SidebarContextProvider>
     </HashRouter>
+    <MainItems></MainItems>
+    </>
   );
 }
 
