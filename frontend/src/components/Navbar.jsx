@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { FaShoppingCart } from "react-icons/fa";
 import SidebarContext from "../store/sidebar-context";
 import { useContext } from "react";
 // import { useState } from 'react';
@@ -21,15 +22,22 @@ const Navbar = (params) => {
 
   const sidebarHandler = () => {
     sidebarCtx.toggleSidebar();
+    console.log(sidebarCtx);
   };
   console.log(sidebarCtx);
+
+
+
   const LoginPageHandler = () => {
-    if (locationPath === "/") {
+    if (!isLoggedIn) {
       navigate("/login");
     } else {
       navigate("/");
     }
   };
+  const HomePageHandler = () => {
+    navigate("/");
+  }
   const LogoutHandler = () => {
     localStorage.clear();
     navigate("/");
@@ -53,39 +61,41 @@ const Navbar = (params) => {
   return (
     <div className={classes.navbar}>
       <GiHamburgerMenu onClick={sidebarHandler} />
-      <h1>Navbar</h1>
-      {/* <div>Contact Us</div> */}
-      {/* <motion.div> */}
-      {locationPath === "/" && (
-        <motion.button
+      <div className="input-group" style={{ maxWidth: '50vw' }}>
+        <input type="search" className="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+        <button type="button" className="btn btn-outline-primary" data-mdb-ripple-init>search</button>
+      </div>
+      {!isLoggedIn && (
+        <motion.div
           initial={{ opacity: 0.5 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0.5 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={`nav-link`}
+          className={classes.nav1}
           onClick={LoginPageHandler}
         >
-          Login Page
-        </motion.button>
+          Login / Signup
+        </motion.div>
       )}
       {locationPath !== "/" && (
-        <motion.button
+        <motion.div
           initial={{ opacity: 0.5 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0.5 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="nav-link"
-          onClick={LoginPageHandler}
+          className={classes.nav1}
+          onClick={HomePageHandler}
         >
           Home Page
-        </motion.button>
+        </motion.div>
       )}
-      {/* </motion.div> */}
-
+      <FaShoppingCart style={{ fontSize: '2em' }} />
       {isLoggedIn &&
         <>
           <div className="dropdown" >
-            <button className="btn btn-secondary" style={{ backgroundColor: 'rgba(160,204,216,255)' }} type="button" id="dropdownMenuButton" data-toggle="dropdown" >
+            <button className="btn"
+              // style={{ backgroundColor: 'rgba(160,204,216,255)' }} 
+              type="button" id="dropdownMenuButton" data-toggle="dropdown" >
               <div className={classes.circle}> <span className={classes.initial}>{letter}</span></div>
             </button>
             <div className="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton">
@@ -95,6 +105,7 @@ const Navbar = (params) => {
             </div>
           </div>
         </>}
+
     </div>
 
   );
