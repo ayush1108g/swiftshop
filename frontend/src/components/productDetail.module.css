@@ -24,11 +24,11 @@
   /* right: 0; */
 }
 .productImage {
-  /* width: 50vw;*/
+  width: 50vw;
   height: 80vh;
   max-width: 40vw;
   max-height: 150vh;
-
+  /* width: fit-content; */
   object-fit: cover;
   background-size: "cover";
 }
