@@ -29,7 +29,8 @@ import TeamPage from "./pages/teamPage";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 library.add(fas);
-export const ToLink = 'http://127.0.0.1:8000';
+// export const ToLink = 'http://127.0.0.1:8000';
+export const ToLink = "https://cp29bd07-8000.inc1.devtunnels.ms";
 
 
 
