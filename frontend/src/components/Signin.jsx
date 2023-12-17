@@ -68,7 +68,7 @@ const Signin = (props) => {
         timeout: 30000,
       });
 
-      console.log(resp);
+      // console.log(resp);
       if (resp.status === 201 || resp.status === 200) {
         localStorage.setItem("isLoggedIn", "1");
         localStorage.setItem("email", enteredEmail);

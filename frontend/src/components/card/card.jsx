@@ -26,7 +26,8 @@ export default function Card(props) {
   const discount = 0;
   const clickHandler = (e) => {
     const id = e.currentTarget.id;
-    console.log(id);
+    // console.log(id);
+
     navigate(`/${id}`);
   }
 
@@ -50,7 +51,7 @@ export default function Card(props) {
         };
         if (data.id === null || data.id === undefined || data.id === "") return alert("Please login to add to cart");
         const resp = await axios.post(`${ToLink}/cart/${data.id}`, data);
-        console.log(resp);
+        // console.log(resp);
         alert("Added to cart successfully");
       } catch (err) {
         console.log(err);

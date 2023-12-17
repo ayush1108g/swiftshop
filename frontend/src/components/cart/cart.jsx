@@ -40,7 +40,7 @@ export default function Cart(props) {
           quantity: value,
         }
         const resp = await axios.post(`${ToLink}/cart/${userid}`, data);
-        console.log(resp);
+        // console.log(resp);
       } catch (err) {
         console.log(err);
       }
@@ -59,7 +59,7 @@ export default function Cart(props) {
           quantity: 0,
         }
         const resp = await axios.post(`${ToLink}/cart/${userid}`, data);
-        console.log(resp);
+        // console.log(resp);
       } catch (err) {
         console.log(err);
       }

@@ -31,7 +31,7 @@ const ContactUsPage = () => {
             setIsLoading(true);
 
             const response = await axios.post(`${ToLink}/feedback`, body);
-            console.log(response);
+            // console.log(response);
             setErrormsg("Your query has been submitted successfully");
             if (response.status === 200 || response.status === 201) {
                 numberRef.current.value = "";

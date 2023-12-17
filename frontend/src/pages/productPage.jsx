@@ -15,13 +15,13 @@ const ProductPage = () => {
     const [data, setData] = useState([]);
     const [message, setMessage] = useState('No Data Found');
 
-    console.log(searchParams);
+    // console.log(searchParams);
     const search = searchParams.get('search');
     const page = searchParams.get('page');
     const limit = searchParams.get('limit');
     const sort = searchParams.get('sort');
 
-    console.log(search, page, limit, sort);
+    // console.log(search, page, limit, sort);
 
 
 
@@ -32,7 +32,7 @@ const ProductPage = () => {
         }
     }
     const nextPageHandler = () => {
-        console.log(page);
+        // console.log(page);
         navigate(`/page/?search=${search.split(" ").join('+')}&page=${page * 1 + 1}&limit=${limit}&sort=${sort}`);
     }
     useEffect(() => {
@@ -49,10 +49,10 @@ const ProductPage = () => {
                     if (validJSONString) {
                         newItem.product_specifications = JSON.parse(validJSONString);
                     }
-                    console.log(newItem);
+                    // console.log(newItem);
                     return newItem;
                 });
-                console.log(newData);
+                // console.log(newData);
                 setData(newData);
                 if (newData.length > 1) setMessage("");
             } catch (err) {

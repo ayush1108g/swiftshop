@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./footer.css";
-export default function(){
-    return(<div className="footer-category">
+export default function A() {
+  return (<div className="footer-category">
     <div className="container">
       <h2 className="footer-category-title">Brand directory</h2>
       <div className="footer-category-box">

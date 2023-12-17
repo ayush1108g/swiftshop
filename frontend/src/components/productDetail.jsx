@@ -33,7 +33,7 @@ const ProductDetail = () => {
         const resp = async () => {
             try {
                 const data1x = await axios.get(`${ToLink}/product_data/products?search=${dataProd}&limit=4`);
-                console.log(`${ToLink}/product_data/products?search=${dataProd}&limit=4`);
+                // console.log(`${ToLink}/product_data/products?search=${dataProd}&limit=4`);
                 let data = data1x.data.data.newProduct;
                 const newData = data.map((item) => {
                     const newItem = { ...item };
@@ -55,7 +55,7 @@ const ProductDetail = () => {
                 let data = response.data.data;
                 const specificationsString = data.product_specifications;
                 let validJSONString = specificationsString.replace(/"=>/g, '": ');
-                console.log(validJSONString);
+                // console.log(validJSONString);
                 const parsedData = {
                     ...data,
                     product_category_tree: JSON.parse(data.product_category_tree),
@@ -67,7 +67,7 @@ const ProductDetail = () => {
                 let ltx = parsedData.product_category_tree;
                 ltx = ltx[0].split(">>")[1].trim().split(" ");
                 ltx = ltx[ltx.length - 1];
-                console.log(ltx);
+                // console.log(ltx);
                 setDataProd(ltx);
             } catch (err) {
                 console.log(err);
@@ -76,7 +76,7 @@ const ProductDetail = () => {
         prod();
     }, [productid]);
     const itemHandler = (e, id) => {
-        console.log(id);
+        // console.log(id);
         navigate(`/${id}`);
     }
     const OverLayShowHandler = () => {
@@ -92,7 +92,7 @@ const ProductDetail = () => {
                 };
                 if (data.id === null || data.id === undefined || data.id === "") return alert("Please login to add to cart");
                 const resp = await axios.post(`${ToLink}/cart/${data.id}`, data);
-                console.log(resp);
+                // console.log(resp);
                 alert("Added to cart successfully");
             } catch (err) {
                 console.log(err);

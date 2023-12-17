@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import "./footer.css";
 
-export default function(){
-    return (<div className="cm1">
+export default function A() {
+  return (<div className="cm1">
     {/* <a href="https://www.instagram.com/divya_kumar_5161/" className="fa fa-instagram" target="_blank"></a>
     <a href="https://www.linkedin.com/in/divya-kumar-87a845265/" className="fa fa-linkedin" target="_blank"></a>
     <a href="https://github.com/Divyakumar6163" className="fa fa-github" target="_blank"></a>

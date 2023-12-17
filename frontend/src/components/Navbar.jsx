@@ -34,9 +34,9 @@ const Navbar = (params) => {
 
   const sidebarHandler = () => {
     sidebarCtx.toggleSidebar();
-    console.log(sidebarCtx);
+    // console.log(sidebarCtx);
   };
-  console.log(sidebarCtx);
+  // console.log(sidebarCtx);
 
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const Navbar = (params) => {
 
       try {
         const resp = await axios.get(`${ToLink}/cart/${userid}`);
-        console.log(resp.data.data.cart);
+        // console.log(resp.data.data.cart);
         let length = 0;
         resp.data.data.cart.forEach((item) => {
           length += item.quantity;
@@ -91,7 +91,7 @@ const Navbar = (params) => {
 
   const searchHandler = () => {
     const search = searchinputref.current.value;
-    console.log(search);
+    // console.log(search);
     navigate(`/page/?search=${search.split(" ").join('+')}&page=1&limit=20&sort=null`);
     // searchinputref.current.value = '';
   }

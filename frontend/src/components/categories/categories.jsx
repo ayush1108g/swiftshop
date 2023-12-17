@@ -12,7 +12,7 @@ export default function Categories(props) {
         // console.log(sectionName);
         navigate(`/page/?search=${sectionName.split(" ").join('+')}&page=1&limit=20&sort=null`);
     }
-    console.log(location);
+    // console.log(location);
     return (
         <li onClick={ProdDivhandler} title={props.title}>
             {location.pathname === '/' && <img src={props.image} alt={props.alt} />}

@@ -12,7 +12,7 @@ import { useState } from "react";
 import data from "../store/data";
 
 const TeamPage = () => {
-    console.log(data);
+    // console.log(data);
     const [isHoveredAyush, setIsHoveredAyush] = useState(false);
     const [isHovered2, setIsHovered2] = useState(false);
     const [isHovered3, setIsHovered3] = useState(false);

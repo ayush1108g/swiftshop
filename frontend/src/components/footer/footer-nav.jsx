@@ -1,8 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./footer.css";
 
-export default function(){
-    return(<div class="footer-nav">
+export default function A() {
+  return (<div class="footer-nav">
     <div class="container">
       <ul class="footer-nav-list">
         <li class="footer-nav-item">

@@ -19,7 +19,7 @@ export default function MainItem() {
     const [data6, setData6] = useState(dataCtx.data.data6);
     const [data7, setData7] = useState(dataCtx.data.data7);
     const [currentIndex, setCurrentIndex] = useState(0);
-    console.log(dataCtx.data);
+    // console.log(dataCtx.data);
 
     const changeImage = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
@@ -154,7 +154,7 @@ export default function MainItem() {
 
     const itemHandler = (e, id) => {
         e.stopPropagation();
-        console.log(id);
+        // console.log(id);
         navigate(`/${id}`);
     }
     const ProdDivhandler = (event) => {
