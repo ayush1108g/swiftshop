@@ -3,6 +3,7 @@ import styles from './sidebar.module.css';
 import SidebarContext from "../store/sidebar-context";
 import { useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
     const sidebarCtx = useContext(SidebarContext);
@@ -54,7 +55,7 @@ const Sidebar = () => {
                 <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
-                    <li>Item 3</li>
+                    <li><Link to="/team">Our Team</Link></li>
                 </ul>
             </motion.div>
         </AnimatePresence >

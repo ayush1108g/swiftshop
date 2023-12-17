@@ -10,11 +10,15 @@ import { useContext } from "react";
 import { useRef } from "react";
 const Navbar = (params) => {
   const sidebarCtx = useContext(SidebarContext);
+  const searchinputref = useRef();
   const navigate = useNavigate();
   const location = useLocation();
   const locationPath = location.pathname;
+  // const searchParams = new URLSearchParams(location.search);
+  // const search = searchParams.get("search");
+
+
   const isLoggedIn = localStorage.getItem("isLoggedIn") || false;
-  const searchinputref = useRef();
 
   let name = '-';
   if (isLoggedIn) {
@@ -64,7 +68,7 @@ const Navbar = (params) => {
     const search = searchinputref.current.value;
     console.log(search);
     navigate(`/page/?search=${search.split(" ").join('+')}&page=1&limit=20&sort=null`);
-    searchinputref.current.value = '';
+    // searchinputref.current.value = '';
   }
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {

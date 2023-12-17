@@ -1,6 +1,4 @@
 import "./App.css";
-import Card from "./components/card/card";
-import CartItems from "./components/cart/cart";
 import CategoriesMain from "./components/categories/categoriesMain";
 import MainFooter from "./components/footer/mainFooter";
 // import { createHashRouter } from "react-router-dom";
@@ -22,10 +20,12 @@ import Errorpage from "./pages/Errorpage";
 import Cart from "./pages/cart";
 // import MainItems from "./components/items/itemsMain";
 import ProductDetail from "./components/productDetail";
+import DataContextProvider from "./store/dataContextProvider";
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import ProductPage from "./pages/productPage";
+import TeamPage from "./pages/teamPage";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 library.add(fas);
@@ -44,12 +44,13 @@ function RoutesWithAnimation() {
         <Route path="/login/forgotpassword" element={<ForgotPassPage />} />
         <Route path="/login/forgotpassword/:id" element={<ForgotPassIDPage />} />
         <Route path="/login/forgotpassword/:id/confirm" element={<ForgotPassConfirmPage />} />
-        <Route path="/contactUs" element={<ContactUsPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/:productid" element={<ProductDetail />} />
-        <Route path="/:id/updatedetail" element={<UpdateDetail />} />
         <Route path="/page" element={<ProductPage />} />
+        <Route path="/team" element={<TeamPage />} />
+        <Route path="/:id/updatedetail" element={<UpdateDetail />} />
+        <Route path="/:productid" element={<ProductDetail />} />
         <Route path="/:id/cart" element={<Cart />} />
+        <Route path="/contactUs" element={<ContactUsPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Errorpage />} />
       </Routes>
@@ -60,16 +61,16 @@ function App() {
   return (
     <>
       <HashRouter>
-        <SidebarContextProvider>
-          <div className="h2 d-flex align-item-center justify-content-center">𝐹𝓁𝒾𝓅𝓏𝑜𝓃 : 𝒯𝒽𝑒 𝐸-𝒞𝒶𝓇𝓉 𝒜𝓅𝓅
-          </div>
-          <Navbar />
-          <CategoriesMain></CategoriesMain>
-          <RoutesWithAnimation />
-        </SidebarContextProvider>
+        <DataContextProvider>
+          <SidebarContextProvider>
+            <div className="h2 d-flex align-item-center justify-content-center">𝐹𝓁𝒾𝓅𝓏𝑜𝓃 : 𝒯𝒽𝑒 𝐸-𝒞𝒶𝓇𝓉 𝒜𝓅𝓅
+            </div>
+            <Navbar />
+            <CategoriesMain></CategoriesMain>
+            <RoutesWithAnimation />
+          </SidebarContextProvider>
+        </DataContextProvider>
       </HashRouter>
-      {/* <Card></Card> */}
-      <CartItems></CartItems>
       <MainFooter></MainFooter>
     </>
   );
