@@ -15,7 +15,7 @@
 }
 
 #catagories li {
-  width: 15rem;
+  width: 12rem;
   text-align: center;
   /* border: 2px grey solid; */
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); */
@@ -28,7 +28,7 @@
   object-fit: cover;
 }
 
-#catagories li h6 {
+#catagories li h5 {
   /* margin: 0.5rem 0; */
-  font-size: 12px;
+  font-size: 14px;
 }
