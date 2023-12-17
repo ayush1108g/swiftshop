@@ -23,6 +23,16 @@
   /* position: ; */
   /* right: 0; */
 }
+.corner {
+  position: fixed;
+  /* bottom: 0; */
+  top: 40vh;
+  right: 0;
+  margin: 1rem;
+  width: 15vw;
+  color: bisque;
+  height: 100vh;
+}
 .productImage {
   /* width: 50vw;*/
   height: 80vh;

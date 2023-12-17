@@ -6,13 +6,16 @@ import { ToLink } from "../App";
 import { useParams } from "react-router";
 import Items from "./items/items";
 import { useNavigate } from "react-router";
-
+import { FaShareAlt } from "react-icons/fa";
+import Overlay from "./modalOverlay/overlay";
+import { FromLink } from "../App";
 
 const ProductDetail = () => {
     const navigate = useNavigate();
     const [product, setProduct] = useState([]);
     const [data1, setData1] = useState([]);
     const [dataProd, setDataProd] = useState('watch');
+    const [showOverlay, setShowOverlay] = useState(false);
     const [isSpec, setIsSpec] = useState(false);
     const { productid } = useParams();
     const [currentIndex, setCurrentIndex] = useState('0');
@@ -76,11 +79,33 @@ const ProductDetail = () => {
         console.log(id);
         navigate(`/${id}`);
     }
+    const OverLayShowHandler = () => {
+        setShowOverlay(!showOverlay);
+    }
+    const addtoCartHandler = () => {
+        const sendData = async () => {
+            try {
+                const data = {
+                    id: localStorage.getItem("id"),
+                    product_id: productid,
+                    quantity: 1,
+                };
+                if (data.id === null || data.id === undefined || data.id === "") return alert("Please login to add to cart");
+                const resp = await axios.post(`${ToLink}/cart/${data.id}`, data);
+                console.log(resp);
+                alert("Added to cart successfully");
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        sendData();
+    }
 
 
     const discount = 0;
     return (
         <div>
+            {showOverlay && <Overlay link={FromLink + productid} onClose={OverLayShowHandler} />}
             <span className={classes.categorytree}>{product.product_category_tree}</span>
             <div className={classes.container}>
                 <div className={classes.left}>
@@ -124,6 +149,13 @@ const ProductDetail = () => {
                         <h4>About this item</h4>
                         <p>{product.description}</p>
                     </div>
+
+                </div>
+                <div className={classes.corner}>
+                    <h3 > <span className="rounded" style={{ backgroundColor: 'cyan', }} onClick={OverLayShowHandler}>Share &nbsp;<FaShareAlt /></span></h3>
+                    <br />
+                    <br />
+                    <h3> <span className="rounded" style={{ backgroundColor: 'cyan' }} onClick={addtoCartHandler}>Add to Cart</span></h3>
 
                 </div>
             </div>

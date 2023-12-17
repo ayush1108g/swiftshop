@@ -160,7 +160,7 @@ export default function MainItem() {
     const ProdDivhandler = (event) => {
         const sectionName = event.currentTarget.getAttribute('name');
         // console.log(sectionName);
-        navigate(`/page/?search=${sectionName.split(" ").join('+')}&page=1&limit=20&sort=null`);
+        navigate(`/page/?search=${sectionName}&page=1&limit=20&sort=null`);
     }
 
     return (<>

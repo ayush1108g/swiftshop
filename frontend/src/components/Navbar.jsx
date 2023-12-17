@@ -5,21 +5,26 @@ import { motion } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaShoppingCart } from "react-icons/fa";
 import SidebarContext from "../store/sidebar-context";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import Sidebar from "./sidebar";
 // import { useState } from 'react';
+import axios from 'axios';
+import { ToLink } from '../App';
 import { useRef } from "react";
+
+
 const Navbar = (params) => {
   const sidebarCtx = useContext(SidebarContext);
   const searchinputref = useRef();
   const navigate = useNavigate();
   const location = useLocation();
   const locationPath = location.pathname;
+  const [lengthx, setLengthx] = useState(0);
   // const searchParams = new URLSearchParams(location.search);
   // const search = searchParams.get("search");
 
 
   const isLoggedIn = localStorage.getItem("isLoggedIn") || false;
-
   let name = '-';
   if (isLoggedIn) {
     name = localStorage.getItem("name") || 'xyz';
@@ -33,7 +38,26 @@ const Navbar = (params) => {
   console.log(sidebarCtx);
 
 
+  useEffect(() => {
+    const send = async () => {
+      const userid = localStorage.getItem("id");
+      if (userid === null || userid === undefined || userid === '')
+        return;
 
+      try {
+        const resp = await axios.get(`${ToLink}/cart/${userid}`);
+        console.log(resp.data.data.cart);
+        let length = 0;
+        resp.data.data.cart.forEach((item) => {
+          length += item.quantity;
+        });
+        setLengthx(length);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    send();
+  }, []);
   const LoginPageHandler = () => {
     if (!isLoggedIn) {
       navigate("/login");
@@ -75,7 +99,17 @@ const Navbar = (params) => {
       searchHandler();
     }
   };
-  return (
+  const CartHandler = () => {
+    const userid = localStorage.getItem("id");
+    if (userid) {
+      navigate(`/${userid}/cart`);
+    } else {
+      navigate("/login");
+    }
+  }
+
+  return (<>
+    {sidebarCtx.isSidebarOpen && <Sidebar />}
     <div className={classes.navbar}>
       <GiHamburgerMenu onClick={sidebarHandler} />
       <div className="input-group" style={{ maxWidth: '50vw' }}>
@@ -107,8 +141,8 @@ const Navbar = (params) => {
           Home Page
         </motion.div>
       )}
-      <div className="d-flex justify-content-center">
-        <FaShoppingCart style={{ fontSize: '2em' }} />
+      <div className="d-flex justify-content-center" onClick={CartHandler}>
+        <FaShoppingCart style={{ fontSize: '2em' }} /><b style={{ color: 'red', }}>{lengthx === 0 ? ' ' : lengthx}</b>
         <h3 style={{ userSelect: 'none' }}>Cart</h3>
       </div>
       {isLoggedIn &&
@@ -128,7 +162,7 @@ const Navbar = (params) => {
         </>}
 
     </div>
-
+  </>
   );
 };
 export default Navbar;

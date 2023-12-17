@@ -1,5 +1,5 @@
 import "./track.css";
-export default function () {
+export default function Track() {
   return (
     <div className="track">
       <p>Order ID:1234455</p>
