@@ -10,6 +10,7 @@
 }
 #cart-content img {
   width: fit-content;
+  height: 20rem;
   margin-right: 3rem;
 }
 #cart-content select {
