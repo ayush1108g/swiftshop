@@ -2,6 +2,7 @@ import "./App.css";
 
 import MainItems from "./components/items/itemsMain";
 import Card from "./components/card/card";
+import CartItems from "./components/cart/cart";
 import CategoriesMain from "./components/categories/categoriesMain";
 import MainFooter from "./components/footer/mainFooter";
 // import { createHashRouter } from "react-router-dom";
@@ -29,7 +30,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 library.add(fas);
-export const ToLink = 'http://127.0.0.1:8000';
+// export const ToLink = 'http://127.0.0.1:8000';
+export const ToLink = "https://cp29bd07-8000.inc1.devtunnels.ms";
 
 
 
@@ -67,6 +69,7 @@ function App() {
         </SidebarContextProvider>
       </HashRouter>
       {/* <Card></Card> */}
+      <CartItems></CartItems>
       <MainFooter></MainFooter>
     </>
   );
