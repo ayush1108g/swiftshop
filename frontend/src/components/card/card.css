@@ -18,7 +18,7 @@
   display: flex;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
   width: 45vw;
-  height: 17rem;
+  height: 21rem;
   padding: 2rem 3rem 2rem 0rem;
   overflow: hidden;
 }
@@ -26,6 +26,7 @@
   width: fit-content;
   height: 12rem;
   margin-bottom: 2rem;
+  padding-right: 2ch;
 }
 .card-title {
   font-size: 1.5vw;
