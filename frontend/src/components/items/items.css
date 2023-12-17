@@ -16,7 +16,8 @@
 }
 
 #core-concepts li {
-  width: 10rem;
+  width: 20rem;
+  height: auto;
   text-align: center;
   /* border: 2px grey solid; */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
@@ -24,7 +25,7 @@
 
 #core-concepts li img {
   height: 4rem;
-  width: 6rem;
+  width: fit-content;
   object-fit: cover;
 }
 

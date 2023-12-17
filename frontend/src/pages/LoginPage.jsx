@@ -11,6 +11,6 @@ const LoginPage = () => {
       <Signin pagename={"Login"} />
       {/* <button onClick={() => navigate('/signup')}> Signup page </button> */}
     </div>
-  );
+    );
 };
 export default LoginPage;

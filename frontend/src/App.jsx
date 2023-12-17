@@ -1,6 +1,7 @@
 import "./App.css";
 import CategoriesMain from "./components/categories/categoriesMain";
 import MainFooter from "./components/footer/mainFooter";
+import Track from "./components/track/track";
 // import { createHashRouter } from "react-router-dom";
 // import { RouterProvider } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -29,8 +30,8 @@ import TeamPage from "./pages/teamPage";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 library.add(fas);
-// export const ToLink = 'http://127.0.0.1:8000';
-export const ToLink = "https://cp29bd07-8000.inc1.devtunnels.ms";
+export const ToLink = 'http://127.0.0.1:8000';
+// export const ToLink = "https://cp29bd07-8000.inc1.devtunnels.ms";
 
 
 
@@ -71,6 +72,7 @@ function App() {
           </SidebarContextProvider>
         </DataContextProvider>
       </HashRouter>
+      <Track/>
       <MainFooter></MainFooter>
     </>
   );

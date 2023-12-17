@@ -111,7 +111,7 @@ const ForgotPassConfirmPage = () => {
                 exit="exit"
                 className={classes.box}
               ></motion.div>
-              <p className="h2">Forgot Password</p>
+              <p className="h2" >Forgot Password</p>
               <p>Enter new Password for {idw}</p>
               <div className="input-group mb-3">
                 <input
