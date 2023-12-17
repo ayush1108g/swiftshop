@@ -20,28 +20,13 @@ const Sidebar = () => {
                 ease: "easeInOut",
                 duration: 0.5,
             },
-            y:[-100,0],
-            transition: {
-                times: [0, 1],
-                ease: "easeInOut",
-                duration: 0,
-            },
-        },
-        // hide: {
-        //     scale: 0,
-        // },
-        exit: {
-            x: [0, -250],
-            transition: {
-                times: [0, 1],
-                ease: "easeInOut",
-                duration: 0.5,
-            },
-            y:[-100,0],
-            transition: {
-                times: [0, 1],
-                ease: "easeInOut",
-                duration: 0,
+            exit: {
+                x: [0, -250],
+                transition: {
+                    times: [0, 1],
+                    ease: "easeInOut",
+                    duration: 0.5,
+                },
             },
         },
     };
@@ -52,10 +37,10 @@ const Sidebar = () => {
                 animate="show"
                 exit="exit"
                 className={`${styles.sidebar} ${sidebarCtx.isSidebarOpen ? styles.open : ''}`}>
-                <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li><Link to="/team">Our Team</Link></li>
+                <ul style={{ listStyle: 'none' }}>
+                    <li className={styles.li}>Item 1</li>
+                    <li className={styles.li}>Item 2</li>
+                    <li className={styles.li}><Link to="/team">Our Team</Link></li>
                 </ul>
             </motion.div>
         </AnimatePresence >

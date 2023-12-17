@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToLink, FromLink } from "../../App";
 import Overlay from "../modalOverlay/overlay";
-
+import { FaShareAlt } from "react-icons/fa";
 
 export default function Cart(props) {
   const [currentIndex, setCurrentIndex] = useState('0');
@@ -106,7 +106,7 @@ export default function Cart(props) {
             <button onClick={deleteHandler}> Delete</button>
             {/* <button> Save for Later</button> */}
             <button> See More Like This</button>
-            <button onClick={OverLayShowHandler}> Share</button>
+            <button onClick={OverLayShowHandler}> Share &nbsp; <FaShareAlt /></button>
           </span>
         </div>
         <span id="cart-price">
