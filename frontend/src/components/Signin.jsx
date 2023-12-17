@@ -15,6 +15,7 @@ const Signin = (props) => {
   const phoneInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const addressInputRef = useRef();
 
   const handleTogglePassword = (e) => {
     e.preventDefault();
@@ -50,6 +51,8 @@ const Signin = (props) => {
       data.name = enteredName;
       const enteredPhone = phoneInputRef.current.value;
       data.phoneno = enteredPhone;
+      const enteredAddress = addressInputRef.current.value;
+      data.address = enteredAddress;
       if (enteredName.trim().length === 0 || enteredPhone.trim().length === 0) { return setErrormsg("Please enter all the fields"); }
       if (enteredEmail.trim().length === 0) { return setErrormsg("Please enter all the fields"); }
     } else {
@@ -72,15 +75,20 @@ const Signin = (props) => {
         if (props.pagename === "Login") {
           localStorage.setItem("name", resp.data.name);
           localStorage.setItem("id", resp.data.id);
+          localStorage.setItem("address", resp.data.address);
+          localStorage.setItem("phoneno", resp.data.phoneno);
         }
         emailInputRef.current.value = "";
         passwordInputRef.current.value = "";
         if (props.pagename === "Signup") {
+          localStorage.setItem("phoneno", phoneInputRef.current.value);
+          localStorage.setItem("address", addressInputRef.current.value);
           localStorage.setItem("name", enteredName);
           localStorage.setItem("id", resp.data.data.usersignup._id);
 
           nameInputRef.current.value = "";
           phoneInputRef.current.value = "";
+          addressInputRef.current.value = "";
         }
         setTimeout(() => {
           navigate("/");
@@ -185,6 +193,20 @@ const Signin = (props) => {
               required
             />
           </div>
+
+          {props.pagename === "Signup" && <div className="input-group mb-3">
+            <input
+              className="form-control"
+              type="address"
+              id="address"
+              autoComplete="on"
+              placeholder="address"
+              ref={addressInputRef}
+              title="Please enter a valid address"
+              required
+            />
+          </div>}
+
           <div className="input-group mb-3">
             <input
               type={showPassword ? "text" : "password"}

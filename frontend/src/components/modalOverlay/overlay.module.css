@@ -1,0 +1,79 @@
+.sidebar {
+  width: 100%;
+  background-color: #f0f0f0;
+  padding: 20px;
+  position: relative;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 11;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.521);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-title {
+  margin-bottom: 10px;
+  color: lavenderblush;
+}
+
+.close-button {
+  width: 50%;
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.student-list {
+  display: grid;
+  grid-column-gap: 100px;
+  color: ghostwhite;
+  list-style: none;
+  padding: 0;
+  max-height: 450px;
+  overflow: auto;
+}
+
+.student-item {
+  margin: 50px 30px 15px 30px;
+}
+
+@media (max-width: 768px) {
+  .student-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .student-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .student-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

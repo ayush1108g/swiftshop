@@ -14,10 +14,10 @@ const ProductDetail = () => {
     const [data1, setData1] = useState([]);
     const [dataProd, setDataProd] = useState('watch');
     const [isSpec, setIsSpec] = useState(false);
+    const { productid } = useParams();
     const [currentIndex, setCurrentIndex] = useState('0');
 
 
-    const { productid } = useParams();
     const changeImage = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
     };
@@ -112,7 +112,7 @@ const ProductDetail = () => {
                     <div className={classes.specification}>
                         <h4>Product Specification:</h4>
                         {isSpec && product && <div>
-                            {product.product_specifications.product_specification && product.product_specifications.product_specification.map((ele, index) => (
+                            {product.product_specifications.product_specification && product.product_specifications.product_specification.length > 1 && product.product_specifications.product_specification.map((ele, index) => (
                                 <div key={index}>
                                     <span style={{ fontWeight: ele.key ? 'bold' : 'normal' }}>{ele.key}</span>: {ele.value}
                                 </div>

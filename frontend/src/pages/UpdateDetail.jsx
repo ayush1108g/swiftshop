@@ -2,11 +2,11 @@ import styles from "../components/medicineFormContainer.module.css"
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { ToLink } from "../App";
-const ToLink = 'http://127.0.0.1:3002';
+import { ToLink } from "../App";
+// const ToLink = 'http://127.0.0.1:3002';
 
 const UpdateDetail = () => {
-    const [userdata, setUserdata] = useState({ name: '', phoneno: '', emailid: '' });
+    const [userdata, setUserdata] = useState({ name: '', phoneno: '', emailid: '', address: '' });
     const [pass, setPass] = useState({ oldpassword: '', newpassword: '', confirmpassword: '' });
     const [message, setmessage] = useState('');
     const [passmessage, setpassmessage] = useState('');
@@ -19,6 +19,7 @@ const UpdateDetail = () => {
                 const data = await axios.get(`${ToLink}/user/${id}/update`);
                 // console.log(data.data.data);
                 setUserdata(data.data.data);
+                setmessage('');
             } catch (err) {
                 // console.log(err);
                 setmessage(err.message);
@@ -83,6 +84,7 @@ const UpdateDetail = () => {
                         <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="name"
                             value={userdata.name}
                             onChange={handleInputChange}
+                            disabled={userdata.name === '' ? true : false}
                         />
                     </div>
 
@@ -91,6 +93,7 @@ const UpdateDetail = () => {
                         <input type="number" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="phoneno"
                             value={userdata.phoneno}
                             onChange={handleInputChange}
+                            disabled={userdata.phoneno === '' ? true : false}
                         />
                     </div>
 
@@ -99,6 +102,15 @@ const UpdateDetail = () => {
                         <input type="email" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="emailid"
                             value={userdata.emailid}
                             onChange={handleInputChange}
+                            disabled={userdata.emailid === '' ? true : false}
+                        />
+                    </div>
+                    <div className="input-group mb-3">
+                        <span className="input-group-text" id="inputGroup-sizing-default">Email id</span>
+                        <input type="address" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="address"
+                            value={userdata.address}
+                            onChange={handleInputChange}
+                            disabled={userdata.address === '' ? true : false}
                         />
                     </div>
 

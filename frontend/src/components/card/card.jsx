@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { ToLink } from "../../App";
 import { useNavigate, useLocation } from "react-router-dom";
-export default function Card(props) {
 
+export default function Card(props) {
+  const navigate = useNavigate();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const changeImage = () => {
@@ -18,10 +19,16 @@ export default function Card(props) {
   }, []);
 
   const discount = 0;
-  console.log(props);
+  const clickHandler = (e) => {
+    const id = e.currentTarget.id;
+    console.log(id);
+    navigate(`/${id}`);
+  }
+
+  // console.log(props);
   return (
     <div className="cardx">
-      <div className="card-content">
+      <div className="card-content" id={props.data[0]._id} onClick={clickHandler}>
         <div className="card-body">
           <img
             src={props.data[0].image[currentIndex]}
@@ -33,7 +40,7 @@ export default function Card(props) {
               Some quick example dnjkfdfsk
             </p> */}
             <h5>Product Specification:</h5>
-            {props.data[0].product_specifications && props.data[0].product_specifications.product_specification &&
+            {props.data[0].product_specifications && props.data[0].product_specifications.product_specification && props.data[0].product_specifications.product_specification.length > 0 &&
               <div>
                 {props.data[0].product_specifications.product_specification.map((ele, index) => (
                   <div key={index}>
@@ -56,8 +63,8 @@ export default function Card(props) {
       </div>
 
 
-      {props.data[1] && <div className="card-content">
-        <div className="card-body">
+      {props.data[1] && <div className="card-content" id={props.data[0]._id} onClick={clickHandler}>
+        <div className="card-body" >
           <img
             src={props.data[1].image[currentIndex]}
             alt={props.data[1].product_name}
@@ -68,7 +75,7 @@ export default function Card(props) {
               Some quick example dnjkfdfsk
             </p> */}
             <h5>Product Specification:</h5>
-            {props.data[1].product_specifications && props.data[1].product_specifications.product_specification &&
+            {props.data[1].product_specifications && props.data[1].product_specifications.product_specification && props.data[1].product_specifications.product_specification.length > 1 &&
               <div>
                 {props.data[1].product_specifications.product_specification.map((ele, index) => (
                   <div key={index}>
