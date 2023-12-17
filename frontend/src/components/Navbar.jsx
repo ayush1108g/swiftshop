@@ -7,12 +7,14 @@ import { FaShoppingCart } from "react-icons/fa";
 import SidebarContext from "../store/sidebar-context";
 import { useContext } from "react";
 // import { useState } from 'react';
+import { useRef } from "react";
 const Navbar = (params) => {
   const sidebarCtx = useContext(SidebarContext);
   const navigate = useNavigate();
   const location = useLocation();
   const locationPath = location.pathname;
   const isLoggedIn = localStorage.getItem("isLoggedIn") || false;
+  const searchinputref = useRef();
 
   let name = '-';
   if (isLoggedIn) {
@@ -58,12 +60,24 @@ const Navbar = (params) => {
     navigate(`/${id}/updatedetail`);
   }
 
+  const searchHandler = () => {
+    const search = searchinputref.current.value;
+    console.log(search);
+    navigate(`/page/?search=${search.split(" ").join('+')}&page=1&limit=20&sort=null`);
+    searchinputref.current.value = '';
+  }
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      searchHandler();
+    }
+  };
   return (
     <div className={classes.navbar}>
       <GiHamburgerMenu onClick={sidebarHandler} />
       <div className="input-group" style={{ maxWidth: '50vw' }}>
-        <input type="search" className="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-        <button type="button" className="btn btn-outline-primary" data-mdb-ripple-init>search</button>
+        <input ref={searchinputref} type="search" className="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" onKeyPress={handleKeyPress} />
+        <button onClick={searchHandler} type="button" className="btn btn-outline-primary" data-mdb-ripple-init>Search</button>
+
       </div>
       {!isLoggedIn && (
         <motion.div

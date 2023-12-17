@@ -1,4 +1,5 @@
 import classes from './cart.module.css';
+
 const Cart = () => {
 
     return (

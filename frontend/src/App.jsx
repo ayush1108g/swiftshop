@@ -1,6 +1,4 @@
 import "./App.css";
-
-import MainItems from "./components/items/itemsMain";
 import Card from "./components/card/card";
 import CartItems from "./components/cart/cart";
 import CategoriesMain from "./components/categories/categoriesMain";
@@ -27,6 +25,7 @@ import ProductDetail from "./components/productDetail";
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import ProductPage from "./pages/productPage";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 library.add(fas);
@@ -49,6 +48,7 @@ function RoutesWithAnimation() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/:productid" element={<ProductDetail />} />
         <Route path="/:id/updatedetail" element={<UpdateDetail />} />
+        <Route path="/page" element={<ProductPage />} />
         <Route path="/:id/cart" element={<Cart />} />
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Errorpage />} />
