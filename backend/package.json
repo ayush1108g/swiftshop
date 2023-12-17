@@ -28,5 +28,16 @@
   "main": "app.js",
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "node files",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/22push/winter_code_week_2.git"
+  },
+  "keywords": [
+    "backend"
+  ],
+  "bugs": {
+    "url": "https://github.com/22push/winter_code_week_2/issues"
+  },
+  "homepage": "https://github.com/22push/winter_code_week_2#readme"
 }

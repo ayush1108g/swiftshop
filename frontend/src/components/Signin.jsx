@@ -152,6 +152,7 @@ const Signin = (props) => {
               transition={{ duration: 0.5, ease: "easeInOut" }}
               className="w-100"
             >
+              <h3>Sign Up</h3>
               <div className="input-group mb-3">
                 <input
                   className="form-control"
@@ -180,7 +181,6 @@ const Signin = (props) => {
               </div>
             </motion.div>
           )}
-
           <div className="input-group mb-3">
             <input
               className="form-control"
@@ -232,7 +232,6 @@ const Signin = (props) => {
               {props.pagename}
             </button>
           </div>
-
           <div className={classes.pagechange}>
             <b>
               <p

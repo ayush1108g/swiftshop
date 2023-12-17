@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
   height: 60vh;
+  /* width: auto; */
   position: relative;
 }
 
@@ -12,16 +13,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: auto;
-  height: auto;
+  height: 30rem;
   border: 1px solid #413232;
   border-radius: 5px;
   padding: 10px;
   background-color: white;
-  padding: 1rem;
+  /* padding: 1rem; */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   border-radius: 14px;
-  position: relative;
+  position: absolute;
+  width: 22rem;
   overflow: hidden;
 }
 
@@ -51,17 +52,18 @@ input[type="number"]::-webkit-outer-spin-button {
   position: relative;
   top:-100px;
   left:-100px;
-  background-color: #8734cf;
+  background-color: #d2c1d1;
   padding: 20px;
+  /* width: auto; */
   border-radius: 50%;
   scale: 300%;
   z-index: 1;
 }
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 1800px) {
   .container {
     width: 80vw;
   }
   p {
-    font-size: 3.5vw;
+    font-size: 1rem;
   }
 }

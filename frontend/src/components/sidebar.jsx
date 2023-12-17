@@ -20,6 +20,12 @@ const Sidebar = () => {
                 ease: "easeInOut",
                 duration: 0.5,
             },
+            y:[-100,0],
+            transition: {
+                times: [0, 1],
+                ease: "easeInOut",
+                duration: 0,
+            },
         },
         // hide: {
         //     scale: 0,
@@ -30,6 +36,12 @@ const Sidebar = () => {
                 times: [0, 1],
                 ease: "easeInOut",
                 duration: 0.5,
+            },
+            y:[-100,0],
+            transition: {
+                times: [0, 1],
+                ease: "easeInOut",
+                duration: 0,
             },
         },
     };

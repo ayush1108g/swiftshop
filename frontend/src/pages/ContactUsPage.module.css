@@ -42,7 +42,7 @@
   }
   
   .loading {
-    color: red;
+    color: rgb(244, 108, 108);
   }
   
   .buttom {
@@ -58,7 +58,8 @@
     position: relative;
     top:-100px;
     left:-100px;
-    background-color: rgb(175, 242, 242);
+    background-color: rgb(210, 209, 180);
+    opacity: .75;
     padding: 20px;
     border-radius: 50%;
     scale: 300%;
