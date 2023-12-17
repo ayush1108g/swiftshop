@@ -1,7 +1,7 @@
 import "./App.css";
 import CategoriesMain from "./components/categories/categoriesMain";
 import MainFooter from "./components/footer/mainFooter";
-import Track from "./components/track/track";
+// import Track from "./components/track/track";
 // import { createHashRouter } from "react-router-dom";
 // import { RouterProvider } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -27,6 +27,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import ProductPage from "./pages/productPage";
 import TeamPage from "./pages/teamPage";
+import TrackPage from "./pages/Trackpage";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 library.add(fas);
@@ -52,6 +53,7 @@ function RoutesWithAnimation() {
         <Route path="/:id/updatedetail" element={<UpdateDetail />} />
         <Route path="/:productid" element={<ProductDetail />} />
         <Route path="/:id/cart" element={<Cart />} />
+        <Route path="/:id/track" element={<TrackPage />} />
         <Route path="/contactUs" element={<ContactUsPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Errorpage />} />
@@ -65,7 +67,7 @@ function App() {
       <HashRouter>
         <DataContextProvider>
           <SidebarContextProvider>
-            <div className="h2 d-flex align-item-center justify-content-center">𝐹𝓁𝒾𝓅𝓏𝑜𝓃 : 𝒯𝒽𝑒 𝐸-𝒞𝒶𝓇𝓉 𝒜𝓅𝓅
+            <div className="h2 d-flex align-item-center justify-content-center">𝕾𝖜𝖎𝖋𝖙𝕾𝖍𝖔𝖕
             </div>
             <Navbar />
             <CategoriesMain></CategoriesMain>
@@ -73,7 +75,7 @@ function App() {
           </SidebarContextProvider>
         </DataContextProvider>
       </HashRouter>
-      <Track />
+      {/* <Track /> */}
       <MainFooter></MainFooter>
     </>
   );

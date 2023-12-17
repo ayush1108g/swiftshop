@@ -3,9 +3,9 @@ import FooterBottom from "./footer-bottom";
 import FooterCategories from "./footer-categories";
 import FooterNav from "./footer-nav";
 import FooterContact from "./footer-contact";
-
-export default function MainFooter(){
-    return(
+// import "./footer.css";
+export default function MainFooter() {
+    return (
         <footer id="footer">
             <FooterCategories></FooterCategories>
             <FooterNav></FooterNav>

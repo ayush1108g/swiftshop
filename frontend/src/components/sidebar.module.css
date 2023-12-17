@@ -1,7 +1,7 @@
 .sidebar {
   width: 0;
   height: 100%;
-  background-color: #ef6565;
+  background-color: #e0dbb4;
   position: fixed;
   /* top: 0; */
   left: 0;
@@ -21,6 +21,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   margin: 1rem 0;
-  color: white;
+  color: rgb(114, 30, 30);
+
   text-decoration: none;
 }

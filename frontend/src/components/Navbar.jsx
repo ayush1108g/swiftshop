@@ -10,6 +10,7 @@ import Sidebar from "./sidebar";
 // import { useState } from 'react';
 import axios from 'axios';
 import { ToLink } from '../App';
+import { Link } from 'react-router-dom';
 import { useRef } from "react";
 
 
@@ -156,12 +157,13 @@ const Navbar = (params) => {
             <div className="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton">
               <li onClick={updateDetailHandler} className="dropdown-item" >Update Details</li>
               <li onClick={contactUSHandler} className="dropdown-item">Contact Us</li>
+              <li className="dropdown-item" onClick={() => { navigate('/team') }}>Our Team</li>
               <li onClick={LogoutHandler} className="dropdown-item" >Logout</li>
             </div>
           </div>
         </>}
 
-    </div>
+    </div >
   </>
   );
 };

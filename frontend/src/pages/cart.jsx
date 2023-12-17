@@ -4,11 +4,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router';
 import { ToLink } from '../App';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
+    const navigate = useNavigate();
     // const [prodid, setProdid] = useState([]);
     const [cart, setCart] = useState([]);
     const { id } = useParams();
+    const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
         const resp = async () => {
@@ -30,7 +33,11 @@ const Cart = () => {
                     newItem.image = JSON.parse(item.image);
                     return newItem;
                 });
-
+                const TP = newData
+                    .map(item => (item.discounted_price || item.retail_price) * 1 * item.quantity * 1)
+                    .reduce((acc, itemTotal) => acc + itemTotal, 0);
+                setTotalPrice(TP);
+                console.log(TP);
                 setCart(newData);
                 console.log(newData);
             } catch (err) {
@@ -40,13 +47,22 @@ const Cart = () => {
         resp();
     }, []);
 
+    const updateDetailHandler = () => {
+        const userid = localStorage.getItem("id");
+        if (userid === null || userid === undefined || userid === '')
+            navigate('/login');
+        navigate(`/${userid}/updatedetail`);
+    };
 
     return (
-        <div>
+        <div className='d-flex flex-column justify-content-center align-item-center'>
             <h1>Cart</h1>
             {cart.length > 0 && cart.map((item) => {
                 return <CartItem data={item} />
             })}
+            <div className='h2 d-flex justify-content-center'>Total Price : {totalPrice}</div>
+            <div className='h1 d-flex justify-content-center'>Buy Now</div>
+            <div className='h4 d-flex justify-content-end' onClick={updateDetailHandler}>Update Your Detail</div>
         </div>
     );
 }
