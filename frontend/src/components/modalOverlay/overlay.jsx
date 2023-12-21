@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import classes from "./overlay.module.css";
-import { ToLink } from "../../App";
-
 
 function StudentSidebarModal(props) {
     const [isCopied, setIsCopied] = useState(false);
@@ -16,6 +13,24 @@ function StudentSidebarModal(props) {
         }, 1500);
     };
 
+    const handleWhatsAppShare = () => {
+        const whatsappMessage = encodeURIComponent(`Check out this link: ${props.link}`);
+        window.open(`https://api.whatsapp.com/send?text=${whatsappMessage}`, '_blank');
+    };
+
+    const handleTelegramShare = () => {
+        const telegramMessage = encodeURIComponent(`Check out this link: ${props.link}`);
+        window.open(`https://t.me/share/url?url=${telegramMessage}`, '_blank');
+    };
+    const handleEmailShare = () => {
+        const emailSubject = encodeURIComponent("Check out this link");
+        const emailBody = encodeURIComponent(`I thought you might be interested in this link: ${props.link}`);
+        window.location.href = `mailto:?subject=${emailSubject}&body=${emailBody}`;
+    };
+    const handleOpenInNewTab = () => {
+        window.open(props.link, '_blank');
+    };
+
     return (
         <div className={classes.sidebar} onClick={props.onChangeModal}>
             {
@@ -23,10 +38,22 @@ function StudentSidebarModal(props) {
                     <div className={classes["modal-content"]}>
                         <h2 className={classes["modal-title"]}>Share</h2>
                         <ul className={classes["student-list"]}>
-                            <p>{isCopied ? 'Link copied!' : 'Share this link:'}</p>
-                            <input type="text" value={props.link} readOnly />
-                            <button onClick={handleCopy}>
+                            <p >{isCopied ? 'Link copied!' : 'Share this link:'}</p>
+                            <input className={classes["student-item"]} type="text" value={props.link} readOnly />
+                            <button className={classes["student-item"]} onClick={handleCopy}>
                                 {isCopied ? 'Copied!' : 'Copy Link'}
+                            </button>
+                            <button className={classes["student-item"]} onClick={handleEmailShare}>
+                                Share on Email
+                            </button>
+                            <button className={classes["student-item"]} onClick={handleWhatsAppShare}>
+                                Share on WhatsApp
+                            </button>
+                            <button className={classes["student-item"]} onClick={handleTelegramShare}>
+                                Share on Telegram
+                            </button>
+                            <button className={classes["student-item"]} onClick={handleOpenInNewTab}>
+                                Open in New Tab
                             </button>
                         </ul>
                         <button

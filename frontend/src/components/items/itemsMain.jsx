@@ -26,7 +26,7 @@ export default function MainItem() {
     };
 
     useEffect(() => {
-        const intervalId = setInterval(changeImage, 500000);
+        const intervalId = setInterval(changeImage, 5000);
         return () => clearInterval(intervalId);
     }, []);
 

@@ -1,9 +1,6 @@
 import "./App.css";
 import CategoriesMain from "./components/categories/categoriesMain";
 import MainFooter from "./components/footer/mainFooter";
-// import Track from "./components/track/track";
-// import { createHashRouter } from "react-router-dom";
-// import { RouterProvider } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
@@ -19,21 +16,22 @@ import ForgotPassConfirmPage from "./pages/ForgotPass/ForgotPassConfirmPage";
 import UpdateDetail from "./pages/UpdateDetail";
 import Errorpage from "./pages/Errorpage";
 import Cart from "./pages/cart";
-// import MainItems from "./components/items/itemsMain";
-import ProductDetail from "./components/productDetail";
+import ProductDetail from "./pages/productDetail";
 import DataContextProvider from "./store/dataContextProvider";
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
 import ProductPage from "./pages/productPage";
 import TeamPage from "./pages/teamPage";
 import TrackPage from "./pages/Trackpage";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 library.add(fas);
-export const ToLink = 'https://ecommerce-web-lwxy.onrender.com';
-export const FromLink = "https://swiftshop-ecommerce.netlify.app/#/";
+
 // export const ToLink = "https://cp29bd07-8000.inc1.devtunnels.ms";
+// export const ImageLink = "http://127.0.0.1:5000/image/";
+export const ImageLink = "https://get-image.onrender.com/image/";
+export const ToLink = 'https://ecommerce-web-lwxy.onrender.com';
+// export const ToLink = "http://127.0.0.1:8000";
+export const FromLink = "https://swiftshop-ecommerce.netlify.app/#/";
 
 
 
@@ -67,16 +65,15 @@ function App() {
       <HashRouter>
         <DataContextProvider>
           <SidebarContextProvider>
-            <div className="h2 d-flex align-item-center justify-content-center">𝕾𝖜𝖎𝖋𝖙𝕾𝖍𝖔𝖕
+            <div className="h2 d-flex align-item-center justify-content-center" style={{ backgroundColor: '#f6f6f6', marginBottom: '0px' }}>𝕾𝖜𝖎𝖋𝖙𝕾𝖍𝖔𝖕
             </div>
             <Navbar />
             <CategoriesMain></CategoriesMain>
             <RoutesWithAnimation />
           </SidebarContextProvider>
         </DataContextProvider>
+        <MainFooter></MainFooter>
       </HashRouter>
-      {/* <Track /> */}
-      <MainFooter></MainFooter>
     </>
   );
 }

@@ -1,7 +1,5 @@
-// import { useNavigate } from "react-router";
 import Signin from "../components/Signin";
 const LoginPage = () => {
-  // const navigate = useNavigate();
 
   return (
     <div
@@ -9,8 +7,7 @@ const LoginPage = () => {
       style={{ height: "90vh" }}
     >
       <Signin pagename={"Login"} />
-      {/* <button onClick={() => navigate('/signup')}> Signup page </button> */}
     </div>
-    );
+  );
 };
 export default LoginPage;

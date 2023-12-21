@@ -1,4 +1,3 @@
-import classes from './cart.module.css';
 import CartItem from "../components/cart/cart";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -18,12 +17,9 @@ const Cart = () => {
             try {
                 const data = await axios.get(`${ToLink}/cart/${id}`);
                 const ProductId = data.data.data.cart;
-                // console.log(id);
-                // setProdid(data.data.data.cart);
                 const productPromises = ProductId.map(async (item) => {
                     const productData = await axios.get(`${ToLink}/product_data/products/${item.product_id}`);
                     productData.data.data.quantity = item.quantity;
-                    // productData.image = JSON.parse(item.image);
                     return productData.data.data;
                 });
 
@@ -37,9 +33,7 @@ const Cart = () => {
                     .map(item => (item.discounted_price || item.retail_price) * 1 * item.quantity * 1)
                     .reduce((acc, itemTotal) => acc + itemTotal, 0);
                 setTotalPrice(TP);
-                // console.log(TP);
                 setCart(newData);
-                // console.log(newData);
             } catch (err) {
                 console.log(err);
             }

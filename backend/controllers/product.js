@@ -1,3 +1,4 @@
+const axios = require("axios");
 const Product = require("./../models/product");
 const APIFeatures = require("./../utils/ApiFeatures");
 
@@ -89,5 +90,24 @@ exports.productpage = async (req, res) => {
       status: "fail",
       message: err,
     });
+  }
+};
+
+exports.image = async (req, res) => {
+  const query = req.query;
+  const imglink = Object.keys(query)[0];
+  // res.status(200).json({
+  //   status: "success",
+  //   message: "Successfully fetched image",
+  //   link: imglink,
+  // });
+  try {
+    const response = await axios.get(imglink, { responseType: "arraybuffer" });
+
+    res.setHeader("Content-Type", response.headers["content-type"]);
+    res.send(Buffer.from(response.data, "binary"));
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
 };

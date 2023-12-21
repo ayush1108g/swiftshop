@@ -3,6 +3,7 @@ const productdetails = require("./../controllers/product");
 
 const router = express.Router();
 
+router.route("/image").get(productdetails.image);
 router
   .route("/products")
   .get(productdetails.productdetails)

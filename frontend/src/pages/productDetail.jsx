@@ -2,32 +2,35 @@ import classes from "./productDetail.module.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
-import { ToLink } from "../App";
+import { ToLink, ImageLink } from "../App";
 import { useParams } from "react-router";
-import Items from "./items/items";
+import Items from "../components/items/items";
 import { useNavigate } from "react-router";
 import { FaShareAlt } from "react-icons/fa";
-import Overlay from "./modalOverlay/overlay";
+import Overlay from "../components/modalOverlay/overlay";
 import { FromLink } from "../App";
 
 const ProductDetail = () => {
     const navigate = useNavigate();
-    const [product, setProduct] = useState([]);
+    const { productid } = useParams();
+    const [product, setProduct] = useState({});
     const [data1, setData1] = useState([]);
-    const [dataProd, setDataProd] = useState('watch');
+    const [dataProd, setDataProd] = useState("watch");
     const [showOverlay, setShowOverlay] = useState(false);
     const [isSpec, setIsSpec] = useState(false);
-    const { productid } = useParams();
-    const [currentIndex, setCurrentIndex] = useState('0');
-
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [image, setImage] = useState("");
 
     const changeImage = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
     };
+
     useEffect(() => {
         const intervalId = setInterval(changeImage, 500000);
         return () => clearInterval(intervalId);
     }, []);
+
+
 
     useEffect(() => {
         const resp = async () => {
@@ -41,6 +44,7 @@ const ProductDetail = () => {
                     return newItem;
                 });
                 setData1(newData);
+
             } catch (err) {
                 console.log(err);
             }
@@ -49,32 +53,70 @@ const ProductDetail = () => {
     }, []);
 
     useEffect(() => {
-        const prod = async () => {
+        const intervalId = setInterval(changeImage, 5000);
+        return () => clearInterval(intervalId);
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
             try {
-                const response = await axios.get(`${ToLink}/product_data/products/${productid}`);
-                let data = response.data.data;
-                const specificationsString = data.product_specifications;
-                let validJSONString = specificationsString.replace(/"=>/g, '": ');
-                // console.log(validJSONString);
+                const response = await axios.get(
+                    `${ToLink}/product_data/products/${productid}`
+                );
+
+                const specificationsString = response.data.data.product_specifications;
+                const validJSONString = specificationsString.replace(/"=>/g, '": ');
+
                 const parsedData = {
-                    ...data,
-                    product_category_tree: JSON.parse(data.product_category_tree),
-                    image: JSON.parse(data.image),
+                    ...response.data.data,
+                    product_category_tree: JSON.parse(
+                        response.data.data.product_category_tree
+                    ),
+                    image: JSON.parse(response.data.data.image),
                     product_specifications: JSON.parse(validJSONString),
                 };
+
                 setProduct(parsedData);
+                setCurrentIndex(0);
+                setImage(parsedData.image && parsedData.image[0]);
                 setIsSpec(true);
-                let ltx = parsedData.product_category_tree;
-                ltx = ltx[0].split(">>")[1].trim().split(" ");
-                ltx = ltx[ltx.length - 1];
-                // console.log(ltx);
-                setDataProd(ltx);
+
+                const ltx =
+                    parsedData.product_category_tree &&
+                    parsedData.product_category_tree[0].split(">>")[1].trim().split(" ");
+                setDataProd(ltx && ltx[ltx.length - 1]);
             } catch (err) {
                 console.log(err);
             }
-        }
-        prod();
+        };
+
+        fetchData();
     }, [productid]);
+
+    const getImage = async () => {
+        try {
+            const res = await axios.get(ImageLink + '?' + product.image[currentIndex], {
+                responseType: "arraybuffer",
+            });
+
+            const blob = new Blob([res.data], {
+                type: res.headers["content-type"],
+            });
+
+            const imageUrl = URL.createObjectURL(blob);
+            setImage(imageUrl);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    useEffect(() => {
+        product.image && product.image[currentIndex] && getImage();
+    }, [currentIndex, product.image]);
+    // useEffect(() => {
+
+    //     product.image && product.image[currentIndex] && getImage();
+    // }, []);
     const itemHandler = (e, id) => {
         // console.log(id);
         navigate(`/${id}`);
@@ -109,7 +151,7 @@ const ProductDetail = () => {
             <span className={classes.categorytree}>{product.product_category_tree}</span>
             <div className={classes.container}>
                 <div className={classes.left}>
-                    {product.image && <img src={product.image[currentIndex]} alt="product" className={classes.productImage} />}
+                    {product.image && <img src={image} alt="product" className={classes.productImage} />}
                 </div>
                 <div className={classes.right}>
                     <div className={classes.productTitle}>{product.product_name}</div>

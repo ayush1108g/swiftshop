@@ -1,4 +1,3 @@
-// import React, { useState } from 'react';
 import styles from './sidebar.module.css';
 import SidebarContext from "../store/sidebar-context";
 import { useContext } from "react";
@@ -8,11 +7,6 @@ import { useNavigate } from 'react-router-dom';
 const Sidebar = () => {
     const navigate = useNavigate();
     const sidebarCtx = useContext(SidebarContext);
-    // const [isOpen, setIsOpen] = useState(sidebarCtx.isSidebarOpen);
-
-    // const toggleSidebar = () => {
-    //     setIsOpen(!isOpen);
-    // };
     const isLoggedIn = localStorage.getItem("isLoggedIn") || false;
     const animateVariants = {
         show: {

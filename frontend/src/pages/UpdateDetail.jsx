@@ -3,7 +3,6 @@ import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToLink } from "../App";
-// const ToLink = 'http://127.0.0.1:3002';
 
 const UpdateDetail = () => {
     const [userdata, setUserdata] = useState({ name: '', phoneno: '', emailid: '', address: '' });
@@ -11,17 +10,13 @@ const UpdateDetail = () => {
     const [message, setmessage] = useState('');
     const [passmessage, setpassmessage] = useState('');
     const { id } = useParams();
-    // console.log(id);
     useEffect(() => {
         const user = async () => {
             try {
-                // const data = await axios.get(ToLink + '/user/' + id + '/get');
                 const data = await axios.get(`${ToLink}/user/${id}/update`);
-                // console.log(data.data.data);
                 setUserdata(data.data.data);
                 setmessage('');
             } catch (err) {
-                // console.log(err);
                 setmessage(err.message);
             }
         }
@@ -49,7 +44,6 @@ const UpdateDetail = () => {
         const body = userdata;
         try {
             const resp = await axios.put(`${ToLink}/user/${id}/update`, body);
-            // console.log(resp);
             setmessage("Updated Successfully");
         } catch (err) {
             setmessage(err.message);

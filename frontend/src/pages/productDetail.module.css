@@ -24,7 +24,7 @@
   /* right: 0; */
 }
 .corner {
-  position: fixed;
+  position: absolute;
   /* bottom: 0; */
   top: 40vh;
   right: 0;

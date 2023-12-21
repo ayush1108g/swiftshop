@@ -6,3 +6,11 @@
   gap: 200px;
   margin-bottom: 2rem;
 }
+.pagination2 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 200px;
+  margin-bottom: 2rem;
+}

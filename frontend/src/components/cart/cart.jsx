@@ -1,7 +1,7 @@
 import "./cart.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ToLink, FromLink } from "../../App";
+import { ToLink, FromLink, ImageLink } from "../../App";
 import Overlay from "../modalOverlay/overlay";
 import { FaShareAlt } from "react-icons/fa";
 
@@ -10,6 +10,7 @@ export default function Cart(props) {
   const [isentervalue, setIsentervalue] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
   const [value, setValue] = useState(props.data.quantity);
+  const [image, setImage] = useState(props.data.image[currentIndex * 1]);
 
   const userid = localStorage.getItem("id");
   const productid = props.data._id;
@@ -18,10 +19,24 @@ export default function Cart(props) {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
   };
   useEffect(() => {
-    const intervalId = setInterval(changeImage, 500000);
+    const intervalId = setInterval(changeImage, 10000);
     return () => clearInterval(intervalId);
   }, []);
 
+  useEffect(() => {
+    const getImage = async () => {
+      try {
+        const res = await axios.get(ImageLink + '?' + props.data.image[currentIndex], { responseType: 'arraybuffer', });
+        const blob = new Blob([res.data], { type: res.headers['content-type'] });
+        const imageUrl = URL.createObjectURL(blob);
+        // console.log(imageUrl);
+        setImage(imageUrl);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getImage();
+  }, [props.data.image[currentIndex]]);
   const valueEnterHandler = () => {
     setIsentervalue((prev) => (!prev));
   }
@@ -79,7 +94,7 @@ export default function Cart(props) {
 
       <div id="cart-content">
         <img
-          src={props.data.image[currentIndex]}
+          src={image}
           alt={props.data.product_name}
         />
         <div id="cart-detail">

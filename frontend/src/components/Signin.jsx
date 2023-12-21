@@ -56,8 +56,6 @@ const Signin = (props) => {
       if (enteredName.trim().length === 0 || enteredPhone.trim().length === 0) { return setErrormsg("Please enter all the fields"); }
       if (enteredEmail.trim().length === 0) { return setErrormsg("Please enter all the fields"); }
     } else {
-      // const idno = (Math.floor(Math.random() * 10000) % 15) + 1;
-      // data.id = idno;
     }
     const page = props.pagename.toLowerCase();
 
@@ -68,7 +66,6 @@ const Signin = (props) => {
         timeout: 30000,
       });
 
-      // console.log(resp);
       if (resp.status === 201 || resp.status === 200) {
         localStorage.setItem("isLoggedIn", "1");
         localStorage.setItem("email", enteredEmail);

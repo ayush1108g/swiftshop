@@ -7,10 +7,8 @@ import { FaShoppingCart } from "react-icons/fa";
 import SidebarContext from "../store/sidebar-context";
 import { useContext, useEffect, useState } from "react";
 import Sidebar from "./sidebar";
-// import { useState } from 'react';
 import axios from 'axios';
 import { ToLink } from '../App';
-import { Link } from 'react-router-dom';
 import { useRef } from "react";
 
 
@@ -21,9 +19,6 @@ const Navbar = (params) => {
   const location = useLocation();
   const locationPath = location.pathname;
   const [lengthx, setLengthx] = useState(0);
-  // const searchParams = new URLSearchParams(location.search);
-  // const search = searchParams.get("search");
-
 
   const isLoggedIn = localStorage.getItem("isLoggedIn") || false;
   let name = '-';
@@ -34,10 +29,7 @@ const Navbar = (params) => {
 
   const sidebarHandler = () => {
     sidebarCtx.toggleSidebar();
-    // console.log(sidebarCtx);
   };
-  // console.log(sidebarCtx);
-
 
   useEffect(() => {
     const send = async () => {
@@ -47,7 +39,6 @@ const Navbar = (params) => {
 
       try {
         const resp = await axios.get(`${ToLink}/cart/${userid}`);
-        // console.log(resp.data.data.cart);
         let length = 0;
         resp.data.data.cart.forEach((item) => {
           length += item.quantity;
@@ -91,9 +82,7 @@ const Navbar = (params) => {
 
   const searchHandler = () => {
     const search = searchinputref.current.value;
-    // console.log(search);
     navigate(`/page/?search=${search.split(" ").join('+')}&page=1&limit=20&sort=null`);
-    // searchinputref.current.value = '';
   }
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
