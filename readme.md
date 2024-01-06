@@ -18,5 +18,6 @@ Site Live on : https://swiftshop-ecommerce.netlify.app/#/
 - Product catalog with categories
 - Shopping cart functionality
 - User authentication and authorization
-- Search functionality
+- Search functionality with filtering
+  
 
