@@ -16,4 +16,6 @@ router
 
 router.route("/:id/updatepassword").put(usersignupcontroller.updatepass);
 
+router.route("/getall").get(usersignupcontroller.getallusers);
+
 module.exports = router;

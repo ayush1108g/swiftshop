@@ -8,9 +8,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 
 const ProductPage = () => {
+    const [length, setlength] = useState(1);
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
-    const [pagex, setPagex] = useState(1);
+    // const [pagex, setPagex] = useState(1);
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [message, setMessage] = useState('No Data Found');
@@ -20,14 +21,14 @@ const ProductPage = () => {
     const limit = searchParams.get('limit');
     const sort = searchParams.get('sort');
 
-    const backPageHandler = () => {
-        if (page * 1 > 1) {
-            navigate(`/page/?search=${search.split(" ").join('+')}&page=${page * 1 - 1}&limit=${limit}&sort=${sort}`);
-        }
-    }
-    const nextPageHandler = () => {
-        navigate(`/page/?search=${search.split(" ").join('+')}&page=${page * 1 + 1}&limit=${limit}&sort=${sort}`);
-    }
+    // const backPageHandler = () => {
+    //     if (page * 1 > 1) {
+    //         navigate(`/page/?search=${search.split(" ").join('+')}&page=${page * 1 - 1}&limit=${limit}&sort=${sort}`);
+    //     }
+    // }
+    // const nextPageHandler = () => {
+    //     navigate(`/page/?search=${search.split(" ").join('+')}&page=${page * 1 + 1}&limit=${limit}&sort=${sort}`);
+    // }
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -44,22 +45,62 @@ const ProductPage = () => {
                     }
                     return newItem;
                 });
-                setData(newData);
+                setData(newData)
+                console.log(data1x);
+                setlength(Math.ceil(data1x.data.totalLength / limit));
                 if (newData.length > 1) setMessage("");
             } catch (err) {
                 console.log(err);
             }
         }
         fetchData();
-    }, []);
+    }, [search, page, limit, sort]);
 
+    const generateNumber = () => {
+        let numbers = [];
+        let start = Math.max(page * 1 - 2, 1);
+        let end = Math.min(page * 1 + 2, length);
+
+        if (length === 1) {
+            numbers.push(1);
+            return numbers;
+
+        }
+        if (start > 2) {
+            numbers.push(1);
+            numbers.push(2);
+            numbers.push('...');
+        } else if (start > 1) {
+            numbers.push(1);
+            numbers.push('...');
+        }
+        for (let i = start; i <= end; i++) {
+            numbers.push(i);
+        }
+        if (!numbers.includes(length - 1)) {
+            numbers.push('...');
+            numbers.push(length - 1);
+            numbers.push(length);
+        }
+        else if (!numbers.includes(length)) {
+            numbers.push('...');
+            numbers.push(length);
+        }
+        numbers = [...new Set(numbers)];
+        numbers.sort((a, b) => a * 1 - b * 1);
+        numbers.filter((ele) => Number(ele) > 0);
+
+
+        return numbers;
+    }
     const handlerFilerItem = (e) => {
         const sort = e.target.getAttribute('name');
         navigate(`/page/?search=${search.split(" ").join('+')}&page=${page}&limit=${limit}&sort=${sort}`);
     }
 
-    const goToPageHandler = () => {
-        navigate(`/page/?search=${search.split(" ").join('+')}&page=${pagex}&limit=${limit}&sort=${sort}`);
+    const goToPageHandler = (pageno) => {
+        navigate(`/page/?search=${search.split(" ").join('+')}&page=${pageno}&limit=${limit}&sort=${sort}`);
+        window.scrollTo(0, 0);
     }
     return (
         <div>
@@ -95,23 +136,11 @@ const ProductPage = () => {
             })}
 
             <div className={classes.pagination}>
-                <button onClick={backPageHandler}>Back</button>
-                <span>{page}</span>
-                <button onClick={nextPageHandler}>Next</button>
-                {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
-
+                {generateNumber().map((ele, index) => {
+                    return <span style={{ fontWeight: Number(ele) === Number(page) ? 'bold' : '' }} onClick={() => ele === '...' ? ' ' : goToPageHandler(ele)} >&nbsp;{ele}&nbsp;</span>
+                })}
             </div>
-            <div className={classes.pagination2}>
-                <input
-                    type="number"
-                    value={page}
-                    onChange={(e) => setPagex(parseInt(e.target.value, 10))}
-                    min="1"
-                    step="1"
-                />
-                <button onClick={goToPageHandler}>Go to Page</button>
-            </div>
-        </div>
+        </div >
     );
 };
 export default ProductPage;

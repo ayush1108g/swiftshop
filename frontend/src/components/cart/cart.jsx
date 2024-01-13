@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToLink, FromLink, ImageLink } from "../../App";
 import Overlay from "../modalOverlay/overlay";
 import { FaShareAlt } from "react-icons/fa";
+import Skeleton from "react-loading-skeleton";
 
 export default function Cart(props) {
   const [currentIndex, setCurrentIndex] = useState('0');
@@ -19,7 +20,7 @@ export default function Cart(props) {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
   };
   useEffect(() => {
-    const intervalId = setInterval(changeImage, 10000);
+    const intervalId = setInterval(changeImage, 1000000);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -54,7 +55,8 @@ export default function Cart(props) {
           product_id: productid,
           quantity: value,
         }
-        const resp = await axios.post(`${ToLink}/cart/${userid}`, data);
+        // const resp =
+        await axios.post(`${ToLink}/cart/${userid}`, data);
         // console.log(resp);
       } catch (err) {
         console.log(err);
@@ -73,7 +75,8 @@ export default function Cart(props) {
           product_id: productid,
           quantity: 0,
         }
-        const resp = await axios.post(`${ToLink}/cart/${userid}`, data);
+        // const resp =
+        await axios.post(`${ToLink}/cart/${userid}`, data);
         // console.log(resp);
       } catch (err) {
         console.log(err);
@@ -93,11 +96,11 @@ export default function Cart(props) {
       {showOverlay && <Overlay link={FromLink + productid} onClose={OverLayShowHandler} />}
 
       <div id="cart-content">
-        <img
+        {image !== props.data.image[currentIndex * 1] ? <img
           src={image}
           alt={props.data.product_name}
-        />
-        <div id="cart-detail">
+        /> : <Skeleton height={200} width={200} />}
+        <div id="cart-detail" style={{ paddingLeft: '15px' }}>
           <h3>{props.data.product_name}</h3>
           <p>In Stock</p>
           <span>

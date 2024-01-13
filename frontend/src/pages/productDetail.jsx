@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import { FaShareAlt } from "react-icons/fa";
 import Overlay from "../components/modalOverlay/overlay";
 import { FromLink } from "../App";
+import Skeleton from "react-loading-skeleton";
 
 const ProductDetail = () => {
     const navigate = useNavigate();
@@ -19,7 +20,8 @@ const ProductDetail = () => {
     const [showOverlay, setShowOverlay] = useState(false);
     const [isSpec, setIsSpec] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const changeImage = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
@@ -36,7 +38,6 @@ const ProductDetail = () => {
         const resp = async () => {
             try {
                 const data1x = await axios.get(`${ToLink}/product_data/products?search=${dataProd}&limit=4`);
-                // console.log(`${ToLink}/product_data/products?search=${dataProd}&limit=4`);
                 let data = data1x.data.data.newProduct;
                 const newData = data.map((item) => {
                     const newItem = { ...item };
@@ -53,7 +54,7 @@ const ProductDetail = () => {
     }, []);
 
     useEffect(() => {
-        const intervalId = setInterval(changeImage, 5000);
+        const intervalId = setInterval(changeImage, 500000);
         return () => clearInterval(intervalId);
     }, []);
 
@@ -105,6 +106,8 @@ const ProductDetail = () => {
 
             const imageUrl = URL.createObjectURL(blob);
             setImage(imageUrl);
+            setLoading(false);
+
         } catch (err) {
             console.log(err);
         }
@@ -133,7 +136,8 @@ const ProductDetail = () => {
                     quantity: 1,
                 };
                 if (data.id === null || data.id === undefined || data.id === "") return alert("Please login to add to cart");
-                const resp = await axios.post(`${ToLink}/cart/${data.id}`, data);
+                // const resp = 
+                await axios.post(`${ToLink}/cart/${data.id}`, data);
                 // console.log(resp);
                 alert("Added to cart successfully");
             } catch (err) {
@@ -143,7 +147,7 @@ const ProductDetail = () => {
         sendData();
     }
 
-
+    console.log(loading);
     const discount = 0;
     return (
         <div>
@@ -151,7 +155,7 @@ const ProductDetail = () => {
             <span className={classes.categorytree}>{product.product_category_tree}</span>
             <div className={classes.container}>
                 <div className={classes.left}>
-                    {product.image && <img src={image} alt="product" className={classes.productImage} />}
+                    {!loading && image && product.image ? <img src={image} alt="product" className={classes.productImage} /> : <Skeleton height={500} width={500} />}
                 </div>
                 <div className={classes.right}>
                     <div className={classes.productTitle}>{product.product_name}</div>
