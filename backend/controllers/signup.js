@@ -196,3 +196,19 @@ exports.updatepass = async (req, res) => {
     });
   }
 };
+
+exports.getallusers = async (req, res) => {
+  try {
+    const users = await usersignup.find();
+    res.status(200).json({
+      status: "success",
+      length: users.length,
+      data: users,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};

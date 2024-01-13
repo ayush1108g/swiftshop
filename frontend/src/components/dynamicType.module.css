@@ -1,0 +1,17 @@
+.typewriter {
+  overflow: hidden;
+  /* border-right: 2px solid black; */
+  white-space: nowrap;
+  /* font-size: 2em; */
+  animation: blinkBorder 1s infinite;
+}
+
+@keyframes blinkBorder {
+  0%,
+  100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: black;
+  }
+}

@@ -15,7 +15,6 @@ export default function A() {
       <div className="container">
         <h2 className="footer-category-title">Brand directory</h2>
 
-        {/* Fashion Category */}
         <div className="footer-category-box">
           <h3 onClick={handleClick} className="category-box-title" name="fashion">Fashion :</h3>
           <li onClick={handleClick} className="footer-category-link" name="T-shirt">T-shirt &nbsp;|</li>

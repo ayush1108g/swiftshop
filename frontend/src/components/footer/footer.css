@@ -1,6 +1,8 @@
-/* #footer {
-  z-index: 50;
-} */
+#footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
 .footer-nav .container {
   display: -webkit-box;
   display: -webkit-flex;
@@ -67,6 +69,16 @@ a:hover {
   color: rgb(250, 64, 95);
   list-style: none;
 }
+li {
+  text-decoration: none;
+  color: #646060;
+  list-style: none;
+}
+li:hover {
+  text-decoration: none;
+  color: rgb(250, 64, 95);
+  list-style: none;
+}
 
 .footer-category-link:hover {
   position: relative;
@@ -122,6 +134,8 @@ h3 {
 }
 .footer-category-box {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 address {
   color: #625a5a;
@@ -129,6 +143,9 @@ address {
 
 .footer-nav-list {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 .fa-instagram {
   margin-left: 8%;
@@ -137,4 +154,63 @@ address {
   margin-top: 1%;
   margin-right: 1.5%;
   font-size: 25px;
+}
+
+.footer-nav-list li {
+  margin-bottom: 10px;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+  .footer-nav-list {
+    min-width: -webkit-calc(50% - 15px);
+    min-width: calc(50% - 15px);
+    width: -webkit-calc(50% - 15px);
+    width: calc(50% - 15px);
+  }
+  .footer-nav-list {
+    min-width: -webkit-calc(100% - 16px);
+    min-width: calc(100% - 16px);
+    width: -webkit-calc(100% - 16px);
+    width: calc(100% - 16px);
+  }
+  .footer-nav-list {
+    min-width: -webkit-calc(100% - 16px);
+    min-width: calc(100% - 16px);
+    width: -webkit-calc(100% - 16px);
+    width: calc(100% - 16px);
+  }
+  .footer-nav-list {
+    min-width: -webkit-calc(100% - 16px);
+    min-width: calc(100% - 16px);
+    width: -webkit-calc(100% - 16px);
+    width: calc(100% - 16px);
+  }
+  .footer-nav-list {
+    min-width: -webkit-calc(100% - 16px);
+    min-width: calc(100% - 16px);
+    width: -webkit-calc(100% - 16px);
+    width: calc(100% - 16px);
+  }
+  .footer-nav-list {
+    min-width: -webkit-calc(100% - 16px);
+    min-width: calc(100% - 16px);
+    width: -webkit-calc(100% - 16px);
+    width: calc(100% - 16px);
+  }
+  .footer-nav-list {
+    min-width: -webkit-calc(100% - 16px);
+    min-width: calc(100% - 16px);
+    width: -webkit-calc(100% - 16px);
+    width: calc(100% - 16px);
+  }
+  .footer-nav-list {
+    min-width: -webkit-calc(100% - 16px);
+    min-width: calc(100% - 16px);
+    width: -webkit-calc;
+  }
 }

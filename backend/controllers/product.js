@@ -78,11 +78,14 @@ exports.productpage = async (req, res) => {
     const features = new APIFeatures(Product.find(query), req.query)
       .sort()
       .paginate();
+    const totalLength = await Product.countDocuments(query);
+    console.log(totalLength);
     const data = await features.query;
 
     res.status(200).json({
       status: "success",
       results: data.length,
+      totalLength,
       data,
     });
   } catch (err) {

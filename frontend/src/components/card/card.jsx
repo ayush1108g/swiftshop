@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { FaShareAlt } from "react-icons/fa";
 import Overlay from "./../modalOverlay/overlay";
 import { FromLink } from "../../App";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function Card(props) {
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ export default function Card(props) {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(changeImage, 10000);
+    const intervalId = setInterval(changeImage, 1000000);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -56,6 +58,7 @@ export default function Card(props) {
       }
     }
     getImage1();
+
     props.data[1] && getImage2();
   }, []);
 
@@ -96,11 +99,11 @@ export default function Card(props) {
       <div className="cardx">
         <div className="card-content" id={props.data[0]._id} onClick={() => { clickHandler(props.data[0]._id) }}>
           <div className="card-body">
-            <img
+            {image1 !== props.data[0].image[currentIndex] ? <img
               src={image1}
               alt={props.data[0].product_name}
-            />
-            <span>
+            /> : <div className="d-flex flex-column"><Skeleton height={200} width={200} /><span>{props.data[0].product_name}</span></div>}
+            <span style={{ paddingLeft: '15px' }}>
               <h5 className="card-title">{props.data[0].product_name}</h5>
               {/* <p className="card-text">
               Some quick example dnjkfdfsk
@@ -108,11 +111,12 @@ export default function Card(props) {
               <h5>Product Specification:</h5>
               {props.data[0].product_specifications && props.data[0].product_specifications.product_specification && props.data[0].product_specifications.product_specification.length > 0 &&
                 <div>
-                  {props.data[0].product_specifications.product_specification.map((ele, index) => (
-                    <div key={index}>
+                  {props.data[0].product_specifications.product_specification.map((ele, index) => {
+                    if (index > 4) return <></>;
+                    return <div key={index}>
                       <span style={{ fontWeight: ele.key ? 'bold' : 'normal' }}>{ele.key}</span>: {ele.value}
                     </div>
-                  ))}
+                  })}
                 </div>
               }
             </span>
@@ -131,18 +135,19 @@ export default function Card(props) {
             <br />
             <br />
             <h3> <span className="rounded" style={{ backgroundColor: 'cyan' }} onClick={(e) => { addtoCartHandler(e, props.data[0]._id) }}>Add to Cart</span></h3>
-
+            <span style={{ color: 'red', }} onmouseover="this.style.color='#fff'" onmouseout="this.style.color='red'">Read More...</span>
           </div>
         </div>
 
 
         {props.data[1] && <div className="card-content" id={props.data[1]._id} onClick={() => { clickHandler(props.data[1]._id) }}>
           <div className="card-body" >
-            {props.data[1].image && <img
+            {image2 !== props.data[1].image[currentIndex] ? props.data[1].image && <img
               src={image2}
               alt={props.data[1].product_name}
-            />}
-            <span>
+            /> : <div className="d-flex flex-column"><Skeleton height={200} width={200} /><span>{props.data[1].product_name}</span></div>
+            }
+            <span style={{ paddingLeft: '15px' }}>
               <h5 className="card-title">{props.data[1].product_name}</h5>
               {/* <p className="card-text">
               Some quick example dnjkfdfsk
@@ -150,14 +155,16 @@ export default function Card(props) {
               <h5>Product Specification:</h5>
               {props.data[1].product_specifications && props.data[1].product_specifications.product_specification && props.data[1].product_specifications.product_specification.length > 1 &&
                 <div>
-                  {props.data[1].product_specifications.product_specification.map((ele, index) => (
-                    <div key={index}>
+                  {props.data[1].product_specifications.product_specification.map((ele, index) => {
+                    if (index > 4) return <></>;
+                    return <div key={index}>
                       <span style={{ fontWeight: ele.key ? 'bold' : 'normal' }}>{ele.key}</span>: {ele.value}
                     </div>
-                  ))}
+                  })}
                 </div>
               }
             </span>
+
           </div>
           <span>
             <strong>
@@ -174,6 +181,7 @@ export default function Card(props) {
             <br />
             <br />
             <h3> <span className="rounded" style={{ backgroundColor: 'cyan' }} onClick={(e) => { addtoCartHandler(e, props.data[1]._id) }}>Add to Cart</span></h3>
+            <span style={{ color: 'red', }} onmouseover="this.style.color='#fff'" onmouseout="this.style.color='red'">Read More...</span>
           </div>
         </div>}
       </div>

@@ -1,7 +1,7 @@
 import classes from "./Navbar.module.css";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaShoppingCart } from "react-icons/fa";
 import SidebarContext from "../store/sidebar-context";
@@ -99,7 +99,9 @@ const Navbar = (params) => {
   }
 
   return (<>
-    {sidebarCtx.isSidebarOpen && <Sidebar />}
+    <AnimatePresence>
+      {sidebarCtx.isSidebarOpen && <Sidebar />}
+    </AnimatePresence>
     <div className={classes.navbar}>
       <GiHamburgerMenu onClick={sidebarHandler} />
       <div className="input-group" style={{ maxWidth: '50vw' }}>

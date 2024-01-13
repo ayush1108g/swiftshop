@@ -23,7 +23,8 @@
   overflow: hidden;
 }
 .card-body img {
-  width: fit-content;
+  min-width: 25%;
+  max-width: 50%;
   height: 12rem;
   margin-bottom: 2rem;
   padding-right: 2ch;

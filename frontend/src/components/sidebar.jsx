@@ -16,15 +16,16 @@ const Sidebar = () => {
                 ease: "easeInOut",
                 duration: 0.5,
             },
-            exit: {
-                x: [0, -250],
-                transition: {
-                    times: [0, 1],
-                    ease: "easeInOut",
-                    duration: 0.5,
-                },
+        },
+        exit: {
+            x: [0, -250],
+            transition: {
+                times: [0, 1],
+                ease: "easeInOut",
+                duration: 0.5,
             },
         },
+        onAnimationComplete: () => console.log("Show animation completed"),
     };
     const logoutHandler = () => {
         localStorage.clear();
@@ -52,6 +53,7 @@ const Sidebar = () => {
     return (
         <AnimatePresence>
             <motion.div
+                key={Math.random()}
                 variants={animateVariants}
                 animate="show"
                 exit="exit"

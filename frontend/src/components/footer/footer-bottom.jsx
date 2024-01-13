@@ -8,7 +8,7 @@ export default function FooterBottom() {
         <img src="https://codewithsadee.github.io/anon-ecommerce-website/assets/images/payment.png" alt="payment method"
           className="payment-img" />
         <p className="copyright">
-          Copyright &copy; <a href="#">Divya Kumar</a> all rights reserved.
+          Copyright &copy; <li>Divya Kumar</li> all rights reserved.
         </p>
       </div>
     </div>);
