@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/static/css/main.0f0a6ab1.css",
-    "main.js": "/static/js/main.e5799284.js",
-    "static/js/787.9e9f4ffd.chunk.js": "/static/js/787.9e9f4ffd.chunk.js",
-    "static/media/AyushPhoto-removebg-color.png": "/static/media/AyushPhoto-removebg-color.b4f4ef2158fc0b2232ec.png",
-    "static/media/Divya-removebg-color.png": "/static/media/Divya-removebg-color.0f04251274ff1a02960d.png",
-    "static/media/Pushkar-removebg-color.png": "/static/media/Pushkar-removebg-color.ab4a6ff536bb6bc2321e.png",
-    "static/media/Divya-removebg-bw.png": "/static/media/Divya-removebg-bw.af50fcf5938f2d098170.png",
-    "static/media/AyushPhoto-removebg-bw.png": "/static/media/AyushPhoto-removebg-bw.8a48d9c79f2bd864aa12.png",
-    "static/media/Pushkar-removebg-bw.png": "/static/media/Pushkar-removebg-bw.6e9096ca998f75450a2e.png",
-    "index.html": "/index.html",
-    "main.0f0a6ab1.css.map": "/static/css/main.0f0a6ab1.css.map",
-    "main.e5799284.js.map": "/static/js/main.e5799284.js.map",
-    "787.9e9f4ffd.chunk.js.map": "/static/js/787.9e9f4ffd.chunk.js.map"
+    "main.css": "/winter_code_week_2/static/css/main.0f0a6ab1.css",
+    "main.js": "/winter_code_week_2/static/js/main.60aa9f8f.js",
+    "static/js/787.9e9f4ffd.chunk.js": "/winter_code_week_2/static/js/787.9e9f4ffd.chunk.js",
+    "static/media/AyushPhoto-removebg-color.png": "/winter_code_week_2/static/media/AyushPhoto-removebg-color.b4f4ef2158fc0b2232ec.png",
+    "static/media/Divya-removebg-color.png": "/winter_code_week_2/static/media/Divya-removebg-color.0f04251274ff1a02960d.png",
+    "static/media/Pushkar-removebg-color.png": "/winter_code_week_2/static/media/Pushkar-removebg-color.ab4a6ff536bb6bc2321e.png",
+    "static/media/Divya-removebg-bw.png": "/winter_code_week_2/static/media/Divya-removebg-bw.af50fcf5938f2d098170.png",
+    "static/media/AyushPhoto-removebg-bw.png": "/winter_code_week_2/static/media/AyushPhoto-removebg-bw.8a48d9c79f2bd864aa12.png",
+    "static/media/Pushkar-removebg-bw.png": "/winter_code_week_2/static/media/Pushkar-removebg-bw.6e9096ca998f75450a2e.png",
+    "index.html": "/winter_code_week_2/index.html",
+    "main.0f0a6ab1.css.map": "/winter_code_week_2/static/css/main.0f0a6ab1.css.map",
+    "main.60aa9f8f.js.map": "/winter_code_week_2/static/js/main.60aa9f8f.js.map",
+    "787.9e9f4ffd.chunk.js.map": "/winter_code_week_2/static/js/787.9e9f4ffd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0f0a6ab1.css",
-    "static/js/main.e5799284.js"
+    "static/js/main.60aa9f8f.js"
   ]
 }
