@@ -8,8 +8,10 @@ import axios from 'axios';
 import { useNavigate } from "react-router";
 import DataContext from "../../store/data-context.js";
 import { useContext } from "react";
+import { useSelector } from "react-redux";
 
 export default function MainItem() {
+    const color = useSelector(state => state.themeMode.color);
     const dataCtx = useContext(DataContext);
     const navigate = useNavigate();
     const [data, setData] = useState([
@@ -106,12 +108,33 @@ export default function MainItem() {
     }
 
     return (
-        <>
+        <div style={{ background: `linear-gradient(${color.belowNavbg2},'#ffffff',${color.belowNavbg1})` }}>
             {Object.keys(data).map((key, index) => {
                 const currentData = data[key];
                 const newObj = Object.keys(currentData);
+                // console.log(currentData);
+                if (currentData[newObj[0]].length <= 0) {
+                    let arr = [1, 2, 3, 4]
+                    return <section key={currentData.name} id="core-concepts" name={currentData.name} onClick={ProdDivhandler}>
+                        {currentData.name}
+                        <ul onClick={ProdDivhandler} >
+                            {arr.map((itemData, itemIndex) => (
+                                <Items
+                                    key={itemIndex + currentData.name}
+                                // title={itemData.product_name || 'name'}
+                                // image={itemData.image[currentIndex] || 'https://m.media-amazon.com/images/I/410yXpanMoL._SX300_SY300_QL70_FMwebp_.jpg'}
+                                // alt={itemData.brand}
+                                // onClick={(event) => itemHandler(event, itemData._id)}
+                                // description={itemData.description.slice(0, 30) || 'abcd'}
+                                />
+                            ))}
+                        </ul>
+                    </section>
+                }
                 return (
-                    <section key={currentData.name} id="core-concepts" name={currentData.name} onClick={ProdDivhandler}>
+                    <section key={currentData.name} id="core-concepts" name={currentData.name} onClick={ProdDivhandler}
+
+                    >
                         {currentData.name}
                         <ul onClick={ProdDivhandler} >
                             {currentData[newObj[0]].map((itemData, itemIndex) => (
@@ -128,7 +151,7 @@ export default function MainItem() {
                     </section>
                 );
             })}
-        </>
+        </div>
     );
 
 }

@@ -10,9 +10,12 @@ import Sidebar from "./sidebar";
 import axios from 'axios';
 import { ToLink } from '../App';
 import { useRef } from "react";
+import ToggleTheme from "../store/utils/ToggleTheme";
 
+import { useSelector } from "react-redux";
 
-const Navbar = (params) => {
+const Navbar = ({ navStyle }) => {
+  const color = useSelector((state) => state.themeMode.color);
   const sidebarCtx = useContext(SidebarContext);
   const searchinputref = useRef();
   const navigate = useNavigate();
@@ -102,11 +105,14 @@ const Navbar = (params) => {
     <AnimatePresence>
       {sidebarCtx.isSidebarOpen && <Sidebar />}
     </AnimatePresence>
-    <div className={classes.navbar}>
+    <div className={classes.navbar} style={{ ...navStyle, backgroundColor: color.navbg, gap: '10px' }}>
       <GiHamburgerMenu onClick={sidebarHandler} />
-      <div className="input-group" style={{ maxWidth: '50vw' }}>
-        <input ref={searchinputref} type="search" className="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" onKeyPress={handleKeyPress} />
-        <button onClick={searchHandler} type="button" className="btn btn-outline-primary" data-mdb-ripple-init>Search</button>
+      <div className="input-group" style={{ maxWidth: '50vw', backgroundColor: color.navbg }}>
+        <input ref={searchinputref} type="search" className="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" onKeyPress={handleKeyPress} style={{
+          color: color.text,
+          borderColor: 'black', backgroundColor: color.navbg
+        }} />
+        <button onClick={searchHandler} type="button" className="d-none d-md-block btn btn-outline-primary d-block " data-mdb-ripple-init>Search</button>
 
       </div>
       {!isLoggedIn && (
@@ -121,6 +127,8 @@ const Navbar = (params) => {
           Login / Signup
         </motion.div>
       )}
+      <ToggleTheme />
+
       {locationPath !== "/" && (
         <motion.div
           initial={{ opacity: 0.5 }}
@@ -134,8 +142,8 @@ const Navbar = (params) => {
         </motion.div>
       )}
       <div className="d-flex justify-content-center" onClick={CartHandler}>
-        <FaShoppingCart style={{ fontSize: '2em' }} /><b style={{ color: 'red', }}>{lengthx === 0 ? ' ' : lengthx}</b>
-        <h3 style={{ userSelect: 'none' }}>Cart</h3>
+        <FaShoppingCart style={{ fontSize: '2em' }} /><b style={{ color: color.cartCount, }}>{lengthx === 0 ? ' ' : lengthx}</b>
+        <h3 style={{ userSelect: 'none', color: color.bodyText }}>Cart</h3>
       </div>
       {isLoggedIn &&
         <>
@@ -143,7 +151,7 @@ const Navbar = (params) => {
             <button className="btn"
               // style={{ backgroundColor: 'rgba(160,204,216,255)' }} 
               type="button" id="dropdownMenuButton" data-toggle="dropdown" >
-              <div className={classes.circle}> <span className={classes.initial}>{letter}</span></div>
+              <div className={classes.circle} style={{ background: color.userProfile }}> <span className={classes.initial} >{letter}</span></div>
             </button>
             <div className="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton">
               <li onClick={updateDetailHandler} className="dropdown-item" >Update Details</li>

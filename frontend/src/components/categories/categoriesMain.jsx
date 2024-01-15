@@ -1,8 +1,10 @@
 import Categories from "./categories";
-export default function CategoriesMain() {
+import { useSelector } from "react-redux";
 
+export default function CategoriesMain() {
+    const color = useSelector((state) => state.themeMode.color);
     return (
-        <section id="catagories">
+        <section id="catagories" style={{ background: `linear-gradient(${color.belowNavbg1},${color.belowNavbg2})` }}>
             <ul>
                 <Categories alt="Mobiles" id="Mobiles" title='Mobile' image='https://rukminim1.flixcart.com/fk-p-flap/144/144/image/64f1cc66052c66ef.png?q=100'></Categories>
                 <Categories alt="Electronics" id="Electronics" title={'Electronic'} image='https://rukminim1.flixcart.com/fk-p-flap/144/144/image/1fd83847b32a09d1.png?q=100'></Categories>

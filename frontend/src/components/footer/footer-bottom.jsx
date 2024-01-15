@@ -1,14 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./footer.css";
+import classes from "./footer.module.css";
 
 export default function FooterBottom() {
   return (
-    <div className="footer-bottom">
-      <div className="container">
+    <div className={classes["footer-bottom"]}>
+      <div className={classes.container}>
         <img src="https://codewithsadee.github.io/anon-ecommerce-website/assets/images/payment.png" alt="payment method"
-          className="payment-img" />
-        <p className="copyright">
-          Copyright &copy; <li>Divya Kumar</li> all rights reserved.
+          className={classes["payment-img"]} />
+        <p className={classes.copyright}>
+          Copyright &copy; <span className={classes.footerNavLink}>EduTech</span> all rights reserved.
         </p>
       </div>
     </div>);

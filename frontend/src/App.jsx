@@ -1,29 +1,35 @@
 import "./App.css";
-import { Route, Routes, useLocation, HashRouter } from "react-router-dom";
-import CategoriesMain from "./components/categories/categoriesMain";
-import MainFooter from "./components/footer/mainFooter";
 import "bootstrap/dist/css/bootstrap.min.css";
-import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
-import SignupPage from "./pages/SignupPage";
-import { AnimatePresence } from "framer-motion";
-import Navbar from "./components/Navbar";
-import SidebarContextProvider from "./store/sidebarContextProvider";
-import ContactUsPage from "./pages/ContactUsPage";
-import ForgotPassPage from "./pages/ForgotPass/ForgotPassPage";
-import ForgotPassIDPage from "./pages/ForgotPass/ForgotPassIDPage";
-import ForgotPassConfirmPage from "./pages/ForgotPass/ForgotPassConfirmPage";
-import UpdateDetail from "./pages/UpdateDetail";
-import Errorpage from "./pages/Errorpage";
-import Cart from "./pages/cart";
-import ProductDetail from "./pages/productDetail";
-import DataContextProvider from "./store/dataContextProvider";
-import ProductPage from "./pages/productPage";
-import TeamPage from "./pages/teamPage";
-import TrackPage from "./pages/Trackpage";
-import TypeWriter from "./components/dynamicType";
+import { useSelector } from "react-redux";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+
+import { useEffect, useState } from "react";
+import { Route, Routes, useLocation, HashRouter } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+
+import Cart from "./pages/cart";
+import HomePage from "./pages/HomePage";
+import Errorpage from "./pages/Errorpage";
+import LoginPage from "./pages/LoginPage";
+import UpdateDetail from "./pages/UpdateDetail";
+import ForgotPassPage from "./pages/ForgotPass/ForgotPassPage";
+import ForgotPassConfirmPage from "./pages/ForgotPass/ForgotPassConfirmPage";
+import ForgotPassIDPage from "./pages/ForgotPass/ForgotPassIDPage";
+import ContactUsPage from "./pages/ContactUsPage";
+import ProductDetail from "./pages/productDetail";
+import ProductPage from "./pages/productPage";
+import SignupPage from "./pages/SignupPage";
+import TrackPage from "./pages/Trackpage";
+import TeamPage from "./pages/teamPage";
+
+import TypeWriter from "./components/dynamicType";
+import CategoriesMain from "./components/categories/categoriesMain";
+import MainFooter from "./components/footer/mainFooter";
+import Navbar from "./components/Navbar";
+
+import DataContextProvider from "./store/dataContextProvider";
+import SidebarContextProvider from "./store/sidebarContextProvider";
 library.add(fas);
 
 // export const ImageLink = "http://127.0.0.1:8000/image/";
@@ -32,6 +38,7 @@ library.add(fas);
 export const ToLink = 'https://ecommerce-web-lwxy.onrender.com';
 export const ImageLink = 'https://ecommerce-web-lwxy.onrender.com/image/';
 export const FromLink = "https://ayush1108g.github.io/winter_code_week_2/#/";
+
 
 function LocationProvider({ children }) {
   return <AnimatePresence>{children}</AnimatePresence>;
@@ -60,7 +67,26 @@ function RoutesWithAnimation() {
   );
 }
 function App() {
+  const color = useSelector((state) => state.themeMode.color);
+  const [isScrolled, setIsScrolled] = useState(false);
 
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  }
+  useEffect(() => {
+    console.log('useeffect');
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  const navStyle = {
+    backgroundColor: isScrolled ? '' : color.navbg,
+    backdropFilter: isScrolled ? 'blur(10px)' : '',
+    transition: '0.5s'
+  }
 
   return (
     <>
@@ -68,17 +94,19 @@ function App() {
         <LocationProvider >
           <DataContextProvider>
             <SidebarContextProvider>
-              <div className="h2 d-flex align-item-center justify-content-center" style={{ backgroundColor: '#f6f6f6', marginBottom: '0px' }}>
-                <TypeWriter textToType='SwiftShop' fontFamily='Courier' duration='500' isBold='true' />
+              <div style={{ color: color.bodyText, backgroundColor: color.belowNavbg2 }}>
+                <div className="h2 d-flex align-item-center justify-content-center" style={{ marginBottom: '0px', ...navStyle }}>
+                  <TypeWriter textToType='SwiftShop' fontFamily='Courier' duration='500' isBold='true' />
+                </div>
+                <Navbar navStyle={navStyle} />
+                <CategoriesMain></CategoriesMain>
+                <RoutesWithAnimation />
               </div>
-              <Navbar />
-              <CategoriesMain></CategoriesMain>
-              <RoutesWithAnimation />
             </SidebarContextProvider>
           </DataContextProvider>
         </LocationProvider>
         <MainFooter></MainFooter>
-      </HashRouter>
+      </HashRouter >
     </>
   );
 }

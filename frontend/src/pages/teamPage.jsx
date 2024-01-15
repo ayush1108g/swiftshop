@@ -6,8 +6,10 @@ import { FaGithub } from "react-icons/fa6";
 import { useState } from "react";
 import data from "../store/data";
 import TypeDynamic from './../components/dynamicType';
+import { useSelector } from "react-redux";
 
 const TeamPage = () => {
+    const color = useSelector(state => state.themeMode.color);
     const [isHovered, setIsHovered] = useState(Array(data.length).fill(false));
 
     const handleMouseEnter = (index) => {
@@ -24,15 +26,20 @@ const TeamPage = () => {
 
 
     return (
-        <div>
+        <div className="d-flex justify-content-center align-items-center flex-column " style={{ paddingBottom: '5vh', maxWidth: '100%', backgroundColor: color.belowNavbg2 }}>
             <div style={{ width: '100vw', height: '5vh' }}></div>
             <div className="h2 d-flex justify-content-center"><TypeDynamic textToType="Our Team" duration='800' isBold='true' /></div>
             <br /> <br />
-            <div className="d-flex flex-row justify-content-around align-item-center">
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+                gap: '20px', backgroundColor: color.belowNavbg2
+            }}>
 
                 {
                     data.map((item, index) => {
-                        return (<div className="d-flex flex-column justify-content-center" style={{ gap: '1vw' }}>
+                        return (<div className="d-flex flex-column justify-content-center align-items-center" style={{ gap: '1vw', border: '1px solid black', padding: '5px', boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)', backdropFilter: 'blur(5px)' }}>
                             <img
                                 src={isHovered[index] ? item.image : item.imageBW}
                                 alt={item.name}
@@ -52,25 +59,6 @@ const TeamPage = () => {
                         </div>)
                     })
                 }
-                {/* <div className="d-flex flex-column justify-content-center" style={{ gap: '1vw' }}>
-                    <img
-                        src={isHoveredAyush ? Ayush : AyushBW}
-                        alt="Ayush"
-                        className="img-fluid rounded"
-                        onMouseEnter={handleMouseEnter1}
-                        onMouseLeave={handleMouseLeave1}
-                        style={{ height: "25vw", width: "20vw" }}
-                    />
-                    <div className="h3 d-flex justify-content-center">Ayush Gupta</div>
-                    <div className="h3 d-flex justify-content-center" style={{ color: 'grey' }}>Frontend Developer</div>
-                    <div className="h3 d-flex flex-row justify-content-center" style={{ gap: '2vw' }}>
-                        <a href={data.ayush.linkedin} target="_blank" rel="noreferrer" > <CiLinkedin style={{ fontSize: '3vh' }} /></a>
-                        <a href={data.ayush.instagram} target="_blank" rel="noreferrer"><FaInstagram style={{ fontSize: '3vh' }} /></a>
-                        <a href={`mailto:${data.ayush.email}`}><SiGmail style={{ fontSize: '3vh' }} /></a>
-                        <a href={data.ayush.github} target="_blank" rel="noreferrer"> <FaGithub style={{ fontSize: '3vh' }} /></a>
-                    </div>
-            </div>*/}
-
             </div>
         </div>
     )
