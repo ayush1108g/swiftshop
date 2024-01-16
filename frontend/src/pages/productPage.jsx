@@ -5,9 +5,10 @@ import { ToLink } from '../App';
 import classes from './productPage.module.css';
 import Card from '../components/card/card';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
 
 const ProductPage = () => {
+    const color = useSelector(state => state.themeMode.color);
     const [length, setlength] = useState(1);
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -106,17 +107,18 @@ const ProductPage = () => {
         <div>
             {message !== '' && <div className='h4 d-flex justify-content-center'>{message}</div>}
             {data && <>
-                <div className="dropdown" style={{ position: "absolute ", right: "10vw" }} >
+                <div className="dropdown" style={{ position: "absolute ", right: "10vw", color: color.text }} >
                     <button className="btn"
-                        type="button" id="dropdownMenuButton" data-toggle="dropdown" ><h2>Filter by</h2 >
+                        type="button" id="dropdownMenuButton" data-toggle="dropdown" ><h2 style={{ color: color.itembg1 }}>Filter by</h2 >
                     </button>
-                    <div className="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton">
-                        <li className="dropdown-item" name="discounted_price" onClick={handlerFilerItem}>Increasing Discounted Price </li>
-                        <li className="dropdown-item" name="-discounted_price" onClick={handlerFilerItem}>Decreasing Discounted Price</li>
-                        <li className="dropdown-item" name="retail_price" onClick={handlerFilerItem}>Increasing Retail Price</li>
-                        <li className="dropdown-item" name="-retail_price" onClick={handlerFilerItem}>Decreasing Retail Price</li>
-                        <li className='dropdown-item' name="discount_percentage" onClick={handlerFilerItem}>Increasing Discount</li>
-                        <li className='dropdown-item' name="-discount_percentage" onClick={handlerFilerItem}>Decreasing Discount</li>
+                    <div className="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton"
+                        style={{ padding: '0px' }}>
+                        <li className="dropdown-item" name="discounted_price" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Increasing Discounted Price </li>
+                        <li className="dropdown-item" name="-discounted_price" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Decreasing Discounted Price</li>
+                        <li className="dropdown-item" name="retail_price" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Increasing Retail Price</li>
+                        <li className="dropdown-item" name="-retail_price" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Decreasing Retail Price</li>
+                        <li className='dropdown-item' name="discount_percentage" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Increasing Discount</li>
+                        <li className='dropdown-item' name="-discount_percentage" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Decreasing Discount</li>
                     </div>
                 </div>
                 <br />

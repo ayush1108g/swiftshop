@@ -5,11 +5,11 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
 import { useEffect, useState } from "react";
-import { Route, Routes, useLocation, HashRouter } from "react-router-dom";
+import { Route, Routes, useLocation, HashRouter, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 import Cart from "./pages/cart";
-import HomePage from "./pages/HomePage";
+import HomePage, { HeaderMain } from "./pages/HomePage";
 import Errorpage from "./pages/Errorpage";
 import LoginPage from "./pages/LoginPage";
 import UpdateDetail from "./pages/UpdateDetail";
@@ -23,7 +23,6 @@ import SignupPage from "./pages/SignupPage";
 import TrackPage from "./pages/Trackpage";
 import TeamPage from "./pages/teamPage";
 
-import TypeWriter from "./components/dynamicType";
 import CategoriesMain from "./components/categories/categoriesMain";
 import MainFooter from "./components/footer/mainFooter";
 import Navbar from "./components/Navbar";
@@ -34,10 +33,10 @@ library.add(fas);
 
 // export const ImageLink = "http://127.0.0.1:8000/image/";
 // export const ToLink = "http://127.0.0.1:8000";
-// export const ImageLink = "https://get-image.onrender.com/image/";
 export const ToLink = 'https://ecommerce-web-lwxy.onrender.com';
 export const ImageLink = 'https://ecommerce-web-lwxy.onrender.com/image/';
 export const FromLink = "https://ayush1108g.github.io/winter_code_week_2/#/";
+// export const ImageLink = "https://get-image.onrender.com/image/";
 
 
 function LocationProvider({ children }) {
@@ -95,9 +94,7 @@ function App() {
           <DataContextProvider>
             <SidebarContextProvider>
               <div style={{ color: color.bodyText, backgroundColor: color.belowNavbg2 }}>
-                <div className="h2 d-flex align-item-center justify-content-center" style={{ marginBottom: '0px', ...navStyle }}>
-                  <TypeWriter textToType='SwiftShop' fontFamily='Courier' duration='500' isBold='true' />
-                </div>
+                <HeaderMain navStyle={navStyle} />
                 <Navbar navStyle={navStyle} />
                 <CategoriesMain></CategoriesMain>
                 <RoutesWithAnimation />

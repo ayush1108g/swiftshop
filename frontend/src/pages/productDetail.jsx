@@ -1,17 +1,19 @@
 import classes from "./productDetail.module.css";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { ToLink, ImageLink } from "../App";
-import { useParams } from "react-router";
+import { ToLink, ImageLink, FromLink } from "../App";
+import { useParams, useNavigate } from "react-router";
 import Items from "../components/items/items";
-import { useNavigate } from "react-router";
 import { FaShareAlt } from "react-icons/fa";
 import Overlay from "../components/modalOverlay/overlay";
-import { FromLink } from "../App";
 import Skeleton from "react-loading-skeleton";
+import { useSelector } from "react-redux";
+import { AnimatePresence, motion } from "framer-motion";
+import { CustomisedSkeleton } from "../components/items/items";
+
 
 const ProductDetail = () => {
+    const color = useSelector(state => state.themeMode.color);
     const navigate = useNavigate();
     const { productid } = useParams();
     const [product, setProduct] = useState({});
@@ -22,13 +24,14 @@ const ProductDetail = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [dataLoaded, setDataLoaded] = useState(false);
 
     const changeImage = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
     };
 
     useEffect(() => {
-        const intervalId = setInterval(changeImage, 500000);
+        const intervalId = setInterval(changeImage, 10000);
         return () => clearInterval(intervalId);
     }, []);
 
@@ -54,7 +57,7 @@ const ProductDetail = () => {
     }, []);
 
     useEffect(() => {
-        const intervalId = setInterval(changeImage, 500000);
+        const intervalId = setInterval(changeImage, 100000);
         return () => clearInterval(intervalId);
     }, []);
 
@@ -81,6 +84,7 @@ const ProductDetail = () => {
                 setCurrentIndex(0);
                 setImage(parsedData.image && parsedData.image[0]);
                 setIsSpec(true);
+                setDataLoaded(true);
 
                 const ltx =
                     parsedData.product_category_tree &&
@@ -115,6 +119,7 @@ const ProductDetail = () => {
 
     useEffect(() => {
         product.image && product.image[currentIndex] && getImage();
+        console.log(product.image);
     }, [currentIndex, product.image]);
     // useEffect(() => {
 
@@ -146,80 +151,101 @@ const ProductDetail = () => {
         };
         sendData();
     }
+    const framerSidebarPanel = {
+        initial: { x: '-100%', opacity: 0 },
+        animate: { x: 0, opacity: 1 },
+        exit: { x: '10%', opacity: 0, transition: { duration: 0.3 } },
+        transition: { duration: 0.3 },
+    }
 
-    console.log(loading);
     const discount = 0;
+    let arr = [1, 2, 3, 4];
     return (
         <div>
             {showOverlay && <Overlay link={FromLink + productid} onClose={OverLayShowHandler} />}
-            <span className={classes.categorytree}>{product.product_category_tree}</span>
+            {dataLoaded ? <span className={classes.categorytree}>{product.product_category_tree}</span> : <div style={{ paddingLeft: '15px' }}><CustomisedSkeleton><Skeleton width={"80%"} /></CustomisedSkeleton></div>}
             <div className={classes.container}>
                 <div className={classes.left}>
-                    {!loading && image && product.image ? <img src={image} alt="product" className={classes.productImage} /> : <Skeleton height={500} width={500} />}
+                    <AnimatePresence mode='wait'>
+                        {!loading && image && product.image ?
+                            <motion.img
+                                key={image}
+                                {...framerSidebarPanel}
+                                src={image} alt="product"
+                                className={classes.productImage}
+                                style={{ width: '100%', height: 'auto', minHeight: '500px', objectFit: 'cover', borderRadius: '10px', zIndex: '-1' }}
+                            /> :
+                            <CustomisedSkeleton>   <Skeleton height={500} width={'100%'} /></CustomisedSkeleton>}
+                    </AnimatePresence>
                 </div>
-                <div className={classes.right}>
-                    <div className={classes.productTitle}>{product.product_name}</div>
-                    <div className={classes.brand}>{product.brand}</div>
+                <div className={classes.right} style={{ paddingLeft: '10px' }}>
+                    {dataLoaded ? <div className={classes.productTitle}>{product.product_name}</div> : <CustomisedSkeleton><Skeleton width={"60%"} /></CustomisedSkeleton>}
+                    {dataLoaded ? <div className={classes.brand}>{product.brand}</div> : <CustomisedSkeleton><Skeleton width={"40%"} /></CustomisedSkeleton>}
                     <hr />
                     <div className={classes.price}>
-                        <span>
+                        {dataLoaded ? <span>
                             <span className={classes.discount}>{(((product.retail_price - product.discounted_price) / product.retail_price) * 100).toFixed(2) || discount}% off &nbsp;&nbsp;</span>
                             <span className={classes.discountPrice}>₹{product.discounted_price || product.retail_price}</span>
-                        </span>
-                        <span>MRP:&nbsp;
+                        </span> : <CustomisedSkeleton><Skeleton count={2} width={"50%"} /></CustomisedSkeleton>}
+                        {dataLoaded && <span>MRP:&nbsp;
                             <span className={classes.actualPrice}>₹{product.retail_price}</span>
-                        </span>
+                        </span>}
                         <br />
-                        <span className={classes.tax}>inclusive of all taxes</span>
-                        <span>EMI starts at ₹{product.discounted_price / 20 || product.retail_price / 20} No Cost EMI available</span>
-                        <span>Cash on Delivery Available</span>
+                        {dataLoaded ? <span className={classes.tax}>inclusive of all taxes</span> : <CustomisedSkeleton><Skeleton width={"40%"} /></CustomisedSkeleton>}
+                        {dataLoaded ? <span>EMI starts at ₹{product.discounted_price / 20 || product.retail_price / 20} No Cost EMI available</span> : <CustomisedSkeleton><Skeleton width={"80%"} /></CustomisedSkeleton>}
+                        {dataLoaded ? <span>Cash on Delivery Available</span> : <CustomisedSkeleton><Skeleton width={"50%"} /></CustomisedSkeleton>}
                     </div>
                     <hr />
                     <div className={classes.availability}>
                         <span className={classes.availabilityTitle}>Availability </span>
-                        <span className={classes.availabilityContent}>In stock</span>
+                        {dataLoaded ? <span className={classes.availabilityContent}>In stock</span> : <CustomisedSkeleton><Skeleton width={"20%"} /></CustomisedSkeleton>}
                     </div>
                     <hr />
                     <div className={classes.specification}>
                         <h4>Product Specification:</h4>
-                        {isSpec && product && <div>
+                        {dataLoaded ? isSpec && product && <div>
                             {product.product_specifications.product_specification && product.product_specifications.product_specification.length > 1 && product.product_specifications.product_specification.map((ele, index) => (
                                 <div key={index}>
                                     <span style={{ fontWeight: ele.key ? 'bold' : 'normal' }}>{ele.key}</span>: {ele.value}
                                 </div>
                             ))}
-                        </div>}
+                        </div> : <CustomisedSkeleton><Skeleton count={5} width={"90%"} /></CustomisedSkeleton>}
                     </div>
                     <hr />
                     <div className={classes.description}>
                         <h4>About this item</h4>
-                        <p>{product.description}</p>
+                        {dataLoaded ? <p>{product.description}</p> : <CustomisedSkeleton><Skeleton count={5} width={"90%"} /></CustomisedSkeleton>}
                     </div>
 
                 </div>
-                <div className={classes.corner}>
-                    <h3 > <span className="rounded" style={{ backgroundColor: 'cyan', }} onClick={OverLayShowHandler}>Share &nbsp;<FaShareAlt /></span></h3>
+                <div className={classes.corner} >
+                    <h3> < span className="rounded" style={{ color: color.cartIcon }} onClick={OverLayShowHandler}>Share &nbsp;<FaShareAlt /></span></h3>
                     <br />
                     <br />
-                    <h3> <span className="rounded" style={{ backgroundColor: 'cyan' }} onClick={addtoCartHandler}>Add to Cart</span></h3>
+                    <h3> <span className="rounded" style={{ color: color.cartIcon }} onClick={addtoCartHandler}>Add to Cart</span></h3>
 
                 </div>
-            </div>
+            </div >
             <hr />
             <div>
                 Similar products
-                {data1 && <>
-                    <section id="core-concepts">{dataProd || 'Watch'}
+                <>
+                    <section id="core-concepts">{dataProd || <CustomisedSkeleton><Skeleton width={"20%"} /></CustomisedSkeleton>}
                         <ul>
-                            {data1.map((item, index) => (
+                            {data1.length === 0 && arr.map((item, index) => {
+                                return <Items key={index} />
+                            })
+                            }
+                            {data1 && data1.map((item, index) => (
                                 <Items
                                     key={index}
                                     id={item._id}
                                     title={item.product_name || 'name'}
                                     image={item.image[currentIndex] || 'https://m.media-amazon.com/images/I/410yXpanMoL._SX300_SY300_QL70_FMwebp_.jpg'}
                                     alt={item.brand}
-                                    description={item.description.slice(0, 200) || 'abcd'}
+                                    description={item.description.slice(0, 100) || 'abcd'}
                                     onClick={(event) => itemHandler(event, item._id)}
+                                    price={item.discounted_price || item.retail_price}
                                 />
                             ))}
                         </ul>
@@ -227,9 +253,8 @@ const ProductDetail = () => {
                     </section>
                     <br />
                 </>
-                }
             </div>
-        </div>
+        </div >
     )
 };
 export default ProductDetail;

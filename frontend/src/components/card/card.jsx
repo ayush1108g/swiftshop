@@ -9,8 +9,10 @@ import Overlay from "./../modalOverlay/overlay";
 import { FromLink } from "../../App";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { useSelector } from "react-redux";
 
 export default function Card(props) {
+  const color = useSelector(state => state.themeMode.color);
   const navigate = useNavigate();
   const [showOverlay1, setShowOverlay1] = useState(false);
   const [showOverlay2, setShowOverlay2] = useState(false);
@@ -92,18 +94,19 @@ export default function Card(props) {
     sendData();
   }
   return (
-    <>
+    <div className="d-flex ">
       {showOverlay1 && <Overlay link={FromLink + props.data[0]._id} onClose={(e) => { OverLayShowHandler1(e) }} />}
       {showOverlay2 && <Overlay link={FromLink + props.data[1]._id} onClose={(e) => { OverLayShowHandler2(e) }} />}
 
       <div className="cardx">
-        <div className="card-content" id={props.data[0]._id} onClick={() => { clickHandler(props.data[0]._id) }}>
+        <div className="card-content" id={props.data[0]._id} onClick={() => { clickHandler(props.data[0]._id) }} style={{ backgroundColor: color.itembg }}>
           <div className="card-body">
             {image1 !== props.data[0].image[currentIndex] ? <img
               src={image1}
               alt={props.data[0].product_name}
             /> : <div className="d-flex flex-column"><Skeleton height={200} width={200} /><span>{props.data[0].product_name}</span></div>}
-            <span style={{ paddingLeft: '15px' }}>
+
+            <span style={{ paddingLeft: '15px', color: color.text, backgroundColor: color.itembg }}>
               <h5 className="card-title">{props.data[0].product_name}</h5>
               {/* <p className="card-text">
               Some quick example dnjkfdfsk
@@ -131,23 +134,23 @@ export default function Card(props) {
           </span>
           {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
           <div>
-            <h3 > <span className="rounded" style={{ backgroundColor: 'cyan', }} onClick={OverLayShowHandler1}>Share &nbsp;<FaShareAlt /></span></h3>
+            <h3 > <span className="rounded" style={{ color: color.cartIcon }} onClick={OverLayShowHandler1}>Share &nbsp;<FaShareAlt /></span></h3>
             <br />
             <br />
-            <h3> <span className="rounded" style={{ backgroundColor: 'cyan' }} onClick={(e) => { addtoCartHandler(e, props.data[0]._id) }}>Add to Cart</span></h3>
+            <h3> <span className="rounded" style={{ color: color.cartIcon }} onClick={(e) => { addtoCartHandler(e, props.data[0]._id) }}>Add to Cart</span></h3>
             <span style={{ color: 'red', }} onmouseover="this.style.color='#fff'" onmouseout="this.style.color='red'">Read More...</span>
           </div>
         </div>
 
 
-        {props.data[1] && <div className="card-content" id={props.data[1]._id} onClick={() => { clickHandler(props.data[1]._id) }}>
+        {props.data[1] && <div className="card-content" id={props.data[1]._id} onClick={() => { clickHandler(props.data[1]._id) }} style={{ backgroundColor: color.itembg }}>
           <div className="card-body" >
             {image2 !== props.data[1].image[currentIndex] ? props.data[1].image && <img
               src={image2}
               alt={props.data[1].product_name}
             /> : <div className="d-flex flex-column"><Skeleton height={200} width={200} /><span>{props.data[1].product_name}</span></div>
             }
-            <span style={{ paddingLeft: '15px' }}>
+            <span style={{ paddingLeft: '15px', color: color.text, backgroundColor: color.itembg }}>
               <h5 className="card-title">{props.data[1].product_name}</h5>
               {/* <p className="card-text">
               Some quick example dnjkfdfsk
@@ -177,14 +180,14 @@ export default function Card(props) {
           {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
           <div>
 
-            <h3 > <span className="rounded" style={{ backgroundColor: 'cyan', }} onClick={OverLayShowHandler2}>Share &nbsp;<FaShareAlt /></span></h3>
+            <h3 > <span className="rounded" style={{ color: color.cartIcon }} onClick={OverLayShowHandler2}>Share &nbsp;<FaShareAlt /></span></h3>
             <br />
             <br />
-            <h3> <span className="rounded" style={{ backgroundColor: 'cyan' }} onClick={(e) => { addtoCartHandler(e, props.data[1]._id) }}>Add to Cart</span></h3>
+            <h3> <span className="rounded" style={{ color: color.cartIcon }} onClick={(e) => { addtoCartHandler(e, props.data[1]._id) }}>Add to Cart</span></h3>
             <span style={{ color: 'red', }} onmouseover="this.style.color='#fff'" onmouseout="this.style.color='red'">Read More...</span>
           </div>
         </div>}
       </div>
-    </>
+    </div>
   );
 }

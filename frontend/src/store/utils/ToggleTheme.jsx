@@ -30,7 +30,7 @@ const ToggleTheme = () => {
   }
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" initial={false}>
       <motion.button
         key={currentTheme}
         initial="hidden"

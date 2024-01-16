@@ -85,14 +85,14 @@ export default function MainItem() {
             }
         }
 
+
         (dataCtx.data.data1.length === 0) && allresp('footwear', 'data1');
-        (dataCtx.data.data2.length === 0) && allresp('Electronic', 'data2');
+        (dataCtx.data.data2.length === 0) && allresp('electronic', 'data2');
         (dataCtx.data.data3.length === 0) && allresp('sunglass', 'data3');
         (dataCtx.data.data4.length === 0) && allresp('kid', 'data4');
         (dataCtx.data.data5.length === 0) && allresp('bag', 'data5');
         (dataCtx.data.data6.length === 0) && allresp('watch', 'data6');
         (dataCtx.data.data7.length === 0) && allresp('umbrella', 'data7');
-        (dataCtx.data.data2.length === 0) && allresp('Electronic', 'data2');
         // console.log(data)
     }, []);
 
@@ -108,16 +108,18 @@ export default function MainItem() {
     }
 
     return (
-        <div style={{ background: `linear-gradient(${color.belowNavbg2},'#ffffff',${color.belowNavbg1})` }}>
+        <div style={{ background: `linear-gradient(${color.belowNavbg2},'#ffffff',${color.belowNavbg1})`, maxWidth: '100%' }}>
             {Object.keys(data).map((key, index) => {
                 const currentData = data[key];
                 const newObj = Object.keys(currentData);
-                // console.log(currentData);
                 if (currentData[newObj[0]].length <= 0) {
                     let arr = [1, 2, 3, 4]
-                    return <section key={currentData.name} id="core-concepts" name={currentData.name} onClick={ProdDivhandler}>
-                        {currentData.name}
-                        <ul onClick={ProdDivhandler} >
+                    return <section key={currentData.name} id="core-concepts" name={currentData.name} >
+                        <div style={{ position: 'relative', left: '0%', paddingLeft: '30px' }} name={currentData.name} onClick={ProdDivhandler}>
+                            {currentData.name.charAt(0).toUpperCase() + currentData.name.slice(1)}
+                            <br />
+                        </div>
+                        <ul >
                             {arr.map((itemData, itemIndex) => (
                                 <Items
                                     key={itemIndex + currentData.name}
@@ -132,11 +134,14 @@ export default function MainItem() {
                     </section>
                 }
                 return (
-                    <section key={currentData.name} id="core-concepts" name={currentData.name} onClick={ProdDivhandler}
+                    <section key={currentData.name} id="core-concepts" name={currentData.name}
 
                     >
-                        {currentData.name}
-                        <ul onClick={ProdDivhandler} >
+                        <div style={{ position: 'relative', left: '0%', paddingLeft: '30px', padding: '30px', cursor: 'pointer' }} name={currentData.name} onClick={ProdDivhandler} >
+                            {currentData.name.charAt(0).toUpperCase() + currentData.name.slice(1)}
+                            <br />
+                        </div>
+                        <ul>
                             {currentData[newObj[0]].map((itemData, itemIndex) => (
                                 <Items
                                     key={itemIndex}
@@ -144,7 +149,8 @@ export default function MainItem() {
                                     image={itemData.image[currentIndex] || 'https://m.media-amazon.com/images/I/410yXpanMoL._SX300_SY300_QL70_FMwebp_.jpg'}
                                     alt={itemData.brand}
                                     onClick={(event) => itemHandler(event, itemData._id)}
-                                    description={itemData.description.slice(0, 30) || 'abcd'}
+                                    description={itemData.description.slice(0, 100) || 'abcd'}
+                                    price={itemData.discounted_price || itemData.retail_price}
                                 />
                             ))}
                         </ul>

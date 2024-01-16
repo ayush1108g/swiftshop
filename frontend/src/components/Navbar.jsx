@@ -22,6 +22,7 @@ const Navbar = ({ navStyle }) => {
   const location = useLocation();
   const locationPath = location.pathname;
   const [lengthx, setLengthx] = useState(0);
+  const [clicked, setClicked] = useState(false);
 
   const isLoggedIn = localStorage.getItem("isLoggedIn") || false;
   let name = '-';
@@ -30,8 +31,9 @@ const Navbar = ({ navStyle }) => {
   }
   const letter = name[0];
 
-  const sidebarHandler = () => {
-    sidebarCtx.toggleSidebar();
+  const sidebarHandler = (event) => {
+    setClicked((prev) => !prev);
+    !clicked && sidebarCtx.toggleSidebar();
   };
 
   useEffect(() => {
@@ -106,11 +108,11 @@ const Navbar = ({ navStyle }) => {
       {sidebarCtx.isSidebarOpen && <Sidebar />}
     </AnimatePresence>
     <div className={classes.navbar} style={{ ...navStyle, backgroundColor: color.navbg, gap: '10px' }}>
-      <GiHamburgerMenu onClick={sidebarHandler} />
+      <GiHamburgerMenu onClick={(e) => sidebarHandler(e)} style={{ minWidth: '24px' }} />
       <div className="input-group" style={{ maxWidth: '50vw', backgroundColor: color.navbg }}>
         <input ref={searchinputref} type="search" className="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" onKeyPress={handleKeyPress} style={{
           color: color.text,
-          borderColor: 'black', backgroundColor: color.navbg
+          borderColor: 'black', backgroundColor: color.navbg,
         }} />
         <button onClick={searchHandler} type="button" className="d-none d-md-block btn btn-outline-primary d-block " data-mdb-ripple-init>Search</button>
 
@@ -127,37 +129,26 @@ const Navbar = ({ navStyle }) => {
           Login / Signup
         </motion.div>
       )}
-      <ToggleTheme />
-
-      {locationPath !== "/" && (
-        <motion.div
-          initial={{ opacity: 0.5 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0.5 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={classes.nav1}
-          onClick={HomePageHandler}
-        >
-          Home Page
-        </motion.div>
-      )}
       <div className="d-flex justify-content-center" onClick={CartHandler}>
-        <FaShoppingCart style={{ fontSize: '2em' }} /><b style={{ color: color.cartCount, }}>{lengthx === 0 ? ' ' : lengthx}</b>
-        <h3 style={{ userSelect: 'none', color: color.bodyText }}>Cart</h3>
+        <FaShoppingCart style={{ fontSize: '2em', color: color.itembg1 }} /><b><sup style={{ color: color.cartCount, }}>{lengthx === 0 ? ' ' : lengthx}</sup></b>
+        <h3 style={{ userSelect: 'none', color: color.itembg1 }}>Cart</h3>
       </div>
+      <ToggleTheme />
       {isLoggedIn &&
         <>
           <div className="dropdown" >
             <button className="btn"
               // style={{ backgroundColor: 'rgba(160,204,216,255)' }} 
-              type="button" id="dropdownMenuButton" data-toggle="dropdown" >
-              <div className={classes.circle} style={{ background: color.userProfile }}> <span className={classes.initial} >{letter}</span></div>
+              type="button" id="dropdownMenuButton" data-toggle="dropdown">
+              <div className={classes.circle} style={{ background: color.itembg1 }}> <span className={classes.initial} >{letter}</span></div>
             </button>
-            <div className="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton">
-              <li onClick={updateDetailHandler} className="dropdown-item" >Update Details</li>
-              <li onClick={contactUSHandler} className="dropdown-item">Contact Us</li>
-              <li className="dropdown-item" onClick={() => { navigate('/team') }}>Our Team</li>
-              <li onClick={LogoutHandler} className="dropdown-item" >Logout</li>
+            <div className="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton"
+              style={{ backgroundColor: color.itembg3, color: color.text, padding: '0px' }}
+            >
+              <li onClick={updateDetailHandler} className="dropdown-item" style={{ backgroundColor: color.itembg3, color: color.text }}>Update Details</li>
+              <li onClick={contactUSHandler} className="dropdown-item" style={{ backgroundColor: color.itembg3, color: color.text }}>Contact Us</li>
+              <li className="dropdown-item" onClick={() => { navigate('/team') }} style={{ backgroundColor: color.itembg3, color: color.text }}>Our Team</li>
+              <li onClick={LogoutHandler} className="dropdown-item" style={{ backgroundColor: color.itembg3, color: color.text }}>Logout</li>
             </div>
           </div>
         </>}

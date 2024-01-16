@@ -13,26 +13,12 @@ const Sidebar = () => {
     const isLoggedIn = localStorage.getItem("isLoggedIn") || false;
     const sidebarRef = useRef(null);
 
-    useClickAway(sidebarRef, () => sidebarCtx.toggleSidebar());
+    useClickAway(sidebarRef, () => {
+        console.log("clicked outside");
+        return sidebarCtx.toggleSidebar();
+    });
 
 
-    const animateVariants = {
-        show: {
-            x: [-250, 0],
-            transition: {
-                times: [0, 1],
-                duration: 0.5,
-            },
-        },
-        exit: {
-            x: [0, -250],
-            transition: {
-                times: [0, 1],
-                duration: 0.5,
-            },
-        },
-        onAnimationComplete: () => console.log("Show animation completed"),
-    };
     const logoutHandler = () => {
         localStorage.clear();
         window.location.reload();
@@ -59,31 +45,44 @@ const Sidebar = () => {
         navigate('/contactUs');
         sidebarCtx.toggleSidebar()
     }
-    return (
-        <AnimatePresence>
-            <motion.div
-                key={location.pathname}
-                id="sidebar#"
-                variants={animateVariants}
-                animate="show"
-                exit="exit"
-                ref={sidebarRef}
-                className={`${styles.sidebar} ${sidebarCtx.isSidebarOpen ? styles.open : ''}`}
-                style={{ backgroundColor: color.navbg, color: color.bodyText }}
-            >
-                <ul style={{ listStyle: 'none', color: color.text }}>
-                    <li className={styles.li} onClick={() => {
-                        navigate('/team');
-                        sidebarCtx.toggleSidebar()
-                    }} style={{ color: color.text }}>Our Team</li>
-                    <li className={styles.li} style={{ color: color.text }} onClick={xyzHandler}>{isLoggedIn === '1' ? 'Update Detail' : 'Login/Signup'}</li>
-                    <li className={styles.li} onClick={cartHandler} style={{ color: color.text }}>Cart</li>
-                    <li className={styles.li} onClick={contactUsHandler} style={{ color: color.text }}>Contact Us</li>
-                    <li className={styles.li} onClick={logoutHandler} style={{ color: color.text }}>Logout</li>
-                    <li className={styles.li} onClick={() => { sidebarCtx.toggleSidebar() }} style={{ color: color.text }}>Close</li>
-                </ul>
-            </motion.div>
+
+    const framerSidebarPanel = {
+        initial: { x: '-100%' },
+        animate: { x: 0 },
+        exit: { x: '100%', transition: { duration: 0.3 } },
+        transition: { duration: 0.3 },
+    }
+
+    return (<div>
+
+        <AnimatePresence mode='wait'>
+            {sidebarCtx.isSidebarOpen && (
+                <motion.div
+                    key="open"
+
+                    id="sidebar#"
+                    // variants={animateVariants}
+                    // animate="show"
+                    // exit="exit"
+                    {...framerSidebarPanel}
+                    ref={sidebarRef}
+                    className={`${styles.sidebar} ${sidebarCtx.isSidebarOpen ? '' : ''}`}
+                    style={{ backgroundColor: color.navbg, color: color.bodyText }}
+                >
+                    <motion.ul style={{ listStyle: 'none', color: color.text }}>
+                        <motion.li className={styles.li} onClick={() => {
+                            navigate('/team');
+                            sidebarCtx.toggleSidebar()
+                        }} style={{ color: color.text }}>Our Team</motion.li>
+                        <motion.li className={styles.li} style={{ color: color.text }} onClick={xyzHandler}>{isLoggedIn === '1' ? 'Update Detail' : 'Login/Signup'}</motion.li>
+                        <motion.li className={styles.li} onClick={cartHandler} style={{ color: color.text }}>Cart</motion.li>
+                        <motion.li className={styles.li} onClick={contactUsHandler} style={{ color: color.text }}>Contact Us</motion.li>
+                        <motion.li className={styles.li} onClick={logoutHandler} style={{ color: color.text }}>Logout</motion.li>
+                        <motion.li className={styles.li} onClick={() => { sidebarCtx.toggleSidebar() }} style={{ color: color.text }}>Close</motion.li>
+                    </motion.ul>
+                </motion.div>)}
         </AnimatePresence >
+    </div>
     );
 };
 

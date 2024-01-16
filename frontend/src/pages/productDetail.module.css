@@ -12,6 +12,7 @@
   /* position: fixed;
   left: 0; */
   text-align: center;
+  align-items: center;
 }
 .right {
   width: 50vw;
@@ -25,7 +26,6 @@
 }
 .corner {
   position: absolute;
-  /* bottom: 0; */
   top: 40vh;
   right: 0;
   margin: 1rem;
@@ -42,7 +42,7 @@
   object-fit: cover;
   background-size: "cover";
   align-items: center;
-  margin-top: 12rem;
+  margin-top: 5rem;
 }
 .productTitle {
   font-size: 2rem;
@@ -78,4 +78,27 @@
 }
 .description {
   width: 30vw;
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+  }
+  .left {
+    width: 100%;
+    padding: 15px;
+  }
+  .productImage {
+    margin-top: 20px;
+  }
+  .right {
+    width: 100%;
+    padding: 15px;
+  }
+  .description {
+    width: 100%;
+  }
 }

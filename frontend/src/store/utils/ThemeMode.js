@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { lightColors, darkColors } from "./Colors";
 
 const defaultState = {
-  mode: localStorage.getItem("mode") || "light",
+  mode: localStorage.getItem("mode") || "dark",
   color: localStorage.getItem("mode") === "light" ? lightColors : darkColors,
 };
 
