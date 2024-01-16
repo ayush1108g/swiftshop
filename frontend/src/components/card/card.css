@@ -2,32 +2,47 @@
 .cardx {
   display: flex;
   flex-direction: row;
+  width: 100%;
+  gap: 30px;
+  padding: 20px;
 }
 .card-body {
   display: flex;
-  background-color: #fff;
   justify-content: center;
-  padding: 0%;
-  margin: 0 1rem 1rem 1rem;
-  padding-top: 0;
-  margin-top: 0;
+  width: 100%;
+  /* padding: 20px; */
 }
 
 .card-content {
-  margin: 2rem;
   display: flex;
+  flex-direction: column;
+
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-  width: 45vw;
-  height: 21rem;
-  padding: 2rem 3rem 2rem 0rem;
+  width: 100%;
+  min-height: 500px;
+  padding: 20px;
   overflow: hidden;
+  /* margin: 30px; */
+  border-radius: 10px;
+  /* padding: 20px; */
 }
+
 .card-body img {
-  min-width: 25%;
-  max-width: 50%;
-  height: 12rem;
-  margin-bottom: 2rem;
-  padding-right: 2ch;
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.card-bodyx {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 30px;
+  justify-content: space-between;
+}
+.card-body1 {
+  flex-direction: column;
+  justify-content: start;
 }
 .card-title {
   font-size: 1.5vw;
@@ -40,4 +55,78 @@
 }
 .discount {
   color: #0df133;
+}
+
+@media screen and (max-width: 700px) {
+  .cardx {
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+  .card-body {
+    flex-direction: column;
+  }
+  .card-body img {
+    height: 100%;
+    width: 100%;
+  }
+  .card-body1 {
+    flex-direction: column;
+    justify-content: start;
+  }
+  .card-bodyx {
+    flex-direction: row;
+    /* gap: 0px; */
+    justify-content: space-between;
+  }
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .card-text {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .discount {
+    color: #0df133;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .cardx {
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+  .card-body {
+    flex-direction: column;
+  }
+  .card-body img {
+    height: 100%;
+    width: 100%;
+  }
+  .card-body1 {
+    flex-direction: column;
+    justify-content: start;
+  }
+  .card-bodyx {
+    flex-direction: column;
+    /* gap: 0px; */
+    justify-content: space-between;
+  }
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .card-text {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .discount {
+    color: #0df133;
+  }
 }

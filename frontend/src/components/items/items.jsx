@@ -32,21 +32,6 @@ export default function Item(props) {
         props.image && getImage();
     }, [props.image]);
 
-    // const animateVariants = {
-    //     // iniitial: {
-
-    //     // },
-    //     show: {
-    //         x:[100,0],
-
-    //     },
-    //     exit: {
-
-    //     }
-
-
-    // }
-
     const framerSidebarPanel = {
         initial: { x: '-100%' },
         animate: { x: 0 },
@@ -68,7 +53,7 @@ export default function Item(props) {
                         {...framerSidebarPanel}
                         src={image} alt={props.alt}
                         style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '10px' }}
-                    /> : <div> <CustomisedSkeleton> <Skeleton height={250} width={'100%'} /></CustomisedSkeleton></div>}
+                    /> : <CustomisedSkeleton> <Skeleton height={250} width={'100%'} /></CustomisedSkeleton>}
                 </AnimatePresence>
                 <div style={{ display: 'block', textAlign: 'left', minHeight: '100px', paddingTop: '10px', paddingLeft: props.title ? '10px' : '' }}>
                     {props.title ? <h6>{props.title}</h6> : <CustomisedSkeleton><Skeleton width={"100%"} /></CustomisedSkeleton>}

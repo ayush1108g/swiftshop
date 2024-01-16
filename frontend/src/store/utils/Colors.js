@@ -15,20 +15,6 @@ export const lightColors = {
 };
 //rgb(113 37 117)
 export const darkColors = {
-  // bodyBG: "#333333",
-  // background: "#333333",
-  // text: "#ffffff",
-  // footerHeading: "#e1acac",
-  // footerBody: "#afccb275",
-  // footerbg: "#353935",
-  // bodyText: "#ffffff",
-  // navbg: "#431945",
-  // cartCount: "cyan",
-  // belowNavbg1: "#431945",
-  // belowNavbg2: "#712575",
-  // SkeletonColor: "#202020",
-  // userProfile: "#69ddd538",
-
   bodyBG: "#333333",
   background: "#333333",
   text: "#ffffff",
@@ -52,4 +38,20 @@ export const darkColors = {
   //3 "#2d2d30"
   //4 "#3e3e42"
   //5 "#007acc"
+};
+
+export const blueColors = {
+  bodyBG: "#333333",
+  background: "#333333",
+  text: "#ffffff",
+  footerHeading: "#e1acac",
+  footerBody: "#afccb275",
+  footerbg: "#353935",
+  bodyText: "#ffffff",
+  navbg: "#431945",
+  cartCount: "cyan",
+  belowNavbg1: "#431945",
+  belowNavbg2: "#712575",
+  SkeletonColor: "#202020",
+  userProfile: "#69ddd538",
 };

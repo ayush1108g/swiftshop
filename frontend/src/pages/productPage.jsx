@@ -12,24 +12,17 @@ const ProductPage = () => {
     const [length, setlength] = useState(1);
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
-    // const [pagex, setPagex] = useState(1);
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [message, setMessage] = useState('No Data Found');
+    const [dataLoaded, setDataLoaded] = useState(false);
 
     const search = searchParams.get('search');
     const page = searchParams.get('page');
     const limit = searchParams.get('limit');
     const sort = searchParams.get('sort');
 
-    // const backPageHandler = () => {
-    //     if (page * 1 > 1) {
-    //         navigate(`/page/?search=${search.split(" ").join('+')}&page=${page * 1 - 1}&limit=${limit}&sort=${sort}`);
-    //     }
-    // }
-    // const nextPageHandler = () => {
-    //     navigate(`/page/?search=${search.split(" ").join('+')}&page=${page * 1 + 1}&limit=${limit}&sort=${sort}`);
-    // }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -48,6 +41,7 @@ const ProductPage = () => {
                 });
                 setData(newData)
                 console.log(data1x);
+                setDataLoaded(true);
                 setlength(Math.ceil(data1x.data.totalLength / limit));
                 if (newData.length > 1) setMessage("");
             } catch (err) {
@@ -103,6 +97,7 @@ const ProductPage = () => {
         navigate(`/page/?search=${search.split(" ").join('+')}&page=${pageno}&limit=${limit}&sort=${sort}`);
         window.scrollTo(0, 0);
     }
+    let arr = [1, 2, 3, 4];
     return (
         <div>
             {message !== '' && <div className='h4 d-flex justify-content-center'>{message}</div>}
@@ -125,6 +120,12 @@ const ProductPage = () => {
                 <br />
                 <br />
             </>}
+            {!dataLoaded && arr.map((ele, index) => {
+                if (index % 2 === 0) {
+                    return <Card key={index} data={[null, null]} />
+                } return null;
+            })
+            }
             {data.map((item, index) => {
                 if (index % 2 === 0) {
                     return (

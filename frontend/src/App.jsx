@@ -5,7 +5,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
 import { useEffect, useState } from "react";
-import { Route, Routes, useLocation, HashRouter, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, HashRouter } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 import Cart from "./pages/cart";
