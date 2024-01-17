@@ -1,4 +1,4 @@
-export const lightColors = {
+export const lightColors: Record<string, string> = {
   bodyBG: "#ffffff",
   background: "#ffffff",
   text: "#333333",
@@ -12,9 +12,10 @@ export const lightColors = {
   belowNavbg2: "#ffffff",
   cartIcon: "#007acc",
   SkeletonColor: "#f6f6f6",
+  meter:'#00ff00'
 };
 //rgb(113 37 117)
-export const darkColors = {
+export const darkColors: Record<string, string> = {
   bodyBG: "#333333",
   background: "#333333",
   text: "#ffffff",
@@ -30,6 +31,7 @@ export const darkColors = {
   userProfile: "#69ddd538",
   itembg: "#3e3e42",
   cartIcon: "#007acc",
+  meter:"#007acc",
 
   itembg1: "#007acc",
   itembg3: "#2d2d30",
@@ -40,7 +42,7 @@ export const darkColors = {
   //5 "#007acc"
 };
 
-export const blueColors = {
+export const blueColors: Record<string, string> = {
   bodyBG: "#333333",
   background: "#333333",
   text: "#ffffff",

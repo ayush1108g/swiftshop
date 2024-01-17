@@ -1,24 +1,36 @@
-
+import * as React from 'react';
 import { CiLinkedin } from "react-icons/ci";
 import { FaInstagram } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
 import { FaGithub } from "react-icons/fa6";
 import { useState } from "react";
-import data from "../store/data";
-import TypeDynamic from './../components/dynamicType';
+import data from "../store/data.ts";
+import TypeDynamic from '../components/dynamicType';
 import { useSelector } from "react-redux";
+import { RootState } from "../store/utils/index.ts";
 
-const TeamPage = () => {
-    const color = useSelector(state => state.themeMode.color);
-    const [isHovered, setIsHovered] = useState(Array(data.length).fill(false));
+interface TeamMember {
+    name: string;
+    role: string;
+    image: string;
+    imageBW: string;
+    linkedin: string;
+    instagram: string;
+    email: string;
+    github: string;
+  }
 
-    const handleMouseEnter = (index) => {
+const TeamPage : React.FC = () => {
+    const color = useSelector((state:RootState )=> state.themeMode.color);
+    const [isHovered, setIsHovered] = useState<boolean[]>(Array(data.length).fill(false));
+
+    const handleMouseEnter = (index : number) => {
         const newHoveredState = [...isHovered];
         newHoveredState[index] = true;
         setIsHovered(newHoveredState);
     };
 
-    const handleMouseLeave = (index) => {
+    const handleMouseLeave = (index : number) => {
         const newHoveredState = [...isHovered];
         newHoveredState[index] = false;
         setIsHovered(newHoveredState);
@@ -38,7 +50,7 @@ const TeamPage = () => {
             }}>
 
                 {
-                    data.map((item, index) => {
+                    data.map((item:TeamMember, index:number) => {
                         return (<div className="d-flex flex-column justify-content-center align-items-center" style={{ gap: '1vw', border: '1px solid black', padding: '5px', boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)', backdropFilter: 'blur(5px)' }}>
                             <img
                                 src={isHovered[index] ? item.image : item.imageBW}

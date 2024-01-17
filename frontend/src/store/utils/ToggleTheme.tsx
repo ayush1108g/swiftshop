@@ -1,17 +1,18 @@
-import React from "react";
+import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
-import { setThemeMode } from "./ThemeMode";
+import { setThemeMode } from "./ThemeMode.ts";
 import { CiLight } from "react-icons/ci";
 import { MdDarkMode } from "react-icons/md";
 import { useState } from "react";
-const ToggleTheme = () => {
+import { RootState } from "./index.ts";
+const ToggleTheme: React.FC = () => {
   const dispatch = useDispatch();
-  const currentTheme = useSelector((state) => state.themeMode.mode);
-  const [color1, setColor1] = useState("white");
-  const [color2, setColor2] = useState("nnone");
+  const currentTheme = useSelector((state : RootState) => state.themeMode.mode);
+  const [color1, setColor1] = useState<string>("white");
+  const [color2, setColor2] = useState<string>("nnone");
 
-  const toggleTheme = () => {
+  const toggleTheme = ():void => {
     const newTheme = currentTheme === "light" ? "dark" : "light";
     console.log("newTheme", newTheme);
     dispatch(setThemeMode.setThemeMode(newTheme));
@@ -22,10 +23,10 @@ const ToggleTheme = () => {
     visible: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: 24 },
   };
-  const changeColor1 = () => {
+  const changeColor1 = ():void => {
     setColor1((prev) => (prev === "black" ? "white" : "black"));
   }
-  const changeColor2 = () => {
+  const changeColor2 = ():void => {
     setColor2((prev) => (prev === "" ? "white" : ""));
   }
 

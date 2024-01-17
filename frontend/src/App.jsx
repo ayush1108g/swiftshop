@@ -21,11 +21,11 @@ import ProductDetail from "./pages/productDetail";
 import ProductPage from "./pages/productPage";
 import SignupPage from "./pages/SignupPage";
 import TrackPage from "./pages/Trackpage";
-import TeamPage from "./pages/teamPage";
+import TeamPage from "./pages/teamPage.tsx";
 
 import CategoriesMain from "./components/categories/categoriesMain";
 import MainFooter from "./components/footer/mainFooter";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar.tsx";
 
 import DataContextProvider from "./store/dataContextProvider";
 import SidebarContextProvider from "./store/sidebarContextProvider";

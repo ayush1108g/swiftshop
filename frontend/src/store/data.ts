@@ -4,7 +4,20 @@ import DivyaBW from "./Divya-removebg-bw.png";
 import Divya from "./Divya-removebg-color.png";
 import PushkarBW from "./Pushkar-removebg-bw.png";
 import Pushkar from "./Pushkar-removebg-color.png";
-const data = [
+
+
+interface Developer {
+  linkedin: string;
+  github: string;
+  email: string;
+  instagram: string;
+  name: string;
+  role: string;
+  image: string;
+  imageBW: string;
+}
+
+const data:Developer[] = [
   {
     linkedin: "https://www.linkedin.com/in/ayush-gupta-1020a9253/",
     github: "https://github.com/ayush1108g",

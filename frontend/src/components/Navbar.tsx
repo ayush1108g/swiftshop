@@ -1,44 +1,57 @@
+import * as React from "react";
 import classes from "./Navbar.module.css";
-import { useNavigate } from "react-router";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaShoppingCart } from "react-icons/fa";
-import SidebarContext from "../store/sidebar-context";
+import SidebarContext from "../store/sidebar-context.js";
 import { useContext, useEffect, useState } from "react";
-import Sidebar from "./sidebar";
+import Sidebar from "./sidebar.jsx";
 import axios from 'axios';
-import { ToLink } from '../App';
+import { ToLink } from '../App.jsx';
 import { useRef } from "react";
-import ToggleTheme from "../store/utils/ToggleTheme";
+import ToggleTheme from "../store/utils/ToggleTheme.tsx";
 
 import { useSelector } from "react-redux";
+import { RootState } from "../store/utils/index.ts";
+import MeterComp from "./MeterComp.tsx";
+interface NavStyle {
+  backgroundColor: string,
+    backdropFilter: string,
+    transition: string,
+}
+interface NavbarProps {
+  navStyle: NavStyle;
+}
+interface SidebarContextType {
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
+}
 
-const Navbar = ({ navStyle }) => {
-  const color = useSelector((state) => state.themeMode.color);
-  const sidebarCtx = useContext(SidebarContext);
-  const searchinputref = useRef();
+const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
+  const color = useSelector((state : RootState) => state.themeMode.color);
+  const sidebarCtx = useContext<SidebarContextType>(SidebarContext);
+  const searchinputref = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const location = useLocation();
-  const locationPath = location.pathname;
-  const [lengthx, setLengthx] = useState(0);
-  const [clicked, setClicked] = useState(false);
+  const [lengthx, setLengthx] = useState<number>(0);
+  const [clicked, setClicked] = useState<boolean>(false);
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn") || false;
-  let name = '-';
+  const isLoggedIn:boolean = Boolean(localStorage.getItem("isLoggedIn")) || false;
+  let name:string = '-';
   if (isLoggedIn) {
     name = localStorage.getItem("name") || 'xyz';
   }
-  const letter = name[0];
+  const letter:string = name[0];
 
-  const sidebarHandler = (event) => {
+  const sidebarHandler = ():void => {
     setClicked((prev) => !prev);
     !clicked && sidebarCtx.toggleSidebar();
   };
 
   useEffect(() => {
+    
     const send = async () => {
-      const userid = localStorage.getItem("id");
+      const userid:Boolean|string|null = localStorage.getItem("id");
       if (userid === null || userid === undefined || userid === '')
         return;
 
@@ -55,21 +68,21 @@ const Navbar = ({ navStyle }) => {
     }
     send();
   }, []);
-  const LoginPageHandler = () => {
+  const LoginPageHandler = ():void => {
     if (!isLoggedIn) {
       navigate("/login");
     } else {
       navigate("/");
     }
   };
-  const HomePageHandler = () => {
-    navigate("/");
-  }
-  const LogoutHandler = () => {
+  // const HomePageHandler = ():void => {
+  //   navigate("/");
+  // }
+  const LogoutHandler = ():void => {
     localStorage.clear();
     navigate("/");
   }
-  const contactUSHandler = () => {
+  const contactUSHandler = ():void => {
     if (!isLoggedIn) {
       navigate("/login");
     }
@@ -77,7 +90,7 @@ const Navbar = ({ navStyle }) => {
       navigate("/contactUs");
     }
   }
-  const updateDetailHandler = () => {
+  const updateDetailHandler = ():void => {
     const id = localStorage.getItem("id");
     if (!id) {
       navigate("/login");
@@ -86,7 +99,10 @@ const Navbar = ({ navStyle }) => {
   }
 
   const searchHandler = () => {
-    const search = searchinputref.current.value;
+    const search: string|undefined = searchinputref.current?.value;
+    if (!search) {
+      return;
+    }
     navigate(`/page/?search=${search.split(" ").join('+')}&page=1&limit=20&sort=null`);
   }
   const handleKeyPress = (event) => {
@@ -107,8 +123,9 @@ const Navbar = ({ navStyle }) => {
     <AnimatePresence>
       {sidebarCtx.isSidebarOpen && <Sidebar />}
     </AnimatePresence>
+
     <div className={classes.navbar} style={{ ...navStyle, backgroundColor: color.navbg, gap: '10px' }}>
-      <GiHamburgerMenu onClick={(e) => sidebarHandler(e)} style={{ minWidth: '24px' }} />
+      <GiHamburgerMenu onClick={(e) => sidebarHandler()} style={{ minWidth: '24px' }} />
       <div className="input-group" style={{ maxWidth: '50vw', backgroundColor: color.navbg }}>
         <input ref={searchinputref} type="search" className="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" onKeyPress={handleKeyPress} style={{
           color: color.text,
@@ -154,6 +171,7 @@ const Navbar = ({ navStyle }) => {
         </>}
 
     </div >
+    <MeterComp/>
   </>
   );
 };
