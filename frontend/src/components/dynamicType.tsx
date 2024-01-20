@@ -1,10 +1,18 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import classes from './dynamicType.module.css'
-const DynamicType = (props) => {
-    const [text, setText] = useState('');
-    const [index, setIndex] = useState(0);
-    const textToType = props.textToType;
+
+interface DynamicTypeProps {
+    textToType: string;
+    duration: number;
+    fontFamily?: string;
+    isBold: string;
+}
+
+const DynamicType:React.FC<DynamicTypeProps> = (props) => {
+    const [text, setText] = useState<string>('');
+    const [index, setIndex] = useState<number>(0);
+    const textToType:string = props.textToType;
     const duration = props.duration * 1 || 100;
 
     useEffect(() => {

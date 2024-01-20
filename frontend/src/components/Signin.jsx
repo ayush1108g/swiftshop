@@ -1,10 +1,11 @@
 import classes from "./Signin.module.css";
 import axios from "axios";
+import CartContext from "../store/context/cart-context.js";
 import { useNavigate } from "react-router";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { motion } from "framer-motion";
-import { ToLink } from "../App";
+import { ToLink } from "../constants.js";
 
 const Signin = (props) => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Signin = (props) => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const addressInputRef = useRef();
+  const cartCtx = useContext(CartContext);
 
   const handleTogglePassword = (e) => {
     e.preventDefault();
@@ -87,6 +89,7 @@ const Signin = (props) => {
           phoneInputRef.current.value = "";
           addressInputRef.current.value = "";
         }
+        cartCtx.refresh();
         setTimeout(() => {
           navigate("/");
         }, 1000);

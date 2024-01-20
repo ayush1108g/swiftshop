@@ -1,19 +1,21 @@
 import "./cart.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { ToLink, FromLink, ImageLink } from "../../App";
+import CartContext from "../../store/context/cart-context.js";
+import { FromLink, ImageLink } from "../../constants.js";
 import Overlay from "../modalOverlay/overlay";
 import { FaShareAlt } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 
 export default function Cart(props) {
+  const cartCtx = useContext(CartContext);
   const [currentIndex, setCurrentIndex] = useState('0');
   const [isentervalue, setIsentervalue] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
   const [value, setValue] = useState(props.data.quantity);
   const [image, setImage] = useState(props.data.image[currentIndex * 1]);
 
-  const userid = localStorage.getItem("id");
+  // const userid = localStorage.getItem("id");
   const productid = props.data._id;
 
   const changeImage = () => {
@@ -38,6 +40,7 @@ export default function Cart(props) {
     }
     getImage();
   }, [props.data.image[currentIndex]]);
+
   const valueEnterHandler = () => {
     setIsentervalue((prev) => (!prev));
   }
@@ -47,50 +50,25 @@ export default function Cart(props) {
   }
   const SubmitHandler = (e) => {
     e.preventDefault();
-    const sendData = async () => {
-      if (value === null || value === undefined || value === "") return alert("Please enter a valid quantity");
-      try {
-        const data = {
-          id: userid,
-          product_id: productid,
-          quantity: value,
-        }
-        // const resp =
-        await axios.post(`${ToLink}/cart/${userid}`, data);
-        // console.log(resp);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    sendData();
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+    const val = value * 1;
+    Math.floor(val);
+    cartCtx.addInCart(productid, val);
+    setIsentervalue(false);
+    cartCtx.refresh();
+
   }
   const deleteHandler = () => {
-    const deleteData = async () => {
-      try {
-        const data = {
-          id: userid,
-          product_id: productid,
-          quantity: 0,
-        }
-        // const resp =
-        await axios.post(`${ToLink}/cart/${userid}`, data);
-        // console.log(resp);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    deleteData();
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+    cartCtx.removeFromCart(productid);
+    cartCtx.refresh();
+    // setValue(props.data.quantity);
   }
   const OverLayShowHandler = () => {
     setShowOverlay(!showOverlay);
   }
 
+  useEffect(() => {
+    setValue(props.data.quantity);
+  }, [props.data.quantity]);
   return (
     <section>
       {showOverlay && <Overlay link={FromLink + productid} onClose={OverLayShowHandler} />}
@@ -128,7 +106,7 @@ export default function Cart(props) {
           </span>
         </div>
         <span id="cart-price">
-          <h3>&#8377;{props.data.quantity * 1 * (props.data.discounted_price === " " ? props.data.retail_price : props.data.discounted_price)}</h3>
+          <h3>&#8377;{(props.data.discounted_price === " " ? props.data.retail_price : props.data.discounted_price)}  x  {props.data.quantity * 1}</h3>
         </span>
       </div>
 

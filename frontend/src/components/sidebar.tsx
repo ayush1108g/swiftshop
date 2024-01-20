@@ -1,17 +1,21 @@
+import React from 'react';
 import styles from './sidebar.module.css';
-import SidebarContext from "../store/sidebar-context";
+import SidebarContext from "../store/context/sidebar-context";
 import { useContext, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useClickAway } from "react-use";
-const Sidebar = () => {
-    const color = useSelector(state => state.themeMode.color);
-    const location = useLocation();
+import { RootState } from '../store/utils';
+import CartContext from '../store/context/cart-context';
+
+const Sidebar:React.FC = () => {
+    const color = useSelector((state:RootState) => state.themeMode.color);
     const navigate = useNavigate();
+const cartCtx = useContext(CartContext);
     const sidebarCtx = useContext(SidebarContext);
     const isLoggedIn = localStorage.getItem("isLoggedIn") || false;
-    const sidebarRef = useRef(null);
+    const sidebarRef = useRef<HTMLDivElement>(null);
 
     useClickAway(sidebarRef, () => {
         console.log("clicked outside");
@@ -19,9 +23,10 @@ const Sidebar = () => {
     });
 
 
-    const logoutHandler = () => {
+    const logoutHandler = ():void => {
         localStorage.clear();
         window.location.reload();
+        cartCtx.clear();
     };
     const cartHandler = () => {
         const userid = localStorage.getItem("id");

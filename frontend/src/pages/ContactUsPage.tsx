@@ -1,26 +1,35 @@
+import React from "react";
 import classes from "./ContactUsPage.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { motion } from "framer-motion";
 import { useRef, useState } from "react";
-import { ToLink } from "../App";
+import { ToLink } from "../constants.js";
 import axios from "axios";
 
-const ContactUsPage = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [errormsg, setErrormsg] = useState("");
-    const numberRef = useRef();
-    const queryInputref = useRef();
+const ContactUsPage:React.FC = () => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [errormsg, setErrormsg] = useState<string>("");
+    const numberRef = useRef<HTMLInputElement>(null);
+    const queryInputref = useRef<HTMLTextAreaElement>(null);
     const name = localStorage.getItem("name") || "";
     const email = localStorage.getItem("email") || "";
 
     const proceedtoSubmit = async (event) => {
         event.preventDefault();
 
-        const enteredNumber = numberRef.current.value;
-        const enteredQuery = queryInputref.current.value;
-        if (enteredNumber.length !== 10 || enteredNumber.length === 0 || enteredQuery.length === 0) {
-            setErrormsg("Please enter valid details");
-        };
+        const enteredNumber = numberRef.current!.value;
+        const enteredQuery = queryInputref.current!.value;
+        console.log(enteredNumber);
+        console.log(enteredQuery);
+        if (
+            enteredNumber.toString().length !== 10 ||
+          enteredNumber.length !== 10 || enteredNumber.toString().length === 0 ||
+          enteredQuery.length === 0
+        ) {
+          setErrormsg("Please enter valid details");
+          return;
+        }
+        
         const body = {
             name: name,
             email: email,
@@ -31,11 +40,10 @@ const ContactUsPage = () => {
             setIsLoading(true);
 
             const response = await axios.post(`${ToLink}/feedback`, body);
-            // console.log(response);
             setErrormsg("Your query has been submitted successfully");
             if (response.status === 200 || response.status === 201) {
-                numberRef.current.value = "";
-                queryInputref.current.value = "";
+                numberRef.current!.value = "";
+                queryInputref.current!.value = "";
             }
         }
         catch (err) {
@@ -119,8 +127,8 @@ const ContactUsPage = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label for="exampleFormControlTextarea1" className="form-label">Query</label>
-                        <textarea className="form-control" id="exampleFormControlTextarea1" ref={queryInputref} rows="2"></textarea>
+                        <label  className="form-label">Query</label>
+                        <textarea className="form-control" id="exampleFormControlTextarea1"ref={queryInputref} ></textarea>
                     </div>
                     <div className={classes.buttons}>
                         <button

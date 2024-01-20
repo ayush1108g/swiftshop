@@ -27,13 +27,7 @@ const MeterComp:React.FC = () => {
       
     return (
         <div style={{ minWidth: '100%', maxHeight: '15px', display: 'flex', alignItems: 'flex-start', position: 'sticky',zIndex:50, top: '53.78px', backgroundColor: color.navbg,backdropFilter: 'blur(10px)' }}>
-            <meter value={currentHeight} min={0} max={availableScrollHeight} style={{ minWidth: '100%' }}></meter>
-            <style jsx>{`
-             meter::-webkit-meter-optimum-value {
-            background-color: ${color.meter};};  
-          }
-        `}</style>
-
+            <meter value={currentHeight} min={0} max={availableScrollHeight} style={{ minWidth: '100%', backgroundColor: color.navbg, }}></meter>
         </div>
     )
 }

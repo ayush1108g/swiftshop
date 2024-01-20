@@ -3,7 +3,7 @@ import classes from "./ForgotPass.module.css";
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToLink } from "../../App";
+import { ToLink } from "../../constants.js";
 
 const ForgotPassPage = () => {
   const navigate = useNavigate();

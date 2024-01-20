@@ -1,3 +1,4 @@
+import React,{ ReactNode } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
@@ -8,42 +9,48 @@ import { useEffect, useState } from "react";
 import { Route, Routes, useLocation, HashRouter } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
-import Cart from "./pages/cart";
-import HomePage, { HeaderMain } from "./pages/HomePage";
-import Errorpage from "./pages/Errorpage";
-import LoginPage from "./pages/LoginPage";
-import UpdateDetail from "./pages/UpdateDetail";
-import ForgotPassPage from "./pages/ForgotPass/ForgotPassPage";
-import ForgotPassConfirmPage from "./pages/ForgotPass/ForgotPassConfirmPage";
-import ForgotPassIDPage from "./pages/ForgotPass/ForgotPassIDPage";
-import ContactUsPage from "./pages/ContactUsPage";
-import ProductDetail from "./pages/productDetail";
-import ProductPage from "./pages/productPage";
-import SignupPage from "./pages/SignupPage";
-import TrackPage from "./pages/Trackpage";
+import Cart from "./pages/cart.tsx";
+import HomePage, { HeaderMain } from "./pages/HomePage.tsx";
+import Errorpage from "./pages/Errorpage.tsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import UpdateDetail from "./pages/UpdateDetail.tsx";
+import ForgotPassPage from "./pages/ForgotPass/ForgotPassPage.jsx";
+import ForgotPassConfirmPage from "./pages/ForgotPass/ForgotPassConfirmPage.jsx";
+import ForgotPassIDPage from "./pages/ForgotPass/ForgotPassIDPage.jsx";
+import ContactUsPage from "./pages/ContactUsPage.tsx";
+import ProductDetail from "./pages/productDetail.tsx";
+import ProductPage from "./pages/productPage.jsx";
+import SignupPage from "./pages/SignupPage.jsx";
+import TrackPage from "./pages/Trackpage.jsx";
 import TeamPage from "./pages/teamPage.tsx";
+import { ToLink } from "./constants.js";
 
-import CategoriesMain from "./components/categories/categoriesMain";
-import MainFooter from "./components/footer/mainFooter";
+import CategoriesMain from "./components/categories/categoriesMain.jsx";
+import MainFooter from "./components/footer/mainFooter.jsx";
 import Navbar from "./components/Navbar.tsx";
 
-import DataContextProvider from "./store/dataContextProvider";
-import SidebarContextProvider from "./store/sidebarContextProvider";
+import DataContextProvider from "./store/context/dataContextProvider.js";
+import SidebarContextProvider from "./store/context/sidebarContextProvider.js";
+import CartContextProvider from "./store/context/cartContextProvider.js";
+import { RootState } from "./store/utils/index.ts";
+
 library.add(fas);
 
-// export const ImageLink = "http://127.0.0.1:8000/image/";
-// export const ToLink = "http://127.0.0.1:8000";
-export const ToLink = 'https://ecommerce-web-lwxy.onrender.com';
-export const ImageLink = 'https://ecommerce-web-lwxy.onrender.com/image/';
-export const FromLink = "https://ayush1108g.github.io/winter_code_week_2/#/";
-// export const ImageLink = "https://get-image.onrender.com/image/";
 
+interface navStyle{
+  backgroundColor: string;
+  backdropFilter: string;
+  transition: string;
+}
+interface LocationProviderProps {
+  children: ReactNode;
+}
 
-function LocationProvider({ children }) {
+const LocationProvider:React.FC<LocationProviderProps> = ({ children }) => {
   return <AnimatePresence>{children}</AnimatePresence>;
 }
 
-function RoutesWithAnimation() {
+const RoutesWithAnimation:React.FC = () => {
   const location = useLocation();
   console.log(location);
   return (
@@ -65,11 +72,12 @@ function RoutesWithAnimation() {
     </Routes>
   );
 }
-function App() {
-  const color = useSelector((state) => state.themeMode.color);
-  const [isScrolled, setIsScrolled] = useState(false);
 
-  const handleScroll = () => {
+const App:React.FC = ()=> {
+  const color = useSelector((state: RootState) => state.themeMode.color);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+  const handleScroll = ():void => {
     if (window.scrollY > 50) {
       setIsScrolled(true);
     } else {
@@ -81,16 +89,28 @@ function App() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  const navStyle = {
+  const navStyle:navStyle = {
     backgroundColor: isScrolled ? '' : color.navbg,
     backdropFilter: isScrolled ? 'blur(10px)' : '',
     transition: '0.5s'
   }
 
+  useEffect(() => {
+    try{
+    const start_Backend = async () => {
+      await fetch(`${ToLink}`);
+    }
+    start_Backend();
+  }catch(err){
+    // console.log(err);
+  } 
+  }, []);
+
   return (
     <>
       <HashRouter>
         <LocationProvider >
+          <CartContextProvider>
           <DataContextProvider>
             <SidebarContextProvider>
               <div style={{ color: color.bodyText, backgroundColor: color.belowNavbg2 }}>
@@ -101,6 +121,7 @@ function App() {
               </div>
             </SidebarContextProvider>
           </DataContextProvider>
+          </CartContextProvider>
         </LocationProvider>
         <MainFooter></MainFooter>
       </HashRouter >

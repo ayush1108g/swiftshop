@@ -1,7 +1,7 @@
 import "./items.css"
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { ImageLink } from "../../App";
+import { ImageLink } from "../../constants.js";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSelector } from "react-redux";

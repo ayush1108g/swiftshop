@@ -2,11 +2,11 @@ import "./items.css";
 import Items from './items.jsx';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { ToLink } from '../../App.jsx';
+import { ToLink } from '../../constants.js';
 // import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from "react-router";
-import DataContext from "../../store/data-context.js";
+import DataContext from "../../store/context/data-context.js";
 import { useContext } from "react";
 import { useSelector } from "react-redux";
 
@@ -53,7 +53,7 @@ export default function MainItem() {
     };
 
     useEffect(() => {
-        const intervalId = setInterval(changeImage, 10000);
+        const intervalId = setInterval(changeImage, 15000);
         return () => clearInterval(intervalId);
     }, []);
 
@@ -123,11 +123,6 @@ export default function MainItem() {
                             {arr.map((itemData, itemIndex) => (
                                 <Items
                                     key={itemIndex + currentData.name}
-                                // title={itemData.product_name || 'name'}
-                                // image={itemData.image[currentIndex] || 'https://m.media-amazon.com/images/I/410yXpanMoL._SX300_SY300_QL70_FMwebp_.jpg'}
-                                // alt={itemData.brand}
-                                // onClick={(event) => itemHandler(event, itemData._id)}
-                                // description={itemData.description.slice(0, 30) || 'abcd'}
                                 />
                             ))}
                         </ul>

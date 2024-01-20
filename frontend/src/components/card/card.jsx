@@ -1,10 +1,12 @@
 import 'react-loading-skeleton/dist/skeleton.css'
 import "./card.css";
 import axios from "axios";
+import { useContext } from 'react';
+import CartContext from '../../store/context/cart-context.js';
 import { useNavigate } from "react-router-dom";
 import Overlay from "./../modalOverlay/overlay";
 import { useState, useEffect } from "react";
-import { ToLink, ImageLink, FromLink } from "../../App";
+import { ImageLink, FromLink } from "../../constants.js";
 import { FaShareAlt } from "react-icons/fa";
 import Skeleton from 'react-loading-skeleton'
 import { useSelector } from "react-redux";
@@ -12,6 +14,7 @@ import { CustomisedSkeleton } from '../items/items';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function Card(props) {
+  const Cartctx = useContext(CartContext);
   const isData = props.data[0] === null || props.data[0] === undefined || props.data[0] === "" ? false : true;
   const color = useSelector(state => state.themeMode.color);
   const navigate = useNavigate();
@@ -78,22 +81,7 @@ export default function Card(props) {
   }
   const addtoCartHandler = (e, prodid) => {
     e.stopPropagation();
-    const sendData = async () => {
-      try {
-        const data = {
-          id: localStorage.getItem("id"),
-          product_id: prodid,
-          quantity: 1,
-        };
-        if (data.id === null || data.id === undefined || data.id === "") return alert("Please login to add to cart");
-        const resp = await axios.post(`${ToLink}/cart/${data.id}`, data);
-        // console.log(resp);
-        alert("Added to cart successfully");
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    sendData();
+    Cartctx.addInCart(prodid);
   }
 
 

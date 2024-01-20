@@ -4,11 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaShoppingCart } from "react-icons/fa";
-import SidebarContext from "../store/sidebar-context.js";
-import { useContext, useEffect, useState } from "react";
-import Sidebar from "./sidebar.jsx";
-import axios from 'axios';
-import { ToLink } from '../App.jsx';
+import SidebarContext from "../store/context/sidebar-context.js";
+import CartContext from "../store/context/cart-context.js";
+import { useContext,useState } from "react";
+import Sidebar from "./sidebar.tsx";
 import { useRef } from "react";
 import ToggleTheme from "../store/utils/ToggleTheme.tsx";
 
@@ -30,11 +29,13 @@ interface SidebarContextType {
 
 const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
   const color = useSelector((state : RootState) => state.themeMode.color);
+  const cartCtx = useContext(CartContext);
   const sidebarCtx = useContext<SidebarContextType>(SidebarContext);
   const searchinputref = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const [lengthx, setLengthx] = useState<number>(0);
   const [clicked, setClicked] = useState<boolean>(false);
+  const lengthx = cartCtx.cartItemNumber;
+
 
   const isLoggedIn:boolean = Boolean(localStorage.getItem("isLoggedIn")) || false;
   let name:string = '-';
@@ -48,26 +49,6 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
     !clicked && sidebarCtx.toggleSidebar();
   };
 
-  useEffect(() => {
-    
-    const send = async () => {
-      const userid:Boolean|string|null = localStorage.getItem("id");
-      if (userid === null || userid === undefined || userid === '')
-        return;
-
-      try {
-        const resp = await axios.get(`${ToLink}/cart/${userid}`);
-        let length = 0;
-        resp.data.data.cart.forEach((item) => {
-          length += item.quantity;
-        });
-        setLengthx(length);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    send();
-  }, []);
   const LoginPageHandler = ():void => {
     if (!isLoggedIn) {
       navigate("/login");
@@ -75,11 +56,10 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
       navigate("/");
     }
   };
-  // const HomePageHandler = ():void => {
-  //   navigate("/");
-  // }
+  
   const LogoutHandler = ():void => {
     localStorage.clear();
+    cartCtx.clear();
     navigate("/");
   }
   const contactUSHandler = ():void => {

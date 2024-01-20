@@ -1,37 +1,57 @@
+import React from "react";
 import classes from "./productDetail.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import axios from "axios";
-import { ToLink, ImageLink, FromLink } from "../App";
+import { ToLink, ImageLink, FromLink } from "../constants.js";
 import { useParams, useNavigate } from "react-router";
-import Items from "../components/items/items";
+import Items from "../components/items/items.jsx";
 import { FaShareAlt } from "react-icons/fa";
-import Overlay from "../components/modalOverlay/overlay";
+import Overlay from "../components/modalOverlay/overlay.jsx";
 import Skeleton from "react-loading-skeleton";
 import { useSelector } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion";
-import { CustomisedSkeleton } from "../components/items/items";
+import { CustomisedSkeleton } from "../components/items/items.jsx";
+import { RootState } from "../store/utils/index.ts";
+import CartContext from "../store/context/cart-context.js";
 
+interface Product {
+    _id: string;
+    product_name: string;
+    brand: string;
+    description: string;
+    product_category_tree: string;
+    image: string[];
+    product_specifications: {
+        product_specification: {
+            key: string;
+            value: string;
+        }[];
+    };
+    retail_price: number| null;
+    discounted_price: number| null;
+}
 
-const ProductDetail = () => {
-    const color = useSelector(state => state.themeMode.color);
+const ProductDetail:React.FC = () => {
+    const color = useSelector((state:RootState) => state.themeMode.color);
     const navigate = useNavigate();
     const { productid } = useParams();
-    const [product, setProduct] = useState({});
-    const [data1, setData1] = useState([]);
-    const [dataProd, setDataProd] = useState("watch");
-    const [showOverlay, setShowOverlay] = useState(false);
-    const [isSpec, setIsSpec] = useState(false);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [image, setImage] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [dataLoaded, setDataLoaded] = useState(false);
+    const cartCtx = useContext(CartContext);
+    const [product, setProduct] = useState<Product| null>(null);
+    const [data1, setData1] = useState<Product[]| null>(null);
+    const [dataProd, setDataProd] = useState<string>("watch");
+    const [showOverlay, setShowOverlay] = useState<boolean>(false);
+    const [isSpec, setIsSpec] = useState<boolean>(false);
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const [image, setImage] = useState<string|null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [dataLoaded, setDataLoaded] = useState<boolean>(false);
 
     const changeImage = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
     };
 
     useEffect(() => {
-        const intervalId = setInterval(changeImage, 10000);
+        const intervalId = setInterval(changeImage, 15000);
         return () => clearInterval(intervalId);
     }, []);
 
@@ -100,7 +120,7 @@ const ProductDetail = () => {
 
     const getImage = async () => {
         try {
-            const res = await axios.get(ImageLink + '?' + product.image[currentIndex], {
+            const res = await axios.get(ImageLink + '?' + product?.image[currentIndex], {
                 responseType: "arraybuffer",
             });
 
@@ -118,38 +138,21 @@ const ProductDetail = () => {
     };
 
     useEffect(() => {
-        product.image && product.image[currentIndex] && getImage();
-        console.log(product.image);
-    }, [currentIndex, product.image]);
-    // useEffect(() => {
+        product?.image && product?.image[currentIndex] && getImage();
+        console.log(product?.image);
+    }, [currentIndex, product?.image]);
+   
 
-    //     product.image && product.image[currentIndex] && getImage();
-    // }, []);
-    const itemHandler = (e, id) => {
-        // console.log(id);
+    const itemHandler = (id) => {
         navigate(`/${id}`);
     }
+
     const OverLayShowHandler = () => {
         setShowOverlay(!showOverlay);
     }
+
     const addtoCartHandler = () => {
-        const sendData = async () => {
-            try {
-                const data = {
-                    id: localStorage.getItem("id"),
-                    product_id: productid,
-                    quantity: 1,
-                };
-                if (data.id === null || data.id === undefined || data.id === "") return alert("Please login to add to cart");
-                // const resp = 
-                await axios.post(`${ToLink}/cart/${data.id}`, data);
-                // console.log(resp);
-                alert("Added to cart successfully");
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        sendData();
+        cartCtx.addInCart(productid);
     }
     const framerSidebarPanel = {
         initial: { x: '-100%', opacity: 0 },
@@ -163,11 +166,11 @@ const ProductDetail = () => {
     return (
         <div>
             {showOverlay && <Overlay link={FromLink + productid} onClose={OverLayShowHandler} />}
-            {dataLoaded ? <span className={classes.categorytree}>{product.product_category_tree}</span> : <div style={{ paddingLeft: '15px' }}><CustomisedSkeleton><Skeleton width={"80%"} /></CustomisedSkeleton></div>}
+            {dataLoaded ? <span className={classes.categorytree}>{product?.product_category_tree}</span> : <div style={{ paddingLeft: '15px' }}><CustomisedSkeleton><Skeleton width={"80%"} /></CustomisedSkeleton></div>}
             <div className={classes.container}>
                 <div className={classes.left}>
                     <AnimatePresence mode='wait'>
-                        {!loading && image && product.image ?
+                        {!loading && image && product?.image ?
                             <motion.img
                                 key={image}
                                 {...framerSidebarPanel}
@@ -179,20 +182,20 @@ const ProductDetail = () => {
                     </AnimatePresence>
                 </div>
                 <div className={classes.right} style={{ paddingLeft: '10px' }}>
-                    {dataLoaded ? <div className={classes.productTitle}>{product.product_name}</div> : <CustomisedSkeleton><Skeleton width={"60%"} /></CustomisedSkeleton>}
-                    {dataLoaded ? <div className={classes.brand}>{product.brand}</div> : <CustomisedSkeleton><Skeleton width={"40%"} /></CustomisedSkeleton>}
+                    {dataLoaded ? <div className={classes.productTitle}>{product?.product_name}</div> : <CustomisedSkeleton><Skeleton width={"60%"} /></CustomisedSkeleton>}
+                    {dataLoaded ? <div className={classes.brand}>{product?.brand}</div> : <CustomisedSkeleton><Skeleton width={"40%"} /></CustomisedSkeleton>}
                     <hr />
                     <div className={classes.price}>
-                        {dataLoaded ? <span>
+                        {dataLoaded && product && product.retail_price && product.discounted_price ? <span>
                             <span className={classes.discount}>{(((product.retail_price - product.discounted_price) / product.retail_price) * 100).toFixed(2) || discount}% off &nbsp;&nbsp;</span>
-                            <span className={classes.discountPrice}>₹{product.discounted_price || product.retail_price}</span>
+                            <span className={classes.discountPrice}>₹{product?.discounted_price || product?.retail_price}</span>
                         </span> : <CustomisedSkeleton><Skeleton count={2} width={"50%"} /></CustomisedSkeleton>}
                         {dataLoaded && <span>MRP:&nbsp;
-                            <span className={classes.actualPrice}>₹{product.retail_price}</span>
+                            <span className={classes.actualPrice}>₹{product?.retail_price}</span>
                         </span>}
                         <br />
                         {dataLoaded ? <span className={classes.tax}>inclusive of all taxes</span> : <CustomisedSkeleton><Skeleton width={"40%"} /></CustomisedSkeleton>}
-                        {dataLoaded ? <span>EMI starts at ₹{product.discounted_price / 20 || product.retail_price / 20} No Cost EMI available</span> : <CustomisedSkeleton><Skeleton width={"80%"} /></CustomisedSkeleton>}
+                        {dataLoaded && product && product.retail_price && product.discounted_price ? <span>EMI starts at ₹{product?.discounted_price / 20 || product?.retail_price / 20} No Cost EMI available</span> : <CustomisedSkeleton><Skeleton width={"80%"} /></CustomisedSkeleton>}
                         {dataLoaded ? <span>Cash on Delivery Available</span> : <CustomisedSkeleton><Skeleton width={"50%"} /></CustomisedSkeleton>}
                     </div>
                     <hr />
@@ -204,7 +207,7 @@ const ProductDetail = () => {
                     <div className={classes.specification}>
                         <h4>Product Specification:</h4>
                         {dataLoaded ? isSpec && product && <div>
-                            {product.product_specifications.product_specification && product.product_specifications.product_specification.length > 1 && product.product_specifications.product_specification.map((ele, index) => (
+                            {product?.product_specifications.product_specification && product?.product_specifications.product_specification.length > 1 && product?.product_specifications.product_specification.map((ele, index) => (
                                 <div key={index}>
                                     <span style={{ fontWeight: ele.key ? 'bold' : 'normal' }}>{ele.key}</span>: {ele.value}
                                 </div>
@@ -214,7 +217,7 @@ const ProductDetail = () => {
                     <hr />
                     <div className={classes.description}>
                         <h4>About this item</h4>
-                        {dataLoaded ? <p>{product.description}</p> : <CustomisedSkeleton><Skeleton count={5} width={"90%"} /></CustomisedSkeleton>}
+                        {dataLoaded ? <p>{product?.description}</p> : <CustomisedSkeleton><Skeleton count={5} width={"90%"} /></CustomisedSkeleton>}
                     </div>
 
                 </div>
@@ -232,7 +235,7 @@ const ProductDetail = () => {
                 <>
                     <section id="core-concepts">{dataProd || <CustomisedSkeleton><Skeleton width={"20%"} /></CustomisedSkeleton>}
                         <ul>
-                            {data1.length === 0 && arr.map((item, index) => {
+                            {data1?.length === 0 && arr.map((item, index) => {
                                 return <Items key={index} />
                             })
                             }
@@ -240,11 +243,11 @@ const ProductDetail = () => {
                                 <Items
                                     key={index}
                                     id={item._id}
-                                    title={item.product_name || 'name'}
+                                    title={item?.product_name || 'name'}
                                     image={item.image[currentIndex] || 'https://m.media-amazon.com/images/I/410yXpanMoL._SX300_SY300_QL70_FMwebp_.jpg'}
                                     alt={item.brand}
                                     description={item.description.slice(0, 100) || 'abcd'}
-                                    onClick={(event) => itemHandler(event, item._id)}
+                                    onClick={() => itemHandler(item._id)}
                                     price={item.discounted_price || item.retail_price}
                                 />
                             ))}

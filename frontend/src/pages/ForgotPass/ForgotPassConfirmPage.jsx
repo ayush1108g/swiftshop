@@ -3,7 +3,7 @@ import classes from "./ForgotPass.module.css";
 import { useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
-import { ToLink } from "../../App";
+import { ToLink } from "../../constants.js";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";

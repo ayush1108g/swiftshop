@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ToLink } from '../App';
+import { ToLink } from '../constants.js';
 import classes from './productPage.module.css';
 import Card from '../components/card/card';
 import { useNavigate, useLocation } from 'react-router-dom';

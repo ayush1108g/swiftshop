@@ -1,9 +1,9 @@
-import AyushBW from "./AyushPhoto-removebg-bw.png";
-import Ayush from "./AyushPhoto-removebg-color.png";
-import DivyaBW from "./Divya-removebg-bw.png";
-import Divya from "./Divya-removebg-color.png";
-import PushkarBW from "./Pushkar-removebg-bw.png";
-import Pushkar from "./Pushkar-removebg-color.png";
+import AyushBW from "./assets/AyushPhoto-removebg-bw.png";
+import Ayush from "./assets/AyushPhoto-removebg-color.png";
+import DivyaBW from "./assets/Divya-removebg-bw.png";
+import Divya from "./assets/Divya-removebg-color.png";
+import PushkarBW from "./assets/Pushkar-removebg-bw.png";
+import Pushkar from "./assets/Pushkar-removebg-color.png";
 
 
 interface Developer {
