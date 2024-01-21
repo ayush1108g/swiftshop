@@ -37,8 +37,8 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://127.0.0.1:3002",
-      "https://ayush1108g.github.io/winter_code_week_2/#/",
       "https://ayush1108g.github.io",
+      "https://ayush1108g.github.io/winter_code_week_2/#/",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: [
