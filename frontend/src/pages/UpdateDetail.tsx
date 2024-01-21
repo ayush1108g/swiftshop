@@ -18,7 +18,7 @@ interface pass {
 }
 
 const UpdateDetail:React.FC = () => {
-    const [cookie] = useCookies(['token']);
+    const [cookie,setCookie] = useCookies(['token']);
     const [userdata, setUserdata] = useState<userdata>({ name: '', phoneno: '', emailid: '', address: '' });
     const [pass, setPass] = useState<pass>({ oldpassword: '', newpassword: '', confirmpassword: '' });
     const [message, setmessage] = useState<string>('');
@@ -31,6 +31,7 @@ const UpdateDetail:React.FC = () => {
                     headers: {
                         Authorization: `Bearer ${cookie.token}`,
                     },});
+                
                 setUserdata(data.data.data);
                 setmessage('');
             } catch (err) {
@@ -63,9 +64,10 @@ const UpdateDetail:React.FC = () => {
         e.preventDefault();
         const body = userdata;
         try {
-             await axios.put(`${ToLink}/user/update`, body, {headers: {
+              await axios.put(`${ToLink}/user/update`, body, {headers: {
                     Authorization: `Bearer ${cookie.token}`,
                 },});
+            //  console.log(resp.data);
             setmessage("Updated Successfully");
         } catch (err) {
             if (err.response && err.response.data && err.response.data.message)
@@ -85,12 +87,13 @@ const UpdateDetail:React.FC = () => {
             newpassword: pass.newpassword
         };
         try {
-            await axios.put(`${ToLink}/user/updatepassword`, body, {
+           const resp = await axios.put(`${ToLink}/user/updatepassword`, body, {
                 withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${cookie.token}`,
                 },
             });
+            setCookie('token',resp.data.token);
             setpassmessage("Updated Successfully");
             setPass({ oldpassword: '', newpassword: '', confirmpassword: '' });
         }

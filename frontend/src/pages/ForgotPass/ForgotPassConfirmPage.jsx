@@ -6,9 +6,11 @@ import axios from "axios";
 import { ToLink } from "../../constants.js";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router";
+import { useCookies } from "react-cookie";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
 
 const ForgotPassConfirmPage = () => {
+  const [cookies, setCookie] = useCookies(["token"]);
   const [isLoading, setIsLoading] = useState(false);
   const [errormsg, setErrormsg] = useState("");
   const { id } = useParams();
@@ -54,6 +56,7 @@ const ForgotPassConfirmPage = () => {
           timeout: 30000,
         }
       );
+      setCookie("token", resp.data.token);
       if (resp.data.status === "success") {
         localStorage.removeItem("Passcode");
         localStorage.removeItem("Passcode2");

@@ -10,7 +10,7 @@ import { useContext,useState } from "react";
 import Sidebar from "./sidebar.tsx";
 import { useRef } from "react";
 import ToggleTheme from "../store/utils/ToggleTheme.tsx";
-
+import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/utils/index.ts";
 import MeterComp from "./MeterComp.tsx";
@@ -32,6 +32,7 @@ interface SidebarContextType {
 }
 
 const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
+  const [cookie,setCookie,removeCookie] = useCookies(['token']);
   const color = useSelector((state : RootState) => state.themeMode.color);
   const cartCtx = useContext(CartContext);
   const loginCtx = useContext(LoginContext);
@@ -66,6 +67,7 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
   };
   
   const LogoutHandler = ():void => {
+    removeCookie('token');
     localStorage.clear();
     cartCtx.clear();
     loginCtx.logout();

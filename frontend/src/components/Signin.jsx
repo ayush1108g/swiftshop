@@ -38,6 +38,9 @@ const Signin = (props) => {
   const forgotPasswordHandler = () => {
     navigate("forgotpassword");
   };
+  if (loginCtx.isLoggedIn) {
+    navigate("/");
+  }
 
 
 
@@ -84,7 +87,8 @@ const Signin = (props) => {
         emailInputRef.current.value = "";
         passwordInputRef.current.value = "";
         console.log(resp.data.data.user.name);
-        loginCtx.login(cookies.token, resp.data.data.user.name);
+        setCookie("token", resp.data.token, { path: "/" });
+        loginCtx.login(resp.data.token, resp.data.data.user.name);
         setErrormsg("Success");
         cartCtx.refresh();
         setTimeout(() => {
