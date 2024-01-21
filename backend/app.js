@@ -46,8 +46,8 @@ app.use(
 );
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", [
-    "https://ayush1108g.github.io",
-    // "http://localhost:3000",
+    // "https://ayush1108g.github.io",
+    "http://localhost:3000",
   ]);
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type");
