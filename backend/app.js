@@ -41,6 +41,12 @@ app.use(
       "https://ayush1108g.github.io",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Other-Header",
+    ],
     credentials: true,
   })
 );
