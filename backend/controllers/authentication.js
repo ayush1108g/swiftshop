@@ -20,9 +20,9 @@ const createSendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    // withCredentials: true,
+    withCredentials: true,
     // httpOnly: true,
-    // domain: "ayush1108g.github.io",
+    domain: ".github.io",
     // path: "/winter_code_week_2/#/",
     path: "/",
     secure: true,
