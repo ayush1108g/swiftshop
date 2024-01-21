@@ -19,7 +19,7 @@ mongoose
 const host = "localhost";
 
 const port = process.env.PORT || 3000;
-app.listen(port, host, () => {
+app.listen(port, () => {
   console.log(`App running on port ${(host, port)}...`);
 });
 

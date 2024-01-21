@@ -19,16 +19,16 @@ const cart = require("./routes/cartroute");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 
-app.use(helmet());
+// app.use(helmet());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-const limiter = reteLimit({
-  max: 2000,
-  windowMs: 60 * 1000,
-  message: "Too many request from this IP, please try again in few minutes",
-});
-app.use("/", limiter);
+// const limiter = reteLimit({
+//   max: 2000,
+//   windowMs: 60 * 1000,
+//   message: "Too many request from this IP, please try again in few minutes",
+// });
+// app.use("/", limiter);
 
 app.use(cookieParser());
 
@@ -38,7 +38,6 @@ app.use(
       "http://localhost:3000",
       "http://127.0.0.1:3002",
       "https://ayush1108g.github.io",
-      "https://ayush1108g.github.io/winter_code_week_2/#/",
     ],
     origin: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
