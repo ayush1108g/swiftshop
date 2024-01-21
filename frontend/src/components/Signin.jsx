@@ -1,13 +1,16 @@
 import classes from "./Signin.module.css";
 import axios from "axios";
 import CartContext from "../store/context/cart-context.js";
+import LoginContext from "../store/context/login-context.js";
 import { useNavigate } from "react-router";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
 import { useState, useRef, useContext } from "react";
 import { motion } from "framer-motion";
 import { ToLink } from "../constants.js";
+import { useCookies } from "react-cookie";
 
 const Signin = (props) => {
+  const [cookies, setCookie] = useCookies(["token"]);
   const navigate = useNavigate();
   const [errormsg, setErrormsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +21,7 @@ const Signin = (props) => {
   const passwordInputRef = useRef();
   const addressInputRef = useRef();
   const cartCtx = useContext(CartContext);
+  const loginCtx = useContext(LoginContext);
 
   const handleTogglePassword = (e) => {
     e.preventDefault();
@@ -64,31 +68,24 @@ const Signin = (props) => {
     try {
       setIsLoading(true);
       let resp;
-      resp = await axios.post(`${ToLink}/user/${page}`, data, {
-        timeout: 30000,
-      });
+      resp = await axios.post(`${ToLink}/user/${page}`, data,
+        { withCredentials: true },
+        { timeout: 30000, });
 
       if (resp.status === 201 || resp.status === 200) {
-        localStorage.setItem("isLoggedIn", "1");
-        localStorage.setItem("email", enteredEmail);
-        if (props.pagename === "Login") {
-          localStorage.setItem("name", resp.data.name);
-          localStorage.setItem("id", resp.data.id);
-          localStorage.setItem("address", resp.data.address);
-          localStorage.setItem("phoneno", resp.data.phoneno);
-        }
-        emailInputRef.current.value = "";
-        passwordInputRef.current.value = "";
-        if (props.pagename === "Signup") {
-          localStorage.setItem("phoneno", phoneInputRef.current.value);
-          localStorage.setItem("address", addressInputRef.current.value);
-          localStorage.setItem("name", enteredName);
-          localStorage.setItem("id", resp.data.data.usersignup._id);
 
+        if (props.pagename === "Login") {
+        }
+        if (props.pagename === "Signup") {
           nameInputRef.current.value = "";
           phoneInputRef.current.value = "";
           addressInputRef.current.value = "";
         }
+        emailInputRef.current.value = "";
+        passwordInputRef.current.value = "";
+        console.log(resp.data.data.user.name);
+        loginCtx.login(cookies.token, resp.data.data.user.name);
+        setErrormsg("Success");
         cartCtx.refresh();
         setTimeout(() => {
           navigate("/");
@@ -96,7 +93,8 @@ const Signin = (props) => {
       }
     } catch (error) {
       console.log(error);
-      if (error.code === "ERR_BAD_REQUEST") setErrormsg("Email already in use");
+      if (error.response && error.response.data && error.response.data.message) setErrormsg(error.response.data.message);
+      else if (error.code === "ERR_BAD_REQUEST") setErrormsg("Email already in use");
       else if (error.code === "ERR_BAD_RESPONSE")
         setErrormsg("Server Not Responding...");
       else setErrormsg("An error occurred. Please try again.");

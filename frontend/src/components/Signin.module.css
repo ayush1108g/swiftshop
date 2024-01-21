@@ -50,8 +50,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .box {
   position: relative;
-  top:-100px;
-  left:-100px;
+  top: -100px;
+  left: -100px;
   background-color: #d2c1d1;
   padding: 20px;
   /* width: auto; */
@@ -66,4 +66,12 @@ input[type="number"]::-webkit-outer-spin-button {
   p {
     font-size: 1rem;
   }
+}
+.loading {
+  color: red;
+  display: block;
+  margin: 15px;
+  scale: 150%;
+  /* border: 16px solid #f3f3f3; */
+  /* background-color: red; */
 }

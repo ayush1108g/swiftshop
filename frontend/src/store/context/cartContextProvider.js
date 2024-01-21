@@ -3,19 +3,22 @@ import { useEffect, useState } from "react";
 import CartContext from "./cart-context.js";
 import axios from "axios";
 import { ToLink } from "../../constants.js";
-
+import { useCookies } from "react-cookie";
 const CartContextProvider = (props) => {
   const [lengthx, setLengthx] = useState(0);
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [cookie] = useCookies(["token"]);
 
   const resp = async (userid) => {
-    if (userid === null || userid === undefined || userid === "") return;
-    const id = userid;
     try {
       console.log("resp rendered");
 
-      const data = await axios.get(`${ToLink}/cart/${id}`);
+      const data = await axios.get(`${ToLink}/cart`, {
+        headers: {
+          Authorization: `Bearer ${cookie.token}`,
+        },
+      });
       const ProductId = data.data.data.cart;
       if (ProductId.length === 0) {
         setLengthx(0);
@@ -79,7 +82,11 @@ const CartContextProvider = (props) => {
         };
         if (data.id === null || data.id === undefined || data.id === "")
           return alert("Please login to add to cart");
-        const response = await axios.post(`${ToLink}/cart/${data.id}`, data);
+        const response = await axios.post(`${ToLink}/cart`, data, {
+          headers: {
+            Authorization: `Bearer ${cookie.token}`,
+          },
+        });
         console.log(response);
         if (response.status === 200) {
           resp(userid);
@@ -104,7 +111,11 @@ const CartContextProvider = (props) => {
         };
         if (data.id === null || data.id === undefined || data.id === "")
           return alert("Please login to add to cart");
-        await axios.post(`${ToLink}/cart/${userid}`, data);
+        await axios.post(`${ToLink}/cart`, data, {
+          headers: {
+            Authorization: `Bearer ${cookie.token}`,
+          },
+        });
         await resp(userid);
       } catch (err) {
         console.log(err);

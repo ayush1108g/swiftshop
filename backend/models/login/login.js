@@ -32,6 +32,7 @@ const signupmodel = new Schema({
   passwordresetexpired: Date,
 });
 signupmodel.pre("save", async function (next) {
+  if (!this.isModified("password") || this.isNew) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
@@ -56,6 +57,17 @@ signupmodel.methods.createpasswordresetpassword = function () {
   this.passwordresetexpired = Date.now() + 600000;
 
   return resetToken;
+};
+signupmodel.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    console.log(changedTimestamp, JWTTimestamp);
+    return JWTTimestamp < changedTimestamp;
+  }
+  return false;
 };
 const signup = mongoose.model("user1", signupmodel);
 

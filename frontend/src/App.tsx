@@ -32,7 +32,9 @@ import Navbar from "./components/Navbar.tsx";
 import DataContextProvider from "./store/context/dataContextProvider.js";
 import SidebarContextProvider from "./store/context/sidebarContextProvider.js";
 import CartContextProvider from "./store/context/cartContextProvider.js";
+import LoginContextProvider from "./store/context/loginContextProvider.js";
 import { RootState } from "./store/utils/index.ts";
+import LoginContext from "./store/context/login-context.js";
 
 library.add(fas);
 
@@ -62,10 +64,10 @@ const RoutesWithAnimation:React.FC = () => {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/page" element={<ProductPage />} />
       <Route path="/team" element={<TeamPage />} />
-      <Route path="/:id/updatedetail" element={<UpdateDetail />} />
+      <Route path="/updatedetail" element={<UpdateDetail />} />
       <Route path="/:productid" element={<ProductDetail />} />
-      <Route path="/:id/cart" element={<Cart />} />
-      <Route path="/:id/track" element={<TrackPage />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/track" element={<TrackPage />} />
       <Route path="/contactUs" element={<ContactUsPage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="*" element={<Errorpage />} />
@@ -95,20 +97,11 @@ const App:React.FC = ()=> {
     transition: '0.5s'
   }
 
-  useEffect(() => {
-    try{
-    const start_Backend = async () => {
-      await fetch(`${ToLink}`);
-    }
-    start_Backend();
-  }catch(err){
-    // console.log(err);
-  } 
-  }, []);
 
   return (
     <>
       <HashRouter>
+        <LoginContextProvider>
         <LocationProvider >
           <CartContextProvider>
           <DataContextProvider>
@@ -124,6 +117,7 @@ const App:React.FC = ()=> {
           </CartContextProvider>
         </LocationProvider>
         <MainFooter></MainFooter>
+        </LoginContextProvider>
       </HashRouter >
     </>
   );

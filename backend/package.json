@@ -9,7 +9,11 @@
     "dotenv": "^16.3.1",
     "driver": "^1.0.0",
     "express": "^4.18.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.1.5",
     "googleapis": "^129.0.0",
+    "helmet": "^7.1.0",
+    "hpp": "^0.2.3",
     "https": "^1.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
@@ -20,7 +24,8 @@
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.7",
     "nodemon": "^3.0.2",
-    "save": "^2.9.0"
+    "save": "^2.9.0",
+    "xss-clean": "^0.1.4"
   },
   "scripts": {
     "start": "nodemon server.js"

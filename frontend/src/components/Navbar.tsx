@@ -2,10 +2,10 @@ import * as React from "react";
 import classes from "./Navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { FaShoppingCart } from "react-icons/fa";
 import SidebarContext from "../store/context/sidebar-context.js";
 import CartContext from "../store/context/cart-context.js";
+import LoginContext from "../store/context/login-context.js";
 import { useContext,useState } from "react";
 import Sidebar from "./sidebar.tsx";
 import { useRef } from "react";
@@ -14,6 +14,10 @@ import ToggleTheme from "../store/utils/ToggleTheme.tsx";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/utils/index.ts";
 import MeterComp from "./MeterComp.tsx";
+// import { useCookies } from "react-cookie";
+// import verifyToken from "../store/utils/verifyToken.js";
+
+
 interface NavStyle {
   backgroundColor: string,
     backdropFilter: string,
@@ -30,19 +34,23 @@ interface SidebarContextType {
 const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
   const color = useSelector((state : RootState) => state.themeMode.color);
   const cartCtx = useContext(CartContext);
+  const loginCtx = useContext(LoginContext);
   const sidebarCtx = useContext<SidebarContextType>(SidebarContext);
   const searchinputref = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const [clicked, setClicked] = useState<boolean>(false);
+  const isChecked = sidebarCtx.isSidebarOpen;
   const lengthx = cartCtx.cartItemNumber;
 
 
-  const isLoggedIn:boolean = Boolean(localStorage.getItem("isLoggedIn")) || false;
-  let name:string = '-';
-  if (isLoggedIn) {
-    name = localStorage.getItem("name") || 'xyz';
-  }
-  const letter:string = name[0];
+  let isLoggedIn = loginCtx.isLoggedIn;
+  // = Boolean(localStorage.getItem("isLoggedIn")) || false;
+  // let name:string = '-';
+  // if (isLoggedIn) {
+  //   name = localStorage.getItem("name") || 'xyz';
+  // }
+  console.log(loginCtx);
+  const letter:any = isLoggedIn ? loginCtx.name?.[0] : '-';
 
   const sidebarHandler = ():void => {
     setClicked((prev) => !prev);
@@ -60,6 +68,7 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
   const LogoutHandler = ():void => {
     localStorage.clear();
     cartCtx.clear();
+    loginCtx.logout();
     navigate("/");
   }
   const contactUSHandler = ():void => {
@@ -71,11 +80,10 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
     }
   }
   const updateDetailHandler = ():void => {
-    const id = localStorage.getItem("id");
-    if (!id) {
+    if (!isLoggedIn) {
       navigate("/login");
     }
-    navigate(`/${id}/updatedetail`);
+    navigate(`/updatedetail`);
   }
 
   const searchHandler = () => {
@@ -91,9 +99,8 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
     }
   };
   const CartHandler = () => {
-    const userid = localStorage.getItem("id");
-    if (userid) {
-      navigate(`/${userid}/cart`);
+    if (isLoggedIn) {
+      navigate(`/cart`);
     } else {
       navigate("/login");
     }
@@ -105,7 +112,15 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
     </AnimatePresence>
 
     <div className={classes.navbar} style={{ ...navStyle, backgroundColor: color.navbg, gap: '10px' }}>
-      <GiHamburgerMenu onClick={(e) => sidebarHandler()} style={{ minWidth: '24px' }} />
+      <input
+      type="checkbox"
+      role="button"
+      aria-label="Display the menu"
+      className={classes.menu}
+      checked={isChecked}
+      onClick={(e) => sidebarHandler()}
+      id="menuCheckbox"
+    />
       <div className="input-group" style={{ maxWidth: '50vw', backgroundColor: color.navbg }}>
         <input ref={searchinputref} type="search" className="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" onKeyPress={handleKeyPress} style={{
           color: color.text,

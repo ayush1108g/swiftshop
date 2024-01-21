@@ -8,13 +8,16 @@ import { useSelector } from 'react-redux';
 import { useClickAway } from "react-use";
 import { RootState } from '../store/utils';
 import CartContext from '../store/context/cart-context';
+import LoginContext from '../store/context/login-context';
 
 const Sidebar:React.FC = () => {
+    
     const color = useSelector((state:RootState) => state.themeMode.color);
     const navigate = useNavigate();
 const cartCtx = useContext(CartContext);
     const sidebarCtx = useContext(SidebarContext);
-    const isLoggedIn = localStorage.getItem("isLoggedIn") || false;
+    const loginCtx = useContext(LoginContext);
+    const isLoggedIn = loginCtx.isLoggedIn;
     const sidebarRef = useRef<HTMLDivElement>(null);
 
     useClickAway(sidebarRef, () => {
@@ -29,20 +32,17 @@ const cartCtx = useContext(CartContext);
         cartCtx.clear();
     };
     const cartHandler = () => {
-        const userid = localStorage.getItem("id");
-        console.log(userid);
-        if (userid === null || userid === undefined || userid === '')
-            return;
-        navigate(`/${userid}/cart`);
+       if(!isLoggedIn)
+        navigate('/login');
+        else
+        navigate(`/cart`);
         sidebarCtx.toggleSidebar()
     };
     const xyzHandler = () => {
-        const userid = localStorage.getItem("id");
-        console.log(userid);
-        if (userid === null || userid === undefined || userid === '')
+        if (!isLoggedIn)
             navigate('/login');
         else
-            navigate(`/${userid}/updatedetail`);
+            navigate(`/updatedetail`);
 
         sidebarCtx.toggleSidebar()
     };
@@ -79,10 +79,10 @@ const cartCtx = useContext(CartContext);
                             navigate('/team');
                             sidebarCtx.toggleSidebar()
                         }} style={{ color: color.text }}>Our Team</motion.li>
-                        <motion.li className={styles.li} style={{ color: color.text }} onClick={xyzHandler}>{isLoggedIn === '1' ? 'Update Detail' : 'Login/Signup'}</motion.li>
+                        <motion.li className={styles.li} style={{ color: color.text }} onClick={xyzHandler}>{isLoggedIn ? 'Update Detail' : 'Login/Signup'}</motion.li>
                         <motion.li className={styles.li} onClick={cartHandler} style={{ color: color.text }}>Cart</motion.li>
                         <motion.li className={styles.li} onClick={contactUsHandler} style={{ color: color.text }}>Contact Us</motion.li>
-                        <motion.li className={styles.li} onClick={logoutHandler} style={{ color: color.text }}>Logout</motion.li>
+                      {isLoggedIn && <motion.li className={styles.li} onClick={logoutHandler} style={{ color: color.text }}>Logout</motion.li>}
                         <motion.li className={styles.li} onClick={() => { sidebarCtx.toggleSidebar() }} style={{ color: color.text }}>Close</motion.li>
                     </motion.ul>
                 </motion.div>)}

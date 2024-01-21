@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "../components/medicineFormContainer.module.css"
-import { useParams } from "react-router";
+// import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToLink } from "../constants.js";
-
+import { useCookies } from "react-cookie";
 interface userdata {
     name: string;
     phoneno: string;
@@ -18,24 +18,30 @@ interface pass {
 }
 
 const UpdateDetail:React.FC = () => {
+    const [cookie] = useCookies(['token']);
     const [userdata, setUserdata] = useState<userdata>({ name: '', phoneno: '', emailid: '', address: '' });
     const [pass, setPass] = useState<pass>({ oldpassword: '', newpassword: '', confirmpassword: '' });
     const [message, setmessage] = useState<string>('');
     const [passmessage, setpassmessage] = useState<string>('');
-    const { id } = useParams();
-
+    // const { id } = useParams();
     useEffect(() => {
         const user = async () => {
             try {
-                const data = await axios.get(`${ToLink}/user/${id}/update`);
+                const data = await axios.get(`${ToLink}/user/update`, {
+                    headers: {
+                        Authorization: `Bearer ${cookie.token}`,
+                    },});
                 setUserdata(data.data.data);
                 setmessage('');
             } catch (err) {
-                setmessage(err.message);
+                if (err.response && err.response.data && err.response.data.message)
+                setmessage(err.response.data.message + ' Session Expired Please Login to Continue');
+                else if (err.message) setmessage(err.message);
+                else setmessage(err);
             }
         }
         user();
-    }, [id]);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -57,10 +63,15 @@ const UpdateDetail:React.FC = () => {
         e.preventDefault();
         const body = userdata;
         try {
-             await axios.put(`${ToLink}/user/${id}/update`, body);
+             await axios.put(`${ToLink}/user/update`, body, {headers: {
+                    Authorization: `Bearer ${cookie.token}`,
+                },});
             setmessage("Updated Successfully");
         } catch (err) {
-            setmessage(err.message);
+            if (err.response && err.response.data && err.response.data.message)
+                    setmessage(err.response.data.message + ' Session Expired Please Login to Continue');
+                else if (err.message) setmessage(err.message);
+                else setmessage(err);
         }
     }
     const handleSubmitPassword = async (e) => {
@@ -74,11 +85,17 @@ const UpdateDetail:React.FC = () => {
             newpassword: pass.newpassword
         };
         try {
-            await axios.put(`${ToLink}/user/${id}/updatepassword`, body);
+            await axios.put(`${ToLink}/user/updatepassword`, body, {
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${cookie.token}`,
+                },
+            });
             setpassmessage("Updated Successfully");
+            setPass({ oldpassword: '', newpassword: '', confirmpassword: '' });
         }
         catch (err) {
-            setmessage(err.message);
+            setpassmessage(err.message);
         }
     }
     return (

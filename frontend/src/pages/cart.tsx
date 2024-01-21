@@ -2,18 +2,26 @@ import React,{ useContext, useEffect } from "react";
 import CartContext from "../store/context/cart-context.js";
 import CartItem from "../components/cart/cart";
 import { useNavigate } from 'react-router-dom';
+import LoginContext from "../store/context/login-context.js";
+
 
 const Cart:React.FC = () => {
     const navigate = useNavigate();
     const cartCtx = useContext(CartContext);
+    const loginCtx = useContext(LoginContext);
     const cart = cartCtx.cart;
     const totalPrice = cartCtx.total;
+    useEffect(() => {
+        if (!loginCtx.isLoggedIn)
+        setTimeout(() => {
+        navigate('/login');
+        }, 1000);
+    }, [loginCtx.isLoggedIn, navigate]);
     
     const updateDetailHandler = () => {
-        const userid = localStorage.getItem("id");
-        if (userid === null || userid === undefined || userid === '')
+        if (!loginCtx.isLoggedIn)
             navigate('/login');
-        navigate(`/${userid}/updatedetail`);
+        navigate(`/updatedetail`);
     };
 
     return (

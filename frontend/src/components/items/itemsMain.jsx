@@ -93,7 +93,6 @@ export default function MainItem() {
         (dataCtx.data.data5.length === 0) && allresp('bag', 'data5');
         (dataCtx.data.data6.length === 0) && allresp('watch', 'data6');
         (dataCtx.data.data7.length === 0) && allresp('umbrella', 'data7');
-        // console.log(data)
     }, []);
 
     const itemHandler = (e, id) => {

@@ -1,7 +1,11 @@
 const express = require("express");
 const usersignupcontroller = require("./../controllers/signup");
-
+const authcontroller = require("./../controllers/authentication");
 const router = express.Router();
+
+router
+  .route("/verifytoken")
+  .get(authcontroller.protect, usersignupcontroller.verifytoken);
 
 router.route("/signup").post(usersignupcontroller.signup);
 router.route("/login").post(usersignupcontroller.login);
@@ -10,11 +14,13 @@ router.route("/verifycode").post(usersignupcontroller.verifycode);
 router.route("/resetpassword/:token").patch(usersignupcontroller.resetPassword);
 
 router
-  .route("/:id/update")
-  .get(usersignupcontroller.getuserbyid)
-  .put(usersignupcontroller.updateuser);
+  .route("/update")
+  .get(authcontroller.protect, usersignupcontroller.getuserbyid)
+  .put(authcontroller.protect, usersignupcontroller.updateuser);
 
-router.route("/:id/updatepassword").put(usersignupcontroller.updatepass);
+router
+  .route("/updatepassword")
+  .put(authcontroller.protect, usersignupcontroller.updatepass);
 
 router.route("/getall").get(usersignupcontroller.getallusers);
 
