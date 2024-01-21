@@ -11,12 +11,6 @@ const Cart:React.FC = () => {
     const loginCtx = useContext(LoginContext);
     const cart = cartCtx.cart;
     const totalPrice = cartCtx.total;
-    useEffect(() => {
-        if (!loginCtx.isLoggedIn)
-        setTimeout(() => {
-        navigate('/login');
-        }, 1000);
-    }, [loginCtx.isLoggedIn, navigate]);
     
     const updateDetailHandler = () => {
         if (!loginCtx.isLoggedIn)
