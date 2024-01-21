@@ -2,3 +2,4 @@ config.env
 .env
 .env.local
 .env.development
+backend/config.env
