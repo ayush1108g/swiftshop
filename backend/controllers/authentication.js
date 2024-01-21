@@ -22,7 +22,7 @@ const createSendToken = (user, statusCode, res) => {
     ),
     // withCredentials: true,
     // httpOnly: true,
-    domain: "ayush1108g.github.io",
+    // domain: "ayush1108g.github.io",
     // path: "/winter_code_week_2/#/",
     path: "/",
     secure: true,
