@@ -23,7 +23,6 @@ import ProductPage from "./pages/productPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import TrackPage from "./pages/Trackpage.jsx";
 import TeamPage from "./pages/teamPage.tsx";
-import { ToLink } from "./constants.js";
 
 import CategoriesMain from "./components/categories/categoriesMain.jsx";
 import MainFooter from "./components/footer/mainFooter.jsx";
@@ -96,7 +95,6 @@ const App:React.FC = ()=> {
     backdropFilter: isScrolled ? 'blur(10px)' : '',
     transition: '0.5s'
   }
-
 
   return (
     <>

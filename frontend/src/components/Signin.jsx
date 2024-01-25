@@ -87,13 +87,15 @@ const Signin = (props) => {
         emailInputRef.current.value = "";
         passwordInputRef.current.value = "";
         console.log(resp.data.data.user.name);
-        setCookie("token", resp.data.token, { path: "/" });
+        setCookie("token", resp.data.token, { path: "/", maxAge: 60 * 60 * 24 * 30 * 1.4 });
         loginCtx.login(resp.data.token, resp.data.data.user.name);
         setErrormsg("Success");
-        cartCtx.refresh();
+        // setTimeout(() => {
+        // }, 1000);
         setTimeout(() => {
+          cartCtx.refresh();
           navigate("/");
-        }, 1000);
+        }, 2000);
       }
     } catch (error) {
       console.log(error);

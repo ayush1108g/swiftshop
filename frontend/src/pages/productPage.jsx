@@ -64,26 +64,33 @@ const ProductPage = () => {
         if (start > 2) {
             numbers.push(1);
             numbers.push(2);
-            numbers.push('...');
+            // numbers.push('...');
         } else if (start > 1) {
             numbers.push(1);
-            numbers.push('...');
+            // numbers.push('...');
         }
         for (let i = start; i <= end; i++) {
             numbers.push(i);
         }
         if (!numbers.includes(length - 1)) {
-            numbers.push('...');
+            // numbers.push('...');
             numbers.push(length - 1);
             numbers.push(length);
         }
         else if (!numbers.includes(length)) {
-            numbers.push('...');
+            // numbers.push('...');
             numbers.push(length);
         }
         numbers = [...new Set(numbers)];
         numbers.sort((a, b) => a * 1 - b * 1);
         numbers.filter((ele) => Number(ele) > 0);
+
+        for (let i = 1; i < numbers.length; i++) {
+            if (numbers[i] * 1 - 1 !== numbers[i - 1] * 1) {
+                numbers.splice(i, 0, '...');
+                i++;
+            }
+        }
 
 
         return numbers;
@@ -100,8 +107,8 @@ const ProductPage = () => {
     let arr = [1, 2, 3, 4];
     return (
         <div>
-            {message !== '' && <div className='h4 d-flex justify-content-center'>{message}</div>}
-            {data && <>
+            {message !== '' && <div className='h4 d-flex justify-content-center' style={{ padding: '100px' }}>{message}</div>}
+            {data && data.length > 0 && <>
                 <div className="dropdown" style={{ position: "absolute ", right: "10vw", color: color.text }} >
                     <button className="btn"
                         type="button" id="dropdownMenuButton" data-toggle="dropdown" ><h2 style={{ color: color.itembg1 }}>Filter by</h2 >
@@ -138,11 +145,11 @@ const ProductPage = () => {
                 }
             })}
 
-            <div className={classes.pagination}>
+            {data.length > 0 && <div className={classes.pagination}>
                 {generateNumber().map((ele, index) => {
                     return <span style={{ fontWeight: Number(ele) === Number(page) ? 'bold' : '' }} onClick={() => ele === '...' ? ' ' : goToPageHandler(ele)} >&nbsp;{ele}&nbsp;</span>
                 })}
-            </div>
+            </div>}
         </div >
     );
 };

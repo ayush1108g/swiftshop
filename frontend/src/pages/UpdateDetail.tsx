@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToLink } from "../constants.js";
 import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 interface userdata {
     name: string;
     phoneno: string;
@@ -18,6 +20,7 @@ interface pass {
 }
 
 const UpdateDetail:React.FC = () => {
+    const color = useSelector((state: RootState) => state.themeMode.color);
     const [cookie,setCookie] = useCookies(['token']);
     const [userdata, setUserdata] = useState<userdata>({ name: '', phoneno: '', emailid: '', address: '' });
     const [pass, setPass] = useState<pass>({ oldpassword: '', newpassword: '', confirmpassword: '' });
@@ -82,6 +85,10 @@ const UpdateDetail:React.FC = () => {
             setpassmessage('new Password and Confirm Password do not match');
             return;
         }
+        if(pass.newpassword.length<8){
+            setpassmessage('Password should be of atleast 8 characters');
+            return;
+        }
         const body = {
             oldpassword: pass.oldpassword,
             newpassword: pass.newpassword
@@ -103,8 +110,8 @@ const UpdateDetail:React.FC = () => {
     }
     return (
         <div className={styles.container}>
-            <div className={styles['medicine-form-container']}>
-                <h2>Update Details</h2>
+            <div className={styles['medicine-form-container']} style={{color:color.text}}>
+                <h2 style={{color:color.text}}>Update Details</h2>
                 <form >
                     <div>{message}</div>
                     <div className="input-group mb-3">
@@ -147,7 +154,7 @@ const UpdateDetail:React.FC = () => {
 
                 <form>
                     <div className={styles['reminder-section']}>
-                        <h3>Update Password</h3>
+                        <h3 style={{color:color.text}}>Update Password</h3>
                         <div>{passmessage}</div>
                         <div className="input-group mb-3">
                             <span className="input-group-text" id="inputGroup-sizing-default">Old Password</span>

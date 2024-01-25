@@ -1,17 +1,28 @@
-#cart-content {
+#main-cover {
   display: flex;
-  /* justify-content: center; */
-  max-width: 90vw;
-  margin: 2rem 5rem 2rem 5rem;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
   padding: 2rem;
-  min-height: 25vh;
-  max-height: 50vh;
+  margin: 10px 15px 10px 15px;
+  /* gap: 1rem; */
+}
+#cart-content {
+  display: flex;
+  max-width: 90vw;
+  position: relative;
 }
 #cart-content img {
-  width: fit-content;
-  height: 20rem;
-  margin-right: 3rem;
+  height: 250px;
+  width: 250px;
+  border-radius: 15px;
+  object-fit: cover;
+}
+#cart-content h3 {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  font-size: 20px;
 }
 #cart-content select {
   width: 15%;
@@ -25,87 +36,101 @@
   flex-direction: column;
   align-content: center;
   justify-content: center;
-  width: 55vw;
+  padding-left: 50px;
 }
-#cart-detail button {
-  margin: 13px 0px 0px 0px;
+
+#cart-price {
+  /* display: flex;
+  flex-direction: column;
+  align-content: center; */
+  position: absolute;
+  right: 30px;
+  top: 0px;
+  z-index: 2;
+}
+#cart-price h3 {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  font-size: 20px;
+  text-wrap: nowrap;
+}
+
+#input-span input {
+  width: 100px;
+  height: 30px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #252526;
+  margin: 0px 5px 0px 5px;
+  padding: 0px 5px 0px 5px;
+  font-size: 15px;
+}
+
+#cart-checkbox input {
+  margin: 5px 5px 0px 5px;
+  width: 30px;
+  height: 20px;
+  text-align: center;
+}
+
+#cart-buttons {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 5px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  flex-wrap: wrap;
+}
+#cart-buttons button {
   padding: 5px 8px 5px 8px;
-  font-size: 17px;
+  font-size: 15px;
   background-color: transparent;
   color: #f70cb4;
   border-radius: 10px;
   border-color: transparent;
 }
-#cart-detail button:hover {
-  margin: 13px 0px 0px 0px;
+#cart-buttons button:hover {
+  /* margin: 13px 0px 0px 0px; */
   padding: 5px 8px 5px 8px;
-  font-size: 17px;
+  font-size: 14px;
   background-color: transparent;
   color: #0c0c0c;
   border-radius: 10px;
   border-color: transparent;
 }
-#cart-price {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  margin-right: 10rem;
-  position: relative;
-}
-
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 580px) {
+  #main-cover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+    padding: 2rem;
+    margin: 10px 15px 10px 15px;
+    /* gap: 1rem; */
+  }
   #cart-content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    overflow-x: scroll;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-    padding: 2rem;
-    min-height: 25vh;
-    max-height: 50vh;
-  }
-  #cart-content img {
-    width: fit-content;
-    height: 20rem;
-    margin-right: 3rem;
-  }
-  #cart-content select {
-    width: 15%;
-    margin-top: 1.5rem;
-    height: 2rem;
-    font-size: 15px;
-    padding: 5px;
+    max-width: 90vw;
+    position: relative;
   }
   #cart-detail {
     display: flex;
     flex-direction: column;
     align-content: center;
     justify-content: center;
-    width: 55vw;
+    padding-left: 0px;
   }
-  #cart-detail button {
-    margin: 13px 0px 0px 0px;
-    padding: 5px 8px 5px 8px;
-    font-size: 17px;
-    background-color: transparent;
-    color: #f70cb4;
-    border-radius: 10px;
-    border-color: transparent;
-  }
-  #cart-detail button:hover {
-    margin: 13px 0px 0px 0px;
-    padding: 5px 8px 5px 8px;
-    font-size: 17px;
-    background-color: transparent;
-    color: #0c0c0c;
-    border-radius: 10px;
-    border-color: transparent;
-  }
-  #cart-price {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    margin-right: 10rem;
-    position: relative;
+}
+
+@media screen and (max-width: 301px) {
+  #cart-content img {
+    height: 150px;
+    width: 150px;
+    border-radius: 15px;
+    object-fit: cover;
   }
 }

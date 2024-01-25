@@ -6,14 +6,27 @@ import { FromLink, ImageLink } from "../../constants.js";
 import Overlay from "../modalOverlay/overlay";
 import { FaShareAlt } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+
 
 export default function Cart(props) {
+  const navigate = useNavigate();
+  const color = useSelector(state => state.themeMode.color);
   const cartCtx = useContext(CartContext);
   const [currentIndex, setCurrentIndex] = useState('0');
   const [isentervalue, setIsentervalue] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
   const [value, setValue] = useState(props.data.quantity);
   const [image, setImage] = useState(props.data.image[currentIndex * 1]);
+  const [seeMoreLikeThis, setSeeMoreLikeThis] = useState('watch');
+
+  useEffect(() => {
+    const ltx =
+      props.data.product_category_tree &&
+      props.data.product_category_tree[0].split(">>")[1].trim().split(" ");
+    setSeeMoreLikeThis(ltx && ltx[ltx.length - 1]);
+  }, [props.data.product_category_tree, setSeeMoreLikeThis]);
 
   // const userid = localStorage.getItem("id");
   const productid = props.data._id;
@@ -52,8 +65,17 @@ export default function Cart(props) {
     e.preventDefault();
     const val = value * 1;
     Math.floor(val);
+    if (val < 0) {
+      alert("Quantity cannot be negative");
+      return;
+    }
+    if (val * 1 === 0) {
+      deleteHandler();
+      return;
+    }
     cartCtx.addInCart(productid, val);
     setIsentervalue(false);
+    setValue(props.data.quantity * 1);
     cartCtx.refresh();
 
   }
@@ -69,46 +91,60 @@ export default function Cart(props) {
   useEffect(() => {
     setValue(props.data.quantity);
   }, [props.data.quantity]);
+
+  const seeMoreHandler = (event) => {
+    navigate(`/page/?search=${seeMoreLikeThis}&page=1&limit=20&sort=null`);
+  }
+
+
   return (
-    <section>
+    <section id='main-cover' style={{ backgroundColor: color.itembg }}>
       {showOverlay && <Overlay link={FromLink + productid} onClose={OverLayShowHandler} />}
 
       <div id="cart-content">
         {image !== props.data.image[currentIndex * 1] ? <img
           src={image}
           alt={props.data.product_name}
-        /> : <Skeleton height={200} width={200} />}
-        <div id="cart-detail" style={{ paddingLeft: '15px' }}>
-          <h3>{props.data.product_name}</h3>
+        /> : <Skeleton height={250} width={250} />}
+        <div id="cart-detail" style={{ color: color.text }}>
+          <h3 style={{ color: color.text }}>{props.data.product_name}</h3>
           <p>In Stock</p>
           <span>
             <input type="checkbox"></input>
             <label htmlFor="Quantiy">This will be a Gift</label>
           </span>
-          <span>
-            <label>Quantity:</label>
-            <input type="number" value={value} onChange={(e) => { setValue(e.target.value) }} disabled={!isentervalue} />
-            {isentervalue && <button onClick={SubmitHandler}>Submit</button>}
-            <span>
+          <span >
+            <span id='input-span'>
+              <label>Quantity:</label>
+              <input type="number" value={value} onChange={(e) => { setValue(e.target.value) }} disabled={!isentervalue} />
+              {isentervalue && <button onClick={SubmitHandler}>Submit</button>}
+            </span>
+            <span id='cart-checkbox'>
+              <br></br>
               <label htmlFor="Quantiy">Change Quantity</label>
-              <input type="checkbox"
+              <input
+
+                type="checkbox"
                 checked={isentervalue}
                 onChange={valueEnterHandler}
               ></input>
             </span>
 
           </span>
-          <span>
-            <button onClick={deleteHandler}> Delete</button>
-            {/* <button> Save for Later</button> */}
-            <button> See More Like This</button>
-            <button onClick={OverLayShowHandler}> Share &nbsp; <FaShareAlt /></button>
-          </span>
         </div>
-        <span id="cart-price">
-          <h3>&#8377;{(props.data.discounted_price === " " ? props.data.retail_price : props.data.discounted_price)}  x  {props.data.quantity * 1}</h3>
+
+
+
+        <span id="cart-price" style={{ backgroundColor: color.itembg }}>
+          <h3 style={{ color: color.text }}>&#8377;{(props.data.discounted_price === " " ? props.data.retail_price : props.data.discounted_price)}  x  {props.data.quantity * 1}</h3>
         </span>
       </div>
+      <span id='cart-buttons'>
+        <button onClick={deleteHandler}> Delete</button>
+        {/* <button> Save for Later</button> */}
+        <button onClick={seeMoreHandler}> See More Like This</button>
+        <button onClick={OverLayShowHandler}> Share &nbsp; <FaShareAlt /></button>
+      </span>
 
     </section >
   );

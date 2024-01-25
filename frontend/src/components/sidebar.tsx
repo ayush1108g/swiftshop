@@ -9,9 +9,10 @@ import { useClickAway } from "react-use";
 import { RootState } from '../store/utils';
 import CartContext from '../store/context/cart-context';
 import LoginContext from '../store/context/login-context';
+import { useCookies } from 'react-cookie';
 
 const Sidebar:React.FC = () => {
-    
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const color = useSelector((state:RootState) => state.themeMode.color);
     const navigate = useNavigate();
 const cartCtx = useContext(CartContext);
@@ -27,9 +28,11 @@ const cartCtx = useContext(CartContext);
 
 
     const logoutHandler = ():void => {
+        removeCookie('token');
         localStorage.clear();
-        window.location.reload();
         cartCtx.clear();
+        loginCtx.logout();
+        navigate("/");
     };
     const cartHandler = () => {
        if(!isLoggedIn)

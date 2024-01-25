@@ -1,18 +1,24 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import CartContext from "./cart-context.js";
+import LoginContext from "./login-context.js";
 import axios from "axios";
 import { ToLink } from "../../constants.js";
 import { useCookies } from "react-cookie";
+import { useContext } from "react";
+
 const CartContextProvider = (props) => {
+  const loginCtx = useContext(LoginContext);
   const [lengthx, setLengthx] = useState(0);
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [cookie] = useCookies(["token"]);
 
-  const resp = async (userid) => {
+  const isLoggedIn = loginCtx.isLoggedIn;
+  const resp = async () => {
+    if (!isLoggedIn) return;
     try {
-      console.log("resp rendered");
+      console.log("resp rendered", cookie.token);
 
       const data = await axios.get(`${ToLink}/cart`, {
         headers: {
@@ -44,8 +50,10 @@ const CartContextProvider = (props) => {
       const newData = productDataArray.map((item) => {
         const newItem = { ...item };
         newItem.image = JSON.parse(item.image);
+        newItem.product_category_tree = JSON.parse(item.product_category_tree);
         return newItem;
       });
+
       console.log("newData: ", newData);
       const TP = newData
         .map((item) => {
@@ -62,26 +70,18 @@ const CartContextProvider = (props) => {
     }
   };
 
-  const userid = localStorage.getItem("id");
-  useEffect(() => {
-    console.log("useEffect rendered");
-    resp(userid);
-  }, [userid]);
-
   const addtoCartHandler = (productid, quantity = 1) => {
     const quant = Math.floor(quantity * 1);
 
     const sendData = async () => {
       console.log("addtoCartHandler rendered");
-      const userid = localStorage.getItem("id");
+
       try {
         const data = {
-          id: userid,
           product_id: productid,
           quantity: quant,
         };
-        if (data.id === null || data.id === undefined || data.id === "")
-          return alert("Please login to add to cart");
+        if (!isLoggedIn) return alert("Please login to add to cart");
         const response = await axios.post(`${ToLink}/cart`, data, {
           headers: {
             Authorization: `Bearer ${cookie.token}`,
@@ -89,7 +89,7 @@ const CartContextProvider = (props) => {
         });
         console.log(response);
         if (response.status === 200) {
-          resp(userid);
+          resp();
         }
         alert("Added to cart successfully");
       } catch (err) {
@@ -102,21 +102,18 @@ const CartContextProvider = (props) => {
   const deleteHandler = (productid) => {
     const deleteData = async () => {
       console.log("deleteHandler rendered");
-      const userid = localStorage.getItem("id");
       try {
         const data = {
-          id: userid,
           product_id: productid,
           quantity: 0,
         };
-        if (data.id === null || data.id === undefined || data.id === "")
-          return alert("Please login to add to cart");
+        if (!isLoggedIn) return alert("Please login to add to cart");
         await axios.post(`${ToLink}/cart`, data, {
           headers: {
             Authorization: `Bearer ${cookie.token}`,
           },
         });
-        await resp(userid);
+        await resp();
       } catch (err) {
         console.log(err);
       }
@@ -124,15 +121,18 @@ const CartContextProvider = (props) => {
     deleteData();
   };
   const refresh = () => {
-    const userid = localStorage.getItem("id");
-    console.log("refresh rendered");
-    resp(userid);
+    console.log("refresh rendered", cookie.token);
+    resp();
   };
   const clear = () => {
     setLengthx(0);
     setCart([]);
     setTotalPrice(0);
   };
+
+  useEffect(() => {
+    resp();
+  }, [cookie.token, isLoggedIn]);
 
   const context = {
     cartItemNumber: lengthx,

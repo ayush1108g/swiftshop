@@ -3,7 +3,6 @@ const router = express.Router();
 const axios = require("axios");
 
 router.get("/", async (req, res) => {
-  console.log(req.query);
   const query = req.query;
   const imglink = Object.keys(query)[0];
   try {
