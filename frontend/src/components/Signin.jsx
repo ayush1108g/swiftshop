@@ -8,8 +8,10 @@ import { useState, useRef, useContext } from "react";
 import { motion } from "framer-motion";
 import { ToLink } from "../constants.js";
 import { useCookies } from "react-cookie";
+import { useAlert } from "../store/context/Alert-context.js";
 
 const Signin = (props) => {
+  const alertCtx = useAlert();
   const [cookies, setCookie] = useCookies(["token"]);
   const navigate = useNavigate();
   const [errormsg, setErrormsg] = useState("");
@@ -92,6 +94,7 @@ const Signin = (props) => {
         setErrormsg("Success");
         // setTimeout(() => {
         // }, 1000);
+        alertCtx.showAlert("success", "Logged In Successfully");
         setTimeout(() => {
           cartCtx.refresh();
           navigate("/");

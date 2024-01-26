@@ -31,10 +31,10 @@ const createSendToken = (user, statusCode, res) => {
     httpOnly: false,
   };
   // if (process.env.NODE_ENV === "production") cookieoptions.secure = true;
-  console.log(cookieoptions);
+  // console.log(cookieoptions);
   res.cookie("token", token, cookieoptions);
-  console.log(token);
-  console.log(user);
+  // console.log(token);
+  // console.log(user);
   user.password = undefined;
   res.status(statusCode).json({
     status: "success",
@@ -44,9 +44,9 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 const protect = catchasync(async (req, res, next) => {
-  console.log("hello ");
+  // console.log("hello ");
   let token;
-  console.log(req.headers.authorization);
+  // console.log(req.headers.authorization);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -70,7 +70,6 @@ const protect = catchasync(async (req, res, next) => {
       new AppError("user recently changed password! please login again", 401)
     );
   }
-  // req.url === "/updatepassword" ? (currentUser.password = undefined) : null;
   req.user = currentUser;
   next();
 });

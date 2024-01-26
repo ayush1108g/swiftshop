@@ -9,9 +9,14 @@ import { useClickAway } from "react-use";
 import { RootState } from '../store/utils';
 import CartContext from '../store/context/cart-context';
 import LoginContext from '../store/context/login-context';
+import WishContext from '../store/context/wish-context';
 import { useCookies } from 'react-cookie';
+import { useAlert } from '../store/context/Alert-context';
+
 
 const Sidebar:React.FC = () => {
+    const Alertctx = useAlert();
+    const wishCtx = useContext(WishContext);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const color = useSelector((state:RootState) => state.themeMode.color);
     const navigate = useNavigate();
@@ -32,11 +37,13 @@ const cartCtx = useContext(CartContext);
         localStorage.clear();
         cartCtx.clear();
         loginCtx.logout();
+        wishCtx.clear();
         navigate("/");
+        Alertctx.showAlert('success', 'Logged out successfully');
     };
     const cartHandler = () => {
        if(!isLoggedIn)
-        navigate('/login');
+        Alertctx.showAlert('error', 'Please login to continue');
         else
         navigate(`/cart`);
         sidebarCtx.toggleSidebar()
@@ -50,6 +57,7 @@ const cartCtx = useContext(CartContext);
         sidebarCtx.toggleSidebar()
     };
     const contactUsHandler = () => {
+        if(!isLoggedIn) return Alertctx.showAlert('error', 'Please login to continue');
         navigate('/contactUs');
         sidebarCtx.toggleSidebar()
     }
@@ -82,7 +90,7 @@ const cartCtx = useContext(CartContext);
                             navigate('/team');
                             sidebarCtx.toggleSidebar()
                         }} style={{ color: color.text }}>Our Team</motion.li>
-                        <motion.li className={styles.li} style={{ color: color.text }} onClick={xyzHandler}>{isLoggedIn ? 'Update Detail' : 'Login/Signup'}</motion.li>
+                        <motion.li className={styles.li} style={{ color: color.text }} onClick={xyzHandler}>{isLoggedIn ? 'My Profile' : 'Login/Signup'}</motion.li>
                         <motion.li className={styles.li} onClick={cartHandler} style={{ color: color.text }}>Cart</motion.li>
                         <motion.li className={styles.li} onClick={contactUsHandler} style={{ color: color.text }}>Contact Us</motion.li>
                       {isLoggedIn && <motion.li className={styles.li} onClick={logoutHandler} style={{ color: color.text }}>Logout</motion.li>}

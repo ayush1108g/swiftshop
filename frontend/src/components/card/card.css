@@ -65,11 +65,12 @@
     padding-top: 5px;
   }
   .card-body {
-    flex-direction: column;
+    /* flex-direction: column; */
+    height: 25vh;
   }
   .card-body img {
     height: 100%;
-    width: 100%;
+    width: 80%;
   }
   .card-body1 {
     flex-direction: column;

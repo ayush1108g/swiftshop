@@ -4,7 +4,7 @@ import CartItem from "../components/cart/cart";
 import { useNavigate } from 'react-router-dom';
 import LoginContext from "../store/context/login-context.js";
 import { useSelector } from "react-redux";
-import { RootState } from "../store/store.js";
+import { RootState } from "../store/utils/index.js";
 
 const Cart:React.FC = () => {
     const color = useSelector((state:RootState) => state.themeMode.color);
@@ -39,9 +39,9 @@ const Cart:React.FC = () => {
             }}>
             <h1 className="d-flex justify-content-center" style={{position:'sticky',top:'60px'}}>Cart</h1>
             {cart.length > 0 && cart.map((item) => {
-                return <CartItem data={item} />
+                return <CartItem length={cart.length} data={item} />
             })}
-            <div style={{ 
+       {cart.length >0 &&   <div style={{ 
                 display: 'flex',
                 flexDirection:'row',
                 justifyContent:'space-evenly',
@@ -110,7 +110,7 @@ const Cart:React.FC = () => {
                     marginTop:'auto',
                     textWrap:'nowrap'}}>Place Order {'>>'}
                 </button>
-            </div>
+            </div>}
                <hr style={{
                     width: '100%',
                     height: '1px',

@@ -8,8 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router";
 import { useCookies } from "react-cookie";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
+import { useAlert } from "../../store/context/Alert-context.js";
 
 const ForgotPassConfirmPage = () => {
+  const alertCtx = useAlert();
   const [cookies, setCookie] = useCookies(["token"]);
   const [isLoading, setIsLoading] = useState(false);
   const [errormsg, setErrormsg] = useState("");
@@ -60,7 +62,7 @@ const ForgotPassConfirmPage = () => {
       if (resp.data.status === "success") {
         localStorage.removeItem("Passcode");
         localStorage.removeItem("Passcode2");
-        alert("Password changed successfully");
+        alertCtx.showAlert('success', 'Password changed successfully');
         navigate(`/login`);
       }
     } catch (error) {

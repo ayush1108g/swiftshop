@@ -1,10 +1,16 @@
 import * as React from "react";
+import { CgProfile } from "react-icons/cg";
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { ImSwitch } from "react-icons/im";
+import { MdContactSupport } from "react-icons/md";
+import { HiMiniUserGroup } from "react-icons/hi2";
+
 import classes from "./Navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { FaShoppingCart } from "react-icons/fa";
 import SidebarContext from "../store/context/sidebar-context.js";
 import CartContext from "../store/context/cart-context.js";
+import WishContext from "../store/context/wish-context.js";
 import LoginContext from "../store/context/login-context.js";
 import { useContext,useState } from "react";
 import Sidebar from "./sidebar.tsx";
@@ -14,9 +20,11 @@ import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/utils/index.ts";
 import MeterComp from "./MeterComp.tsx";
+
 // import { useCookies } from "react-cookie";
 // import verifyToken from "../store/utils/verifyToken.js";
 
+import { useAlert } from "../store/context/Alert-context.js";
 
 interface NavStyle {
   backgroundColor: string,
@@ -32,9 +40,11 @@ interface SidebarContextType {
 }
 
 const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
+  const Alertctx = useAlert();
   const [cookie,setCookie,removeCookie] = useCookies(['token']);
   const color = useSelector((state : RootState) => state.themeMode.color);
   const cartCtx = useContext(CartContext);
+  const wishCtx = useContext(WishContext);
   const loginCtx = useContext(LoginContext);
   const sidebarCtx = useContext<SidebarContextType>(SidebarContext);
   const searchinputref = useRef<HTMLInputElement>(null);
@@ -50,7 +60,6 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
   // if (isLoggedIn) {
   //   name = localStorage.getItem("name") || 'xyz';
   // }
-  console.log(loginCtx);
   const letter:any = isLoggedIn ? loginCtx.name?.[0] : '-';
 
   const sidebarHandler = ():void => {
@@ -70,12 +79,14 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
     removeCookie('token');
     localStorage.clear();
     cartCtx.clear();
+    wishCtx.clear();
     loginCtx.logout();
     navigate("/");
+    Alertctx.showAlert('success','Logged out successfully   ');
   }
   const contactUSHandler = ():void => {
     if (!isLoggedIn) {
-      navigate("/login");
+      Alertctx.showAlert('error','Please Login to contact us');
     }
     else {
       navigate("/contactUs");
@@ -83,8 +94,9 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
   }
   const updateDetailHandler = ():void => {
     if (!isLoggedIn) {
-      navigate("/login");
+      Alertctx.showAlert('error','Please Login to update details');
     }
+    else
     navigate(`/updatedetail`);
   }
 
@@ -102,9 +114,9 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
   };
   const CartHandler = () => {
     if (isLoggedIn) {
-      navigate(`/cart`);
+      navigate("/cart");
     } else {
-      navigate("/login");
+      Alertctx.showAlert('success','Please Login to view cart');
     }
   }
 
@@ -147,7 +159,6 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
         <FaShoppingCart style={{ fontSize: '2em', color: color.itembg1 }} /><b><sup style={{ color: color.cartCount, }}>{lengthx === 0 ? ' ' : lengthx}</sup></b>
         <h3 style={{ userSelect: 'none', color: color.itembg1 }}>Cart</h3>
       </div>
-      <ToggleTheme />
       {isLoggedIn &&
         <>
           <div className="dropdown" >
@@ -159,13 +170,15 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
             <div className="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton"
               style={{ backgroundColor: color.itembg3, color: color.text, padding: '0px' }}
             >
-              <li onClick={updateDetailHandler} className="dropdown-item" style={{ backgroundColor: color.itembg3, color: color.text }}>Update Details</li>
-              <li onClick={contactUSHandler} className="dropdown-item" style={{ backgroundColor: color.itembg3, color: color.text }}>Contact Us</li>
-              <li className="dropdown-item" onClick={() => { navigate('/team') }} style={{ backgroundColor: color.itembg3, color: color.text }}>Our Team</li>
-              <li onClick={LogoutHandler} className="dropdown-item" style={{ backgroundColor: color.itembg3, color: color.text }}>Logout</li>
+              <li onClick={updateDetailHandler} className="dropdown-item" style={{ backgroundColor: color.itembg3, color: color.text,paddingTop:'20px' }}><CgProfile/> My Profile</li>
+              <li onClick={()=>{navigate('/wishlist')}} className="dropdown-item" style={{ backgroundColor: color.itembg3, color: color.text }}><FaHeart/> Wishlist   <em><span style={{ fontSize:'12px',fontWeight:'bold'}}>{wishCtx.wishItemNumber}</span></em></li>
+              <li onClick={contactUSHandler} className="dropdown-item" style={{ backgroundColor: color.itembg3, color: color.text }}><MdContactSupport/> Contact Us</li>
+              <li className="dropdown-item" onClick={() => { navigate('/team') }} style={{ backgroundColor: color.itembg3, color: color.text }}><HiMiniUserGroup/> Our Team</li>
+              <li onClick={LogoutHandler} className="dropdown-item" style={{ backgroundColor: color.itembg3, color: color.text }}><ImSwitch/> Logout</li>
             </div>
           </div>
         </>}
+        <ToggleTheme />
 
     </div >
     <MeterComp/>

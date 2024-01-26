@@ -138,6 +138,7 @@ export default function MainItem() {
                         <ul>
                             {currentData[newObj[0]].map((itemData, itemIndex) => (
                                 <Items
+                                    id={itemData._id}
                                     key={itemIndex}
                                     title={itemData.product_name || 'name'}
                                     image={itemData.image[currentIndex] || 'https://m.media-amazon.com/images/I/410yXpanMoL._SX300_SY300_QL70_FMwebp_.jpg'}

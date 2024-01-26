@@ -1,4 +1,6 @@
 import React from "react";
+import { IoIosHeart } from "react-icons/io";
+import { CiHeart } from "react-icons/ci";
 import classes from "./productDetail.module.css";
 import { useState, useEffect,useContext } from "react";
 import axios from "axios";
@@ -13,6 +15,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CustomisedSkeleton } from "../components/items/items.jsx";
 import { RootState } from "../store/utils/index.ts";
 import CartContext from "../store/context/cart-context.js";
+import WishContext from "../store/context/wish-context.js";
+
 
 interface Product {
     _id: string;
@@ -32,6 +36,7 @@ interface Product {
 }
 
 const ProductDetail:React.FC = () => {
+    const wishCtx = useContext(WishContext);
     const color = useSelector((state:RootState) => state.themeMode.color);
     const navigate = useNavigate();
     const { productid } = useParams();
@@ -45,6 +50,7 @@ const ProductDetail:React.FC = () => {
     const [image, setImage] = useState<string|null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [dataLoaded, setDataLoaded] = useState<boolean>(false);
+    const [isInWishlist, setIsInWishlist] = useState(false);
 
     const changeImage = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
@@ -54,7 +60,11 @@ const ProductDetail:React.FC = () => {
         const intervalId = setInterval(changeImage, 15000);
         return () => clearInterval(intervalId);
     }, []);
-
+    useEffect(() => {
+        if (wishCtx.wish.some((item) => item._id === productid)) {
+            setIsInWishlist(true);
+        }
+    }, [wishCtx.wish, productid, setIsInWishlist]);
 
 
     useEffect(() => {
@@ -151,6 +161,18 @@ const ProductDetail:React.FC = () => {
         setShowOverlay(!showOverlay);
     }
 
+    const addinwishHandler = () => {
+        wishCtx.addInWish(productid);
+        // wishCtx.refresh();
+    }
+    const deletefromwishHandler = () => {
+        wishCtx.removeFromWish(productid);
+        setIsInWishlist(false);
+        setTimeout(() => {
+            wishCtx.refresh();
+        }, 1000);
+    }
+
     const addtoCartHandler = () => {
         cartCtx.addInCart(productid);
     }
@@ -180,6 +202,8 @@ const ProductDetail:React.FC = () => {
                             /> :
                             <CustomisedSkeleton>   <Skeleton height={500} width={'100%'} /></CustomisedSkeleton>}
                     </AnimatePresence>
+                    {!loading && isInWishlist && <IoIosHeart onClick={deletefromwishHandler} style={{ position: 'relative', fontSize: '20px', color: color.cartCount, cursor: 'pointer', marginLeft: '-20px', top: '-200px' }} />}
+                {!loading && !isInWishlist && <CiHeart onClick={addinwishHandler} style={{ position: 'relative', fontSize: '20px', color: color.cartCount, cursor: 'pointer', marginLeft: '-20px', top: '-200px' }} />}
                 </div>
                 <div className={classes.right} style={{ paddingLeft: '10px' }}>
                     {dataLoaded ? <div className={classes.productTitle}>{product?.product_name}</div> : <CustomisedSkeleton><Skeleton width={"60%"} /></CustomisedSkeleton>}

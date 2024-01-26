@@ -6,15 +6,18 @@ import { CiLight } from "react-icons/ci";
 import { MdDarkMode } from "react-icons/md";
 import { useState } from "react";
 import { RootState } from "./index.ts";
+import { useAlert } from "../context/Alert-context.js";
 const ToggleTheme: React.FC = () => {
+  const Alertctx = useAlert();
   const dispatch = useDispatch();
   const currentTheme = useSelector((state : RootState) => state.themeMode.mode);
-  const [color1, setColor1] = useState<string>("white");
-  const [color2, setColor2] = useState<string>("nnone");
+  const [color1, setColor1] = useState<string>(currentTheme);
+  const [color2, setColor2] = useState<string>(currentTheme);
 
   const toggleTheme = ():void => {
     const newTheme = currentTheme === "light" ? "dark" : "light";
     console.log("newTheme", newTheme);
+    Alertctx.showAlert('success',"Theme changed to " + newTheme);
     dispatch(setThemeMode.setThemeMode(newTheme));
   };
 

@@ -8,9 +8,10 @@ import { FaShareAlt } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-
+import { useAlert } from "../../store/context/Alert-context.js";
 
 export default function Cart(props) {
+  const alertCtx = useAlert();
   const navigate = useNavigate();
   const color = useSelector(state => state.themeMode.color);
   const cartCtx = useContext(CartContext);
@@ -23,7 +24,7 @@ export default function Cart(props) {
 
   useEffect(() => {
     const ltx =
-      props.data.product_category_tree &&
+      props.data.product_category_tree && props.data.product_category_tree[0] && props.data.product_category_tree[0].split(">>")[1] &&
       props.data.product_category_tree[0].split(">>")[1].trim().split(" ");
     setSeeMoreLikeThis(ltx && ltx[ltx.length - 1]);
   }, [props.data.product_category_tree, setSeeMoreLikeThis]);
@@ -66,7 +67,7 @@ export default function Cart(props) {
     const val = value * 1;
     Math.floor(val);
     if (val < 0) {
-      alert("Quantity cannot be negative");
+      alertCtx.showAlert('danger', 'Quantity cannot be negative');
       return;
     }
     if (val * 1 === 0) {
@@ -81,6 +82,9 @@ export default function Cart(props) {
   }
   const deleteHandler = () => {
     cartCtx.removeFromCart(productid);
+    if (props.length === 1) {
+      cartCtx.clear();
+    }
     cartCtx.refresh();
     // setValue(props.data.quantity);
   }

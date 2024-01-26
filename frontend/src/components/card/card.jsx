@@ -10,10 +10,14 @@ import { ImageLink, FromLink } from "../../constants.js";
 import { FaShareAlt } from "react-icons/fa";
 import Skeleton from 'react-loading-skeleton'
 import { useSelector } from "react-redux";
+import { IoIosHeart } from "react-icons/io";
+import { CiHeart } from "react-icons/ci";
 import { CustomisedSkeleton } from '../items/items';
+import WishContext from '../../store/context/wish-context.js';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function Card(props) {
+  const wishCtx = useContext(WishContext);
   const Cartctx = useContext(CartContext);
   const isData = props.data[0] === null || props.data[0] === undefined || props.data[0] === "" ? false : true;
   const color = useSelector(state => state.themeMode.color);
@@ -23,7 +27,20 @@ export default function Card(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [image1, setImage1] = useState(props.data[0] && props.data[0].image[currentIndex]);
   const [image2, setImage2] = useState(props.data[1] && props.data[1].image && props.data[1].image[currentIndex] ? props.data[1].image[currentIndex] : "");
+  const [isInWishlist1, setIsInWishlist1] = useState(false);
+  const [isInWishlist2, setIsInWishlist2] = useState(false);
 
+  useEffect(() => {
+    if (props.data[0] && wishCtx.wish.some((item) => item._id === props.data[0]._id)) {
+      setIsInWishlist1(true)
+    }
+  }, [props.data[0], wishCtx.wish, setIsInWishlist1]);
+
+  useEffect(() => {
+    if (props.data[1] && wishCtx.wish.some((item) => item._id === props.data[1]._id)) {
+      setIsInWishlist2(true)
+    }
+  }, [props.data[1]], [wishCtx.wish]);
 
   const changeImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
@@ -83,6 +100,25 @@ export default function Card(props) {
     e.stopPropagation();
     Cartctx.addInCart(prodid);
   }
+  const addinwishHandler = (id) => {
+    console.log(id);
+    wishCtx.addInWish(id);
+    // wishCtx.refresh();
+  }
+  const deletefromwishHandler = (idx, id) => {
+    wishCtx.removeFromWish(id);
+    if (idx === 0) {
+      setIsInWishlist1(false);
+    }
+    else {
+      setIsInWishlist2(false);
+    }
+
+
+    setTimeout(() => {
+      wishCtx.refresh();
+    }, 1000);
+  }
 
 
   const framerSidebarPanel = {
@@ -110,9 +146,14 @@ export default function Card(props) {
                   {...framerSidebarPanel}
                 /> : <CustomisedSkeleton><Skeleton height={250} width={"100%"} /></CustomisedSkeleton>}
               </AnimatePresence>
+
+              {isData && image1 !== props.data[0].image[currentIndex] && isInWishlist1 && <IoIosHeart onClick={() => deletefromwishHandler(0, props.data[0]._id)} style={{ position: 'relative', fontSize: '20px', color: color.cartCount, cursor: 'pointer' }} />}
+              {isData && image1 !== props.data[0].image[currentIndex] && !isInWishlist1 && <CiHeart onClick={() => addinwishHandler(props.data[0]._id)} style={{ position: 'relative', fontSize: '20px', color: color.cartCount, cursor: 'pointer', }} />}
             </div>
+
             <div className="card-bodyx">
               <div className="card-body1">
+
                 <span style={{ paddingLeft: '15px', color: color.text, backgroundColor: color.itembg }}>
                   {isData ? <h5 className="card-title">{props.data[0].product_name}</h5> : <CustomisedSkeleton><Skeleton width={"50%"} /></CustomisedSkeleton>}
 
@@ -130,6 +171,7 @@ export default function Card(props) {
                   }
                   {isData ? <span style={{ color: 'red', }} onmouseover="this.style.color='#fff'" onmouseout="this.style.color='red'" onClick={() => { clickHandler(props.data[0]._id) }}>Read More...</span> : <CustomisedSkeleton><Skeleton width={"30%"} /></CustomisedSkeleton>}
                 </span>
+
               </div>
 
               <div className="card-body2">
@@ -164,6 +206,8 @@ export default function Card(props) {
                 /> : <div className="d-flex flex-column"><Skeleton height={200} width={200} /><span>{props.data[1].product_name}</span></div>
                 }
               </AnimatePresence >
+              {image2 !== props.data[1].image[currentIndex] && isInWishlist2 && <IoIosHeart onClick={() => deletefromwishHandler(1, props.data[1]._id)} style={{ position: 'relative', fontSize: '20px', color: color.cartCount, cursor: 'pointer' }} />}
+              {image2 !== props.data[1].image[currentIndex] && !isInWishlist2 && <CiHeart onClick={() => addinwishHandler(props.data[1]._id)} style={{ position: 'relative', fontSize: '20px', color: color.cartCount, cursor: 'pointer', }} />}
             </div>
             <div className="card-bodyx">
               <div className="card-body1">

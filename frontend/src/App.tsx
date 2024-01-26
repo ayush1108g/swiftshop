@@ -20,6 +20,7 @@ import ForgotPassIDPage from "./pages/ForgotPass/ForgotPassIDPage.jsx";
 import ContactUsPage from "./pages/ContactUsPage.tsx";
 import ProductDetail from "./pages/productDetail.tsx";
 import ProductPage from "./pages/productPage.jsx";
+import Wishlist from "./pages/Wishlist.tsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import TrackPage from "./pages/Trackpage.jsx";
 import TeamPage from "./pages/teamPage.tsx";
@@ -31,9 +32,10 @@ import Navbar from "./components/Navbar.tsx";
 import DataContextProvider from "./store/context/dataContextProvider.js";
 import SidebarContextProvider from "./store/context/sidebarContextProvider.js";
 import CartContextProvider from "./store/context/cartContextProvider.js";
+import WishContextProvider from "./store/context/wishContextProvider.js";
 import LoginContextProvider from "./store/context/loginContextProvider.js";
+import { AlertProvider } from "./store/context/Alert-context.js";
 import { RootState } from "./store/utils/index.ts";
-import LoginContext from "./store/context/login-context.js";
 
 library.add(fas);
 
@@ -64,10 +66,11 @@ const RoutesWithAnimation:React.FC = () => {
       <Route path="/page" element={<ProductPage />} />
       <Route path="/team" element={<TeamPage />} />
       <Route path="/updatedetail" element={<UpdateDetail />} />
-      <Route path="/:productid" element={<ProductDetail />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/wishlist" element={<Wishlist />} />
       <Route path="/track" element={<TrackPage />} />
       <Route path="/contactUs" element={<ContactUsPage />} />
+      <Route path="/:productid" element={<ProductDetail />} />
       <Route path="/" element={<HomePage />} />
       <Route path="*" element={<Errorpage />} />
     </Routes>
@@ -86,7 +89,6 @@ const App:React.FC = ()=> {
     }
   }
   useEffect(() => {
-    console.log('useeffect');
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -95,27 +97,32 @@ const App:React.FC = ()=> {
     backdropFilter: isScrolled ? 'blur(10px)' : '',
     transition: '0.5s'
   }
+  
 
   return (
     <>
       <HashRouter>
+        <AlertProvider>
         <LoginContextProvider>
-        <LocationProvider >
-          <CartContextProvider>
-          <DataContextProvider>
-            <SidebarContextProvider>
-              <div style={{ color: color.bodyText, backgroundColor: color.belowNavbg2 }}>
-                <HeaderMain navStyle={navStyle} />
-                <Navbar navStyle={navStyle} />
-                <CategoriesMain></CategoriesMain>
-                <RoutesWithAnimation />
-              </div>
-            </SidebarContextProvider>
-          </DataContextProvider>
-          </CartContextProvider>
-        </LocationProvider>
-        <MainFooter></MainFooter>
+          <LocationProvider >
+            <WishContextProvider>
+              <CartContextProvider>
+                <DataContextProvider>
+                  <SidebarContextProvider>
+                    <div style={{ color: color.bodyText, backgroundColor: color.belowNavbg2 }}>
+                      <HeaderMain navStyle={navStyle} />
+                      <Navbar navStyle={navStyle} />
+                      <CategoriesMain/>
+                      <RoutesWithAnimation />
+                    </div>
+                  </SidebarContextProvider>
+                </DataContextProvider>
+              </CartContextProvider>
+            </WishContextProvider>
+          </LocationProvider>
+          <MainFooter/>
         </LoginContextProvider>
+        </AlertProvider>
       </HashRouter >
     </>
   );

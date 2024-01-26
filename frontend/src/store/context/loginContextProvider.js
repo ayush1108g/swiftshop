@@ -27,7 +27,6 @@ const LoginContextProvider = (props) => {
       try {
         const token = cookie.token;
         const response = await verifyToken(token);
-        console.log("response: ", response);
         if (response.isLoggedin === true) {
           setToken(token);
           setIsLoggedIn(true);
