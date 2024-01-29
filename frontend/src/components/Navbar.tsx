@@ -122,7 +122,7 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
 
   return (<>
     <AnimatePresence>
-      {sidebarCtx.isSidebarOpen && <Sidebar />}
+  {<Sidebar />}
     </AnimatePresence>
 
     <div className={classes.navbar} style={{ ...navStyle, backgroundColor: color.navbg, gap: '10px' }}>

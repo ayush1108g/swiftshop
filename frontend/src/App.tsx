@@ -24,6 +24,7 @@ import Wishlist from "./pages/Wishlist.tsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import TrackPage from "./pages/Trackpage.jsx";
 import TeamPage from "./pages/teamPage.tsx";
+import AddProduct from "./components/AddProduct.jsx";
 
 import CategoriesMain from "./components/categories/categoriesMain.jsx";
 import MainFooter from "./components/footer/mainFooter.jsx";
@@ -34,9 +35,11 @@ import SidebarContextProvider from "./store/context/sidebarContextProvider.js";
 import CartContextProvider from "./store/context/cartContextProvider.js";
 import WishContextProvider from "./store/context/wishContextProvider.js";
 import LoginContextProvider from "./store/context/loginContextProvider.js";
+import LoginContext from "./store/context/login-context.js";
 import { AlertProvider } from "./store/context/Alert-context.js";
 import { RootState } from "./store/utils/index.ts";
-
+import { useCookies } from "react-cookie";
+import  verifyToken  from "./store/utils/verifyToken.js";
 library.add(fas);
 
 
@@ -56,6 +59,24 @@ const LocationProvider:React.FC<LocationProviderProps> = ({ children }) => {
 const RoutesWithAnimation:React.FC = () => {
   const location = useLocation();
   console.log(location);
+  const [cookie] = useCookies(["token"]);
+  const authCtx = React.useContext(LoginContext);
+
+  useEffect(() => {
+    const asyncFunc = async () => {
+      try {
+        const token = cookie.token;
+        const response = await verifyToken(token);
+        if (response.isLoggedin === true) {
+          authCtx.login(token, response.name);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    asyncFunc();
+  }, []);
+  
   return (
     <Routes location={location} key={location.key}>
       <Route path="/login" element={<LoginPage />} />
@@ -69,6 +90,7 @@ const RoutesWithAnimation:React.FC = () => {
       <Route path="/cart" element={<Cart />} />
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="/track" element={<TrackPage />} />
+      <Route path="/addproduct" element={<AddProduct />} />
       <Route path="/contactUs" element={<ContactUsPage />} />
       <Route path="/:productid" element={<ProductDetail />} />
       <Route path="/" element={<HomePage />} />
@@ -80,7 +102,7 @@ const RoutesWithAnimation:React.FC = () => {
 const App:React.FC = ()=> {
   const color = useSelector((state: RootState) => state.themeMode.color);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
-
+  
   const handleScroll = ():void => {
     if (window.scrollY > 50) {
       setIsScrolled(true);

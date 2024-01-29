@@ -25,10 +25,11 @@ const cartCtx = useContext(CartContext);
     const loginCtx = useContext(LoginContext);
     const isLoggedIn = loginCtx.isLoggedIn;
     const sidebarRef = useRef<HTMLDivElement>(null);
+    const [isopen, setisopen] = React.useState<boolean>(false);
 
     useClickAway(sidebarRef, () => {
         console.log("clicked outside");
-        return sidebarCtx.toggleSidebar();
+        return closeSidebarHandler();
     });
 
 
@@ -46,7 +47,7 @@ const cartCtx = useContext(CartContext);
         Alertctx.showAlert('error', 'Please login to continue');
         else
         navigate(`/cart`);
-        sidebarCtx.toggleSidebar()
+        closeSidebarHandler();
     };
     const xyzHandler = () => {
         if (!isLoggedIn)
@@ -54,19 +55,27 @@ const cartCtx = useContext(CartContext);
         else
             navigate(`/updatedetail`);
 
-        sidebarCtx.toggleSidebar()
+        closeSidebarHandler();
     };
     const contactUsHandler = () => {
         if(!isLoggedIn) return Alertctx.showAlert('error', 'Please login to continue');
         navigate('/contactUs');
-        sidebarCtx.toggleSidebar()
+        closeSidebarHandler();
+    }
+
+    const closeSidebarHandler = () => {
+        setisopen(false);
+        setTimeout(() => {
+            console.log("closing sidebar");
+        sidebarCtx.toggleSidebar();
+        }, 450);
     }
 
     const framerSidebarPanel = {
-        initial: { x: '-100%' },
+        initial: { x: '-150%' },
         animate: { x: 0 },
-        exit: { x: '100%', transition: { duration: 0.3 } },
-        transition: { duration: 0.3 },
+        exit: { x: '-150%', transition: { duration: 0.5 } },
+        transition: { duration: 0.5 },
     }
 
     return (<div>
@@ -74,28 +83,24 @@ const cartCtx = useContext(CartContext);
         <AnimatePresence mode='wait'>
             {sidebarCtx.isSidebarOpen && (
                 <motion.div
-                    key="open"
-
+                    key={isopen ? 'open' : 'closed'}
                     id="sidebar#"
-                    // variants={animateVariants}
-                    // animate="show"
-                    // exit="exit"
                     {...framerSidebarPanel}
                     ref={sidebarRef}
                     className={`${styles.sidebar} ${sidebarCtx.isSidebarOpen ? '' : ''}`}
                     style={{ backgroundColor: color.navbg, color: color.bodyText }}
                 >
-                    <motion.ul style={{ listStyle: 'none', color: color.text }}>
-                        <motion.li className={styles.li} onClick={() => {
+                    <ul style={{ listStyle: 'none', color: color.text }}>
+                        <li className={styles.li} onClick={() => {
                             navigate('/team');
                             sidebarCtx.toggleSidebar()
-                        }} style={{ color: color.text }}>Our Team</motion.li>
-                        <motion.li className={styles.li} style={{ color: color.text }} onClick={xyzHandler}>{isLoggedIn ? 'My Profile' : 'Login/Signup'}</motion.li>
-                        <motion.li className={styles.li} onClick={cartHandler} style={{ color: color.text }}>Cart</motion.li>
-                        <motion.li className={styles.li} onClick={contactUsHandler} style={{ color: color.text }}>Contact Us</motion.li>
-                      {isLoggedIn && <motion.li className={styles.li} onClick={logoutHandler} style={{ color: color.text }}>Logout</motion.li>}
-                        <motion.li className={styles.li} onClick={() => { sidebarCtx.toggleSidebar() }} style={{ color: color.text }}>Close</motion.li>
-                    </motion.ul>
+                        }} style={{ color: color.text }}>Our Team</li>
+                        <li className={styles.li} style={{ color: color.text }} onClick={xyzHandler}>{isLoggedIn ? 'My Profile' : 'Login/Signup'}</li>
+                        <li className={styles.li} onClick={cartHandler} style={{ color: color.text }}>Cart</li>
+                        <li className={styles.li} onClick={contactUsHandler} style={{ color: color.text }}>Contact Us</li>
+                      {isLoggedIn && <li className={styles.li} onClick={logoutHandler} style={{ color: color.text }}>Logout</li>}
+                        <li className={styles.li} onClick={() => { sidebarCtx.toggleSidebar() }} style={{ color: color.text }}>Close</li>
+                    </ul>
                 </motion.div>)}
         </AnimatePresence >
     </div>

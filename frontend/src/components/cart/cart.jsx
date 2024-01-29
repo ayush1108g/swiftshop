@@ -82,10 +82,10 @@ export default function Cart(props) {
   }
   const deleteHandler = () => {
     cartCtx.removeFromCart(productid);
-    if (props.length === 1) {
-      cartCtx.clear();
-    }
-    cartCtx.refresh();
+    // if (props.length === 1) {
+    //   cartCtx.clear();
+    // }
+    // cartCtx.refresh();
     // setValue(props.data.quantity);
   }
   const OverLayShowHandler = () => {

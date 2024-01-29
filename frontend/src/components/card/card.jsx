@@ -20,6 +20,7 @@ export default function Card(props) {
   const wishCtx = useContext(WishContext);
   const Cartctx = useContext(CartContext);
   const isData = props.data[0] === null || props.data[0] === undefined || props.data[0] === "" ? false : true;
+  const isdata1 = props.data[1] === null || props.data[1] === undefined || props.data[1] === "" ? false : true;
   const color = useSelector(state => state.themeMode.color);
   const navigate = useNavigate();
   const [showOverlay1, setShowOverlay1] = useState(false);
@@ -40,7 +41,7 @@ export default function Card(props) {
     if (props.data[1] && wishCtx.wish.some((item) => item._id === props.data[1]._id)) {
       setIsInWishlist2(true)
     }
-  }, [props.data[1]], [wishCtx.wish]);
+  }, [props.data[1], wishCtx.wish, setIsInWishlist2]);
 
   const changeImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
@@ -195,6 +196,7 @@ export default function Card(props) {
           </div>
 
           {!isData && <Nodata data={props.data} />}
+          {!isdata1 && <Nodata data={[props.data[1], props.data[0]]} />}
           {props.data[1] && <div className="card-content" id={props.data[1]._id} style={{ backgroundColor: color.itembg }}>
             <div className="card-body" >
               <AnimatePresence mode='wait'>

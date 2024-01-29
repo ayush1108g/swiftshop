@@ -8,35 +8,43 @@ const Alert = ({ type, message }) => {
     type = type || 'success';
     const color = useSelector(state => state.themeMode.color);
     const [visible, setVisible] = useState(true);
+    const [show, setShow] = useState('show');
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            setVisible(false);
-            hideAlert();
+            setVisible((visible) => !visible);
+            setShow((show) => (show === 'show' ? 'hide' : 'show'));
+            setTimeout(() => {
+                hideAlert();
+            }, 500);
         }, 4000);
 
         return () => {
             clearTimeout(timeout);
         };
-    }, [message]);
+    }, [message, setShow, setVisible, hideAlert, show, visible, type,]);
 
     const hideHandler = () => {
         setVisible(false);
-        hideAlert();
+        setShow('hide');
+        setTimeout(() => {
+            hideAlert();
+        }, 500);
     };
 
     const divmotion = {
         initial: { y: '200%' },
         animate: { y: 0 },
-        exit: { y: '200%', transition: { duration: 0.3 } },
-        transition: { duration: 0.3 },
+        exit: { y: '200%', transition: { duration: 0.5 } },
+        transition: { duration: 0.5 },
     }
 
     return (
         <>
-            <AnimatePresence>
+            <AnimatePresence mode='wait'>
                 {visible && (
                     <motion.div
+                        key={(visible === true ? 'show' : 'hide')}
                         {...divmotion}
                         className={`alert alert-${type}`} role="alert"
                         style={{
@@ -64,7 +72,7 @@ const Alert = ({ type, message }) => {
                         </button>
                     </motion.div>
                 )}
-            </AnimatePresence>
+            </AnimatePresence >
         </>
     );
 };

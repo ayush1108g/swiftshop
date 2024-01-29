@@ -37,12 +37,12 @@ const Wishlist = () => {
     return (
 
          <div style={{ background: `linear-gradient(${color.belowNavbg2},'#ffffff',${color.belowNavbg1})`, maxWidth: '100%' }}>
-            <section id="core-concepts">
+            <section id="core-concepts" >
                 <div style={{ position: 'relative', left: '0%', paddingLeft: '30px', padding: '30px', cursor: 'pointer' }}>
                     Wishlist
                     <br />
                 </div>
-                <ul>
+                <ul style={{}}>
                     {data.map((itemData, itemIndex) => (
                         <Items
                             addtocart={true}
