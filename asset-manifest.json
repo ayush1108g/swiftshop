@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/winter_code_week_2/static/css/main.c32ea6bd.css",
-    "main.js": "/winter_code_week_2/static/js/main.f1ca7e75.js",
+    "main.css": "/winter_code_week_2/static/css/main.cf0cb2eb.css",
+    "main.js": "/winter_code_week_2/static/js/main.285c47d6.js",
     "static/js/787.9e9f4ffd.chunk.js": "/winter_code_week_2/static/js/787.9e9f4ffd.chunk.js",
     "static/media/AyushPhoto-removebg-color.png": "/winter_code_week_2/static/media/AyushPhoto-removebg-color.b4f4ef2158fc0b2232ec.png",
     "static/media/Divya-removebg-color.png": "/winter_code_week_2/static/media/Divya-removebg-color.0f04251274ff1a02960d.png",
@@ -10,12 +10,12 @@
     "static/media/AyushPhoto-removebg-bw.png": "/winter_code_week_2/static/media/AyushPhoto-removebg-bw.8a48d9c79f2bd864aa12.png",
     "static/media/Pushkar-removebg-bw.png": "/winter_code_week_2/static/media/Pushkar-removebg-bw.6e9096ca998f75450a2e.png",
     "index.html": "/winter_code_week_2/index.html",
-    "main.c32ea6bd.css.map": "/winter_code_week_2/static/css/main.c32ea6bd.css.map",
-    "main.f1ca7e75.js.map": "/winter_code_week_2/static/js/main.f1ca7e75.js.map",
+    "main.cf0cb2eb.css.map": "/winter_code_week_2/static/css/main.cf0cb2eb.css.map",
+    "main.285c47d6.js.map": "/winter_code_week_2/static/js/main.285c47d6.js.map",
     "787.9e9f4ffd.chunk.js.map": "/winter_code_week_2/static/js/787.9e9f4ffd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c32ea6bd.css",
-    "static/js/main.f1ca7e75.js"
+    "static/css/main.cf0cb2eb.css",
+    "static/js/main.285c47d6.js"
   ]
 }
