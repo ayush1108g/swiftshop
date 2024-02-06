@@ -129,17 +129,41 @@ const ProductPage = () => {
             </>}
             {!dataLoaded && arr.map((ele, index) => {
                 if (index % 2 === 0) {
-                    return <Card key={index} data={[null, null]} />
+                    return (
+                        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', height: 'auto' }}>
+                            <div className={classes.carddiv}>
+                                <Card
+                                    key={index}
+                                    data={[null, null]}
+                                />
+                            </div >
+                            <div className={classes.carddiv}>
+                                <Card
+                                    key={index}
+                                    data={[null, null]}
+                                />
+                            </div>
+                        </div>);
                 } return null;
             })
             }
             {data.map((item, index) => {
-                if (index % 2 === 0) {
+                if (index % 4 === 0) {
                     return (
-                        <Card
-                            key={index}
-                            data={[data[index], data[index + 1] ? data[index + 1] : null]}
-                        />);
+                        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', height: 'auto' }}>
+                            <div className={classes.carddiv}>
+                                <Card
+                                    key={index}
+                                    data={[data[index], data[index + 1] ? data[index + 1] : null]}
+                                />
+                            </div >
+                            <div className={classes.carddiv}>
+                                <Card
+                                    key={index}
+                                    data={[data[index + 2] ? data[index + 2] : null, data[index + 3] ? data[index + 3] : null]}
+                                />
+                            </div>
+                        </div>);
                 } else {
                     return null;
                 }

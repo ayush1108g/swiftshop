@@ -38,15 +38,18 @@ exports.productdetails = async (req, res) => {
 
 exports.postproduct = async (req, res) => {
   try {
+    req.body.new = true;
     const newproduct = await Product.create(req.body);
     res.status(201).json({
-      message: "Feedback posted successfully",
+      message: "Product posted successfully",
       newproduct,
+      prod_id: newproduct._id,
+      url: "can view on /" + newproduct._id,
     });
   } catch (err) {
     res.status(500).json({
       error: err,
-      massage: "Error while posting feedback",
+      massage: "Error while adding product",
     });
   }
 };

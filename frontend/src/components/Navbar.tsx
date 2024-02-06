@@ -181,7 +181,7 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
         <ToggleTheme />
 
     </div >
-    <MeterComp/>
+    {/* <MeterComp/> */}
   </>
   );
 };

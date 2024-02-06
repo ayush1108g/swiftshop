@@ -137,7 +137,7 @@ export default function Card(props) {
         {showOverlay2 && <Overlay link={FromLink + props.data[1]._id} onClose={(e) => { OverLayShowHandler2(e) }} />}
 
         <div className="cardx">
-          <div className="card-content" id={isData ? props.data[0]._id : Math.random() * 1000} style={{ backgroundColor: color.itembg }}>
+          {props.data[0] && <div className="card-content" id={isData ? props.data[0]._id : Math.random() * 1000} style={{ backgroundColor: color.itembg }}>
             <div className="card-body">
               <AnimatePresence mode='wait'>
                 {isData && image1 !== props.data[0].image[currentIndex] ? <motion.img
@@ -145,7 +145,7 @@ export default function Card(props) {
                   src={image1}
                   alt={props.data[0].product_name}
                   {...framerSidebarPanel}
-                /> : <CustomisedSkeleton><Skeleton height={250} width={"100%"} /></CustomisedSkeleton>}
+                /> : <CustomisedSkeleton><Skeleton height={150} width={"100%"} /></CustomisedSkeleton>}
               </AnimatePresence>
 
               {isData && image1 !== props.data[0].image[currentIndex] && isInWishlist1 && <IoIosHeart onClick={() => deletefromwishHandler(0, props.data[0]._id)} style={{ position: 'relative', fontSize: '20px', color: color.cartCount, cursor: 'pointer' }} />}
@@ -193,7 +193,7 @@ export default function Card(props) {
                 </div>
               </div>
             </div>
-          </div>
+          </div>}
 
           {!isData && <Nodata data={props.data} />}
           {!isdata1 && <Nodata data={[props.data[1], props.data[0]]} />}
@@ -205,7 +205,7 @@ export default function Card(props) {
                   {...framerSidebarPanel}
                   src={image2}
                   alt={props.data[1].product_name}
-                /> : <div className="d-flex flex-column"><Skeleton height={200} width={200} /><span>{props.data[1].product_name}</span></div>
+                /> : <div className="d-flex flex-column"><Skeleton height={150} width={"100 %"} /><span>{props.data[1].product_name}</span></div>
                 }
               </AnimatePresence >
               {image2 !== props.data[1].image[currentIndex] && isInWishlist2 && <IoIosHeart onClick={() => deletefromwishHandler(1, props.data[1]._id)} style={{ position: 'relative', fontSize: '20px', color: color.cartCount, cursor: 'pointer' }} />}
@@ -265,7 +265,7 @@ const Nodata = (props) => {
   return (
     <div className="card-content" id={isData ? props.data[0]._id : Math.random() * 1000} style={{ backgroundColor: color.itembg }}>
       <div className="card-body">
-        {!isData && <CustomisedSkeleton><Skeleton width={"100%"} height={250} /></CustomisedSkeleton>}
+        {!isData && <CustomisedSkeleton><Skeleton width={"100%"} height={150} /></CustomisedSkeleton>}
       </div>
       <div className="card-bodyx">
         <div className="card-body1">

@@ -24,3 +24,20 @@
 .ul {
   list-style: none;
 }
+.carddiv {
+  width: 50%;
+}
+
+@media screen and (max-width: 510px) {
+  .carddiv {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .carddiv {
+    height: 100%;
+    width: 100%;
+  }
+}

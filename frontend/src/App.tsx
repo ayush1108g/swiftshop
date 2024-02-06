@@ -122,7 +122,9 @@ const App:React.FC = ()=> {
   
 
   return (
-    <>
+    <div style={{
+      fontFamily:'Poppins'
+    }}>
       <HashRouter>
         <AlertProvider>
         <LoginContextProvider>
@@ -146,7 +148,7 @@ const App:React.FC = ()=> {
         </LoginContextProvider>
         </AlertProvider>
       </HashRouter >
-    </>
+    </div>
   );
 }
 
