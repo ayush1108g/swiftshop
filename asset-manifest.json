@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/winter_code_week_2/static/css/main.1505d564.css",
-    "main.js": "/winter_code_week_2/static/js/main.7c0626ae.js",
-    "static/js/787.9e9f4ffd.chunk.js": "/winter_code_week_2/static/js/787.9e9f4ffd.chunk.js",
-    "static/media/AyushPhoto-removebg-color.png": "/winter_code_week_2/static/media/AyushPhoto-removebg-color.b4f4ef2158fc0b2232ec.png",
-    "static/media/Divya-removebg-color.png": "/winter_code_week_2/static/media/Divya-removebg-color.0f04251274ff1a02960d.png",
-    "static/media/Pushkar-removebg-color.png": "/winter_code_week_2/static/media/Pushkar-removebg-color.ab4a6ff536bb6bc2321e.png",
-    "static/media/Divya-removebg-bw.png": "/winter_code_week_2/static/media/Divya-removebg-bw.af50fcf5938f2d098170.png",
-    "static/media/AyushPhoto-removebg-bw.png": "/winter_code_week_2/static/media/AyushPhoto-removebg-bw.8a48d9c79f2bd864aa12.png",
-    "static/media/Pushkar-removebg-bw.png": "/winter_code_week_2/static/media/Pushkar-removebg-bw.6e9096ca998f75450a2e.png",
-    "index.html": "/winter_code_week_2/index.html",
-    "main.1505d564.css.map": "/winter_code_week_2/static/css/main.1505d564.css.map",
-    "main.7c0626ae.js.map": "/winter_code_week_2/static/js/main.7c0626ae.js.map",
-    "787.9e9f4ffd.chunk.js.map": "/winter_code_week_2/static/js/787.9e9f4ffd.chunk.js.map"
+    "main.css": "/swiftshop/static/css/main.257c51d6.css",
+    "main.js": "/swiftshop/static/js/main.79d98765.js",
+    "static/js/787.9e9f4ffd.chunk.js": "/swiftshop/static/js/787.9e9f4ffd.chunk.js",
+    "static/media/AyushPhoto-removebg-color.png": "/swiftshop/static/media/AyushPhoto-removebg-color.b4f4ef2158fc0b2232ec.png",
+    "static/media/Divya-removebg-color.png": "/swiftshop/static/media/Divya-removebg-color.0f04251274ff1a02960d.png",
+    "static/media/Pushkar-removebg-color.png": "/swiftshop/static/media/Pushkar-removebg-color.ab4a6ff536bb6bc2321e.png",
+    "static/media/Divya-removebg-bw.png": "/swiftshop/static/media/Divya-removebg-bw.af50fcf5938f2d098170.png",
+    "static/media/AyushPhoto-removebg-bw.png": "/swiftshop/static/media/AyushPhoto-removebg-bw.8a48d9c79f2bd864aa12.png",
+    "static/media/Pushkar-removebg-bw.png": "/swiftshop/static/media/Pushkar-removebg-bw.6e9096ca998f75450a2e.png",
+    "index.html": "/swiftshop/index.html",
+    "main.257c51d6.css.map": "/swiftshop/static/css/main.257c51d6.css.map",
+    "main.79d98765.js.map": "/swiftshop/static/js/main.79d98765.js.map",
+    "787.9e9f4ffd.chunk.js.map": "/swiftshop/static/js/787.9e9f4ffd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1505d564.css",
-    "static/js/main.7c0626ae.js"
+    "static/css/main.257c51d6.css",
+    "static/js/main.79d98765.js"
   ]
 }
