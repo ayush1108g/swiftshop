@@ -36,7 +36,7 @@ export default function Cart(props) {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
   };
   useEffect(() => {
-    const intervalId = setInterval(changeImage, 1000000);
+    const intervalId = setInterval(changeImage, 60000);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -74,6 +74,10 @@ export default function Cart(props) {
       deleteHandler();
       return;
     }
+    if (val * 1 > 20) {
+      alertCtx.showAlert('danger', 'Quantity cannot be more than 20');
+      return;
+    }
     cartCtx.addInCart(productid, val);
     setIsentervalue(false);
     setValue(props.data.quantity * 1);
@@ -109,6 +113,7 @@ export default function Cart(props) {
         {image !== props.data.image[currentIndex * 1] ? <img
           src={image}
           alt={props.data.product_name}
+          loading="lazy"
         /> : <Skeleton height={250} width={250} />}
         <div id="cart-detail" style={{ color: color.text }}>
           <h3 style={{ color: color.text }}>{props.data.product_name}</h3>

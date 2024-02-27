@@ -59,6 +59,7 @@ const TeamPage : React.FC = () => {
                                 onMouseEnter={() => handleMouseEnter(index)}
                                 onMouseLeave={() => handleMouseLeave(index)}
                                 style={{ height: "25vw", width: "20vw" }}
+                                loading='lazy'
                             />
                             <div className="h3 d-flex justify-content-center"><TypeDynamic textToType={item.name} isBold='true' duration={1000} /></div>
                             <div className="h3 d-flex justify-content-center" style={{ color: 'grey' }}>{item.role}</div>

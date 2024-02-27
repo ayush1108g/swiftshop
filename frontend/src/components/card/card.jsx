@@ -48,7 +48,7 @@ export default function Card(props) {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(changeImage, 15000);
+    const intervalId = setInterval(changeImage, 60000);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -143,7 +143,7 @@ export default function Card(props) {
                 {isData && image1 !== props.data[0].image[currentIndex] ? <motion.img
                   key={image1}
                   src={image1}
-                  alt={props.data[0].product_name}
+                  // alt={props.data[0].product_name}
                   {...framerSidebarPanel}
                 /> : <CustomisedSkeleton><Skeleton height={150} width={"100%"} /></CustomisedSkeleton>}
               </AnimatePresence>
@@ -204,7 +204,7 @@ export default function Card(props) {
                   key={image2}
                   {...framerSidebarPanel}
                   src={image2}
-                  alt={props.data[1].product_name}
+                // alt={props.data[1].product_name}
                 /> : <div className="d-flex flex-column"><Skeleton height={150} width={"100 %"} /><span>{props.data[1].product_name}</span></div>
                 }
               </AnimatePresence >

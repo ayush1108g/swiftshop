@@ -14,7 +14,9 @@ const signToken = (id) => {
   return token;
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = catchasync(async (user, statusCode, res) => {
+  user.lastlogin = Date.now();
+  await user.save({ validateBeforeSave: false });
   const token = signToken({ id: user._id });
   const cookieoptions = {
     expires: new Date(
@@ -41,7 +43,7 @@ const createSendToken = (user, statusCode, res) => {
     token,
     data: { user },
   });
-};
+});
 
 const protect = catchasync(async (req, res, next) => {
   // console.log("hello ");

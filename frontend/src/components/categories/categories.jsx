@@ -13,7 +13,7 @@ export default function Categories(props) {
     }
     return (
         <li onClick={ProdDivhandler} title={props.title}>
-            {location.pathname === '/' && <img src={props.image} alt={props.alt} />}
+            {location.pathname === '/' && <img src={props.image} alt={props.alt} loading='lazy' />}
             <h5>{props.title}</h5>
         </li>
     )

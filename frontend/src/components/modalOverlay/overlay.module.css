@@ -52,6 +52,7 @@
   color: ghostwhite;
   list-style: none;
   padding: 0;
+  max-width: 90vw;
   max-height: 450px;
   overflow: auto;
 }

@@ -1,6 +1,8 @@
 const axios = require("axios");
 const Product = require("./../models/product");
+const Review = require("./../models/review_model");
 const APIFeatures = require("./../utils/ApiFeatures");
+const catchAsync = require("./../utils/catchAsync");
 
 exports.productdetails = async (req, res) => {
   const searchWord = req.query.search;
@@ -117,3 +119,36 @@ exports.image = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+exports.productreviews = catchAsync(async (req, res, next) => {
+  const reviews = await Review.find({ product_id: req.params.id }).populate({
+    path: "user_id",
+    select: "name email image",
+  });
+  if (!reviews) {
+    return next(new AppError("No reviews found with that ID", 404));
+  }
+  res.status(200).json({
+    status: "success",
+    results: reviews.length,
+    data: {
+      reviews,
+    },
+  });
+});
+
+exports.postreview = catchAsync(async (req, res, next) => {
+  const review = await Review.create({
+    user_id: req.user._id,
+    product_id: req.params.id,
+    rating: req.body.rating,
+    title: req.body.title,
+    description: req.body.description,
+  });
+  res.status(201).json({
+    status: "success",
+    data: {
+      review,
+    },
+  });
+});

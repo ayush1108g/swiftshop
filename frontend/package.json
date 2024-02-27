@@ -1,5 +1,5 @@
 {
-  "homepage": "https://ayush1108g.github.io/winter_code_week_2",
+  "homepage": "https://ayush1108g.github.io/swiftshop",
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
@@ -30,7 +30,7 @@
     "react-redux": "^9.1.0",
     "react-router": "^6.21.0",
     "react-router-dom": "^6.21.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-use": "^17.4.3",
     "redux": "^5.0.1",
     "typescript": "^5.3.3",
@@ -63,6 +63,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^6.1.1"
+    "gh-pages": "^6.1.1",
+    "tailwindcss": "^3.4.1"
   }
 }

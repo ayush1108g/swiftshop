@@ -16,6 +16,7 @@ import { CustomisedSkeleton } from "../components/items/items.jsx";
 import { RootState } from "../store/utils/index.ts";
 import CartContext from "../store/context/cart-context.js";
 import WishContext from "../store/context/wish-context.js";
+import ReviewComponent from "../components/review/reviewComponent.jsx";
 
 
 interface Product {
@@ -57,11 +58,12 @@ const ProductDetail:React.FC = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const intervalId = setInterval(changeImage, 15000);
         return () => clearInterval(intervalId);
     }, []);
     useEffect(() => {
-        if (wishCtx.wish.some((item) => item._id === productid)) {
+        if (wishCtx.wish.some((item) => item?._id === productid)) {
             setIsInWishlist(true);
         }
     }, [wishCtx.wish, productid, setIsInWishlist]);
@@ -87,7 +89,7 @@ const ProductDetail:React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const intervalId = setInterval(changeImage, 100000);
+        const intervalId = setInterval(changeImage, 60000);
         return () => clearInterval(intervalId);
     }, []);
 
@@ -186,9 +188,10 @@ const ProductDetail:React.FC = () => {
     const discount = 0;
     let arr = [1, 2, 3, 4];
     return (
-        <div>
+        <div >
             {showOverlay && <Overlay link={FromLink + productid} onClose={OverLayShowHandler} />}
             {dataLoaded ? <span className={classes.categorytree}>{product?.product_category_tree}</span> : <div style={{ paddingLeft: '15px' }}><CustomisedSkeleton><Skeleton width={"80%"} /></CustomisedSkeleton></div>}
+
             <div className={classes.container}>
                 <div className={classes.left}>
                     <AnimatePresence mode='wait'>
@@ -199,12 +202,23 @@ const ProductDetail:React.FC = () => {
                                 src={image} alt="product"
                                 className={classes.productImage}
                                 style={{ width: '100%', height: 'auto', minHeight: '500px', objectFit: 'cover', borderRadius: '10px', zIndex: '-1' }}
+                                loading="lazy"
                             /> :
                             <CustomisedSkeleton>   <Skeleton height={500} width={'100%'} /></CustomisedSkeleton>}
                     </AnimatePresence>
                     {!loading && isInWishlist && <IoIosHeart onClick={deletefromwishHandler} style={{ position: 'relative', fontSize: '20px', color: color.cartCount, cursor: 'pointer', marginLeft: '-20px', top: '-200px' }} />}
                 {!loading && !isInWishlist && <CiHeart onClick={addinwishHandler} style={{ position: 'relative', fontSize: '20px', color: color.cartCount, cursor: 'pointer', marginLeft: '-20px', top: '-200px' }} />}
+
+                <div className={classes.corner} >
+                    <h3> < span className={classes.Share} style={{ color: color.cartIcon }} onClick={OverLayShowHandler}>Share &nbsp;<FaShareAlt /></span></h3>
+                    <br />
+                    <br />
+                    <h3> <span className={classes.Share} style={{ color: color.cartIcon }} onClick={addtoCartHandler}>Add to Cart</span></h3>
+
                 </div>
+
+                </div>
+
                 <div className={classes.right} style={{ paddingLeft: '10px' }}>
                     {dataLoaded ? <div className={classes.productTitle}>{product?.product_name}</div> : <CustomisedSkeleton><Skeleton width={"60%"} /></CustomisedSkeleton>}
                     {dataLoaded ? <div className={classes.brand}>{product?.brand}</div> : <CustomisedSkeleton><Skeleton width={"40%"} /></CustomisedSkeleton>}
@@ -245,13 +259,7 @@ const ProductDetail:React.FC = () => {
                     </div>
 
                 </div>
-                <div className={classes.corner} >
-                    <h3> < span className="rounded" style={{ color: color.cartIcon }} onClick={OverLayShowHandler}>Share &nbsp;<FaShareAlt /></span></h3>
-                    <br />
-                    <br />
-                    <h3> <span className="rounded" style={{ color: color.cartIcon }} onClick={addtoCartHandler}>Add to Cart</span></h3>
-
-                </div>
+               
             </div >
             <hr />
             <div>
@@ -281,6 +289,7 @@ const ProductDetail:React.FC = () => {
                     <br />
                 </>
             </div>
+            <ReviewComponent productid={productid}/>
         </div >
     )
 };

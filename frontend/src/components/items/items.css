@@ -8,7 +8,11 @@
   /* display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px; */
+  scroll-snap-type: x mandatory;
+  scroll-snap-align: start;
+  scroll-margin-left: 20px;
 }
+
 #ullistmap {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -22,7 +26,6 @@
   padding: 10;
   margin: 0;
   display: flex;
-  flex-wrap: wrap;
   gap: 30px;
   width: fit-content;
   justify-content: center;

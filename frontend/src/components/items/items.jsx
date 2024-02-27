@@ -72,19 +72,27 @@ export default function Item(props) {
         // cartCtx.refresh();
     }
 
+    const scrollStyle = {
+        scrollSnapType: 'x mandatory',
+        scrollSnapAlign: 'start',
+        scrollPadding: '10px',
+        scrollPaddingInlineStart: '100px',
+    };
+
     return (
 
         <AnimatePresence initial={false} mode='wait'>
-
             <motion.li
                 id={props.id}
                 // key={image}
-                style={{ borderColor: 'black', overflowX: 'clip', backgroundColor: color.itembg, borderRadius: '10px' }}>
+                style={{ borderColor: 'black', overflowX: 'clip', backgroundColor: color.itembg, borderRadius: '10px', ...scrollStyle }}>
                 <AnimatePresence mode="wait">
                     {image !== props.image && !loading ? <motion.img
                         key={props.image}
                         {...framerSidebarPanel}
-                        src={image} alt={props.alt}
+                        // alt={props.alt}
+                        src={image}
+                        loading="lazy"
                         style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '10px' }}
                     /> : <CustomisedSkeleton> <Skeleton height={250} width={'100%'} /></CustomisedSkeleton>}
                 </AnimatePresence>
@@ -94,6 +102,7 @@ export default function Item(props) {
                     {props.title ? <h6>{props.title}</h6> : <CustomisedSkeleton><Skeleton width={"100%"} /></CustomisedSkeleton>}
                     {props.description ? <p>{props.description}</p> : <CustomisedSkeleton><Skeleton count={2} width={"100%"} /></CustomisedSkeleton>}
                 </div>
+
                 <div className="d-flex flex-row justify-content-between flex-wrap">
                     <div style={{ textAlign: 'right', paddingLeft: '10px', color: color.cartCount, cursor: 'pointer' }}>
                         {props.title ? <h6 onClick={props.onClick} >Read More...</h6> : <CustomisedSkeleton><Skeleton width={150} /></CustomisedSkeleton>}
@@ -105,7 +114,6 @@ export default function Item(props) {
                         {props.price ? <h6 >₹{props.price}</h6> : <CustomisedSkeleton><Skeleton width={50} /></CustomisedSkeleton>}
                     </div>
                 </div>
-
             </motion.li>
         </AnimatePresence >
     )

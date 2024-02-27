@@ -160,6 +160,7 @@ exports.updateuser = catchasync(async (req, res) => {
   user.emailid = req.body.emailid || user.emailid;
   user.phoneno = req.body.phoneno || user.phoneno;
   user.address = req.body.address || user.address;
+
   await user.save();
   authentication.createSendToken(user, 200, res);
 });

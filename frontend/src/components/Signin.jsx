@@ -63,7 +63,7 @@ const Signin = (props) => {
       const enteredPhone = phoneInputRef.current.value;
       data.phoneno = enteredPhone;
       const enteredAddress = addressInputRef.current.value;
-      data.address = enteredAddress;
+      data.address = { general: enteredAddress };
       if (enteredName.trim().length === 0 || enteredPhone.trim().length === 0) { return setErrormsg("Please enter all the fields"); }
       if (enteredEmail.trim().length === 0) { return setErrormsg("Please enter all the fields"); }
     } else {

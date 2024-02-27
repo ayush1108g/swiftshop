@@ -15,6 +15,7 @@ export default function Track() {
           <img
             src="https://www.flaticon.com/svg/static/icons/svg/1828/1828884.svg"
             alt="No img found"
+            loading="lazy"
           />
         </div>
       </div>

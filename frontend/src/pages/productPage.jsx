@@ -14,7 +14,7 @@ const ProductPage = () => {
     const searchParams = new URLSearchParams(location.search);
     const navigate = useNavigate();
     const [data, setData] = useState([]);
-    const [message, setMessage] = useState('No Data Found');
+    const [message, setMessage] = useState('');
     const [dataLoaded, setDataLoaded] = useState(false);
 
     const search = searchParams.get('search');
@@ -44,8 +44,10 @@ const ProductPage = () => {
                 setDataLoaded(true);
                 setlength(Math.ceil(data1x.data.totalLength / limit));
                 if (newData.length > 1) setMessage("");
+                else setMessage('No data found');
             } catch (err) {
                 console.log(err);
+                setMessage('No data found');
             }
         }
         fetchData();
@@ -108,25 +110,25 @@ const ProductPage = () => {
     return (
         <div>
             {message !== '' && <div className='h4 d-flex justify-content-center' style={{ padding: '100px' }}>{message}</div>}
-            {data && data.length > 0 && <>
-                <div className="dropdown" style={{ position: "absolute ", right: "10vw", color: color.text }} >
-                    <button className="btn"
-                        type="button" id="dropdownMenuButton" data-toggle="dropdown" ><h2 style={{ color: color.itembg1 }}>Filter by</h2 >
-                    </button>
-                    <div className="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton"
-                        style={{ padding: '0px' }}>
-                        <li className="dropdown-item" name="discounted_price" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Increasing Discounted Price </li>
-                        <li className="dropdown-item" name="-discounted_price" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Decreasing Discounted Price</li>
-                        <li className="dropdown-item" name="retail_price" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Increasing Retail Price</li>
-                        <li className="dropdown-item" name="-retail_price" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Decreasing Retail Price</li>
-                        <li className='dropdown-item' name="discount_percentage" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Increasing Discount</li>
-                        <li className='dropdown-item' name="-discount_percentage" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Decreasing Discount</li>
-                    </div>
+            {/* {data && data.length > 0 && <> */}
+            <div className="dropdown" style={{ position: "absolute ", right: "10vw", color: color.text }} >
+                <button className="btn"
+                    type="button" id="dropdownMenuButton" data-toggle="dropdown" ><h2 style={{ color: color.itembg1 }}>{(dataLoaded && message === '') ? 'Filter by' : ''}</h2 >
+                </button>
+                <div className="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton"
+                    style={{ padding: '0px' }}>
+                    <li className="dropdown-item" name="discounted_price" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Increasing Discounted Price </li>
+                    <li className="dropdown-item" name="-discounted_price" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Decreasing Discounted Price</li>
+                    <li className="dropdown-item" name="retail_price" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Increasing Retail Price</li>
+                    <li className="dropdown-item" name="-retail_price" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Decreasing Retail Price</li>
+                    <li className='dropdown-item' name="discount_percentage" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Increasing Discount</li>
+                    <li className='dropdown-item' name="-discount_percentage" onClick={handlerFilerItem} style={{ color: color.text, backgroundColor: color.itembg3 }}>Decreasing Discount</li>
                 </div>
-                <br />
-                <br />
-                <br />
-            </>}
+            </div>
+            <br />
+            <br />
+            <br />
+            {/* </>} */}
             {!dataLoaded && arr.map((ele, index) => {
                 if (index % 2 === 0) {
                     return (

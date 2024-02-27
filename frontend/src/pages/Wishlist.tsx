@@ -26,7 +26,7 @@ const Wishlist = () => {
     };
 
     useEffect(() => {
-        const intervalId = setInterval(changeImage, 15000);
+        const intervalId = setInterval(changeImage, 60000);
         return () => clearInterval(intervalId);
     }, []);
    
@@ -38,11 +38,16 @@ const Wishlist = () => {
 
          <div style={{ background: `linear-gradient(${color.belowNavbg2},'#ffffff',${color.belowNavbg1})`, maxWidth: '100%' }}>
             <section id="core-concepts" >
-                <div style={{ position: 'relative', left: '0%', paddingLeft: '30px', padding: '30px', cursor: 'pointer' }}>
+                <div style={{ position: 'relative', left: '5%', paddingLeft: '30px', padding: '30px', cursor: 'pointer' }}>
                     Wishlist
                     <br />
                 </div>
                 <ul style={{}}>
+                        <div style={{
+                                width: '10px',
+                                scrollSnapAlign: 'start',
+                            }}>
+                        </div>
                     {data.map((itemData, itemIndex) => (
                         <Items
                             addtocart={true}

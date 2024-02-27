@@ -4,6 +4,8 @@ import SidebarContext from "../store/context/sidebar-context";
 import { useContext, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate} from 'react-router-dom';
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
+
 import { useSelector } from 'react-redux';
 import { useClickAway } from "react-use";
 import { RootState } from '../store/utils';
@@ -12,20 +14,23 @@ import LoginContext from '../store/context/login-context';
 import WishContext from '../store/context/wish-context';
 import { useCookies } from 'react-cookie';
 import { useAlert } from '../store/context/Alert-context';
+import ToggleTheme from '../store/utils/ToggleTheme.tsx';
 
 
 const Sidebar:React.FC = () => {
     const Alertctx = useAlert();
+    const sidebarRef = useRef<HTMLDivElement>(null);
     const wishCtx = useContext(WishContext);
+    const [isopen, setisopen] = React.useState<boolean>(false);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const color = useSelector((state:RootState) => state.themeMode.color);
     const navigate = useNavigate();
-const cartCtx = useContext(CartContext);
+    const cartCtx = useContext(CartContext);
     const sidebarCtx = useContext(SidebarContext);
     const loginCtx = useContext(LoginContext);
+
     const isLoggedIn = loginCtx.isLoggedIn;
-    const sidebarRef = useRef<HTMLDivElement>(null);
-    const [isopen, setisopen] = React.useState<boolean>(false);
+    const lengthx = cartCtx.cartItemNumber;
 
     useClickAway(sidebarRef, () => {
         console.log("clicked outside");
@@ -91,15 +96,12 @@ const cartCtx = useContext(CartContext);
                     style={{ backgroundColor: color.navbg, color: color.bodyText }}
                 >
                     <ul style={{ listStyle: 'none', color: color.text }}>
-                        <li className={styles.li} onClick={() => {
-                            navigate('/team');
-                            sidebarCtx.toggleSidebar()
-                        }} style={{ color: color.text }}>Our Team</li>
                         <li className={styles.li} style={{ color: color.text }} onClick={xyzHandler}>{isLoggedIn ? 'My Profile' : 'Login/Signup'}</li>
-                        <li className={styles.li} onClick={cartHandler} style={{ color: color.text }}>Cart</li>
+                        <li className={`d-block d-md-none d-flex align-items-center ${styles.li}`} onClick={cartHandler} style={{ color: color.text }}>Cart &nbsp;<FaShoppingCart/><sup style={{ color: color.cartCount}}>{lengthx === 0 ? ' ' : lengthx}</sup></li>
                         <li className={styles.li} onClick={contactUsHandler} style={{ color: color.text }}>Contact Us</li>
+                        <li className={`d-block d-sm-none d-flex align-items-center ${styles.li}`} style={{ color: color.text }}> Theme&nbsp; <ToggleTheme />
+                        </li>
                       {isLoggedIn && <li className={styles.li} onClick={logoutHandler} style={{ color: color.text }}>Logout</li>}
-                        <li className={styles.li} onClick={() => { sidebarCtx.toggleSidebar() }} style={{ color: color.text }}>Close</li>
                     </ul>
                 </motion.div>)}
         </AnimatePresence >

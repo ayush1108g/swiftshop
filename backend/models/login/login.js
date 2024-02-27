@@ -2,6 +2,16 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 var Schema = mongoose.Schema;
+
+const addressSchema = new Schema({
+  street: String,
+  city: String,
+  state: String,
+  zipCode: String,
+  country: String,
+  general: String,
+});
+
 const signupmodel = new Schema({
   name: {
     type: "string",
@@ -16,9 +26,26 @@ const signupmodel = new Schema({
     required: [true, "Please provide your email"],
     unique: true,
   },
-  address: {
+  image: {
     type: "string",
-    required: [true, "Please provide your address"],
+    default:
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+  },
+  address: addressSchema,
+  role: {
+    type: String,
+    enum: ["user", "retailer", "admin"],
+    default: "user",
+  },
+  registrationDate: {
+    type: Date,
+    default: Date.now,
+    select: false,
+  },
+  lastLogin: {
+    type: Date,
+    default: Date.now,
+    select: false,
   },
   password: {
     type: "string",
@@ -32,12 +59,12 @@ const signupmodel = new Schema({
   passwordresetexpired: Date,
 });
 signupmodel.pre("save", async function (next) {
-  if (!this.isModified("password") || this.isNew) return next();
+  if (!this.isModified("password") || !this.isNew) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 signupmodel.pre("save", function (next) {
-  if (!this.isModified("password") || this.isNew) return next();
+  if (!this.isModified("password") || !this.isNew) return next();
 
   this.passwordChangedAt = Date.now() - 1000;
   next();
@@ -69,6 +96,6 @@ signupmodel.methods.changedPasswordAfter = function (JWTTimestamp) {
   }
   return false;
 };
-const signup = mongoose.model("user1", signupmodel);
+const User = mongoose.model("user1", signupmodel);
 
-module.exports = signup;
+module.exports = User;

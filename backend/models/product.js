@@ -64,6 +64,6 @@ const Product = new Schema({
     required: [true, "New/old is required"],
   },
 });
-const Product1 = mongoose.model("product_data", Product);
+const product = mongoose.model("product_data", Product);
 
-module.exports = Product1;
+module.exports = product;

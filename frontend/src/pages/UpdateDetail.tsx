@@ -11,7 +11,7 @@ interface userdata {
     name: string;
     phoneno: string;
     emailid: string;
-    address: string;
+    // address: string;
 }
 interface pass {
     oldpassword: string;
@@ -22,7 +22,15 @@ interface pass {
 const UpdateDetail:React.FC = () => {
     const color = useSelector((state: RootState) => state.themeMode.color);
     const [cookie,setCookie] = useCookies(['token']);
-    const [userdata, setUserdata] = useState<userdata>({ name: '', phoneno: '', emailid: '', address: '' });
+    const [userdata, setUserdata] = useState<userdata>({ name: '', phoneno: '', emailid: ''});
+    const [address, setAddress] = useState({
+        street: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: '',
+        general: '',
+    });
     const [pass, setPass] = useState<pass>({ oldpassword: '', newpassword: '', confirmpassword: '' });
     const [message, setmessage] = useState<string>('');
     const [passmessage, setpassmessage] = useState<string>('');
@@ -35,7 +43,13 @@ const UpdateDetail:React.FC = () => {
                         Authorization: `Bearer ${cookie.token}`,
                     },});
                 
-                setUserdata(data.data.data);
+                const dataU = {
+                    name: data.data.data.name,
+                    phoneno: data.data.data.phoneno,
+                    emailid: data.data.data.emailid,
+                };
+                setUserdata(dataU);
+                setAddress(data.data.data.address);
                 setmessage('');
             } catch (err) {
                 if (err.response && err.response.data && err.response.data.message)
@@ -56,6 +70,13 @@ const UpdateDetail:React.FC = () => {
         }));
         // console.log(userdata);
     };
+    const handleAddressChange = (e) => {
+        const { name, value } = e.target;
+        setAddress((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
     const handlepassChange = (e) => {
         const { name, value } = e.target;
         setPass((prevData) => ({
@@ -65,7 +86,7 @@ const UpdateDetail:React.FC = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const body = userdata;
+        const body = {...userdata, address};
         try {
               await axios.put(`${ToLink}/user/update`, body, {headers: {
                     Authorization: `Bearer ${cookie.token}`,
@@ -142,10 +163,10 @@ const UpdateDetail:React.FC = () => {
                     </div>
                     <div className="input-group mb-3">
                         <span className="input-group-text" id="inputGroup-sizing-default">Address</span>
-                        <input type="address" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="address"
-                            value={userdata.address}
-                            onChange={handleInputChange}
-                            disabled={userdata.address === '' ? true : false}
+                        <input type="address" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="general"
+                            value={address?.general}
+                            onChange={handleAddressChange}
+                            disabled={address.general === '' ? true : false}
                         />
                     </div>
 
