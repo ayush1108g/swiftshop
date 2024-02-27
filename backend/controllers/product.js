@@ -2,7 +2,7 @@ const axios = require("axios");
 const Product = require("./../models/product");
 const Review = require("./../models/review_model");
 const APIFeatures = require("./../utils/ApiFeatures");
-const catchAsync = require("./../utils/catchAsync");
+const catchAsync = require("../utils/catchasync");
 
 exports.productdetails = async (req, res) => {
   const searchWord = req.query.search;
