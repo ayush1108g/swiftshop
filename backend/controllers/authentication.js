@@ -2,7 +2,7 @@ const crypto = require("crypto");
 const cookie = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
-const catchasync = require("./../utils/catchasync");
+const catchasync = require("../utils/catchAsync.js");
 const usersignup = require("./../models/login/login");
 const AppError = require("./../utils/appError");
 

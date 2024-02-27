@@ -1,8 +1,8 @@
 const cartModel = require("../models/cart_model");
 const wishModel = require("../models/wishlist_model");
 
-const catchasync = require("../utils/catchasync");
-const AppError = require("../utils/appError");
+const catchasync = require("./../utils/catchAsync.js");
+const AppError = require("./../utils/appError");
 
 exports.getcartbyid = catchasync(async (req, res, next) => {
   const userid = req.user._id;
