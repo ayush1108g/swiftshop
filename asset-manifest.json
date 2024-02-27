@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/swiftshop/static/css/main.257c51d6.css",
-    "main.js": "/swiftshop/static/js/main.79d98765.js",
+    "main.css": "/swiftshop/static/css/main.a6e26144.css",
+    "main.js": "/swiftshop/static/js/main.9abaee28.js",
     "static/js/787.9e9f4ffd.chunk.js": "/swiftshop/static/js/787.9e9f4ffd.chunk.js",
     "static/media/AyushPhoto-removebg-color.png": "/swiftshop/static/media/AyushPhoto-removebg-color.b4f4ef2158fc0b2232ec.png",
     "static/media/Divya-removebg-color.png": "/swiftshop/static/media/Divya-removebg-color.0f04251274ff1a02960d.png",
@@ -10,12 +10,12 @@
     "static/media/AyushPhoto-removebg-bw.png": "/swiftshop/static/media/AyushPhoto-removebg-bw.8a48d9c79f2bd864aa12.png",
     "static/media/Pushkar-removebg-bw.png": "/swiftshop/static/media/Pushkar-removebg-bw.6e9096ca998f75450a2e.png",
     "index.html": "/swiftshop/index.html",
-    "main.257c51d6.css.map": "/swiftshop/static/css/main.257c51d6.css.map",
-    "main.79d98765.js.map": "/swiftshop/static/js/main.79d98765.js.map",
+    "main.a6e26144.css.map": "/swiftshop/static/css/main.a6e26144.css.map",
+    "main.9abaee28.js.map": "/swiftshop/static/js/main.9abaee28.js.map",
     "787.9e9f4ffd.chunk.js.map": "/swiftshop/static/js/787.9e9f4ffd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.257c51d6.css",
-    "static/js/main.79d98765.js"
+    "static/css/main.a6e26144.css",
+    "static/js/main.9abaee28.js"
   ]
 }
