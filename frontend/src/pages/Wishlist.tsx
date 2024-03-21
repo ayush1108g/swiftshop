@@ -26,7 +26,7 @@ const Wishlist = () => {
     };
 
     useEffect(() => {
-        const intervalId = setInterval(changeImage, 60000);
+        const intervalId = setInterval(changeImage, 3*60000);
         return () => clearInterval(intervalId);
     }, []);
    

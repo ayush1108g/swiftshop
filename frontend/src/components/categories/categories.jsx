@@ -12,7 +12,7 @@ export default function Categories(props) {
         navigate(`/page/?search=${sectionName.split(" ").join('+')}&page=1&limit=20&sort=null`);
     }
     return (
-        <li onClick={ProdDivhandler} title={props.title}>
+        <li onClick={ProdDivhandler} title={props.title} >
             {location.pathname === '/' && <img src={props.image} alt={props.alt} loading='lazy' />}
             <h5>{props.title}</h5>
         </li>

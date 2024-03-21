@@ -14,6 +14,7 @@ exports.verifytoken = catchasync(async (req, res, next) => {
     name: req.user.name,
   });
 });
+
 exports.signup = catchasync(async (req, res) => {
   const newusersignup = await usersignup.create(req.body);
   // res.status(200).json({
@@ -24,6 +25,7 @@ exports.signup = catchasync(async (req, res) => {
   // });
   authentication.createSendToken(newusersignup, 201, res);
 });
+
 exports.login = catchasync(async (req, res, next) => {
   const { emailid, password } = req.body;
   if (!emailid || !password) {
@@ -99,7 +101,7 @@ exports.resetPassword = catchasync(async (req, res, next) => {
   user.password = req.body.password;
   user.resetPasswordToken = undefined;
   user.passwordresetexpired = undefined;
-  await user.save();
+  await user.save({ validateBeforeSave: true });
   authentication.createSendToken(user, 200, res);
 });
 

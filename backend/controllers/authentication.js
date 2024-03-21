@@ -7,20 +7,27 @@ const usersignup = require("./../models/login/login");
 const AppError = require("./../utils/appError");
 
 const signToken = (id) => {
-  const token = jwt.sign(id, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
+  const Accesstoken = jwt.sign(id, process.env.ACCESS_JWT_SECRET, {
+    expiresIn: process.env.ACCESS_JWT_EXPIRES_IN,
   });
-  console.log(token);
-  return token;
+
+  const Refreshtoken = jwt.sign(id, process.env.REFRESH_JWT_SECRET, {
+    expiresIn: process.env.REFRESH_JWT_EXPIRES_IN,
+  });
+
+  console.log("AccessToken", Accesstoken);
+  console.log("RefreshToken", Refreshtoken);
+  return [Accesstoken, Refreshtoken];
 };
 
 const createSendToken = catchasync(async (user, statusCode, res) => {
   user.lastlogin = Date.now();
   await user.save({ validateBeforeSave: false });
-  const token = signToken({ id: user._id });
+  const [AccessToken, RefreshToken] = signToken({ id: user._id });
   const cookieoptions = {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      Date.now() +
+        process.env.ACCESS_JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     withCredentials: true,
     // httpOnly: true,
@@ -34,32 +41,68 @@ const createSendToken = catchasync(async (user, statusCode, res) => {
   };
   // if (process.env.NODE_ENV === "production") cookieoptions.secure = true;
   // console.log(cookieoptions);
-  res.cookie("token", token, cookieoptions);
+  res.cookie("AccessToken", AccessToken, cookieoptions);
+  res.cookie("RefreshToken", RefreshToken, cookieoptions);
   // console.log(token);
   // console.log(user);
   user.password = undefined;
   res.status(statusCode).json({
     status: "success",
-    token,
+    AccessToken,
+    RefreshToken,
     data: { user },
   });
 });
 
+const verifyRefreshToken = catchasync(async (req, res, next) => {
+  let RefreshToken;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    RefreshToken = req.headers.authorization.split(" ")[1];
+  }
+  if (!RefreshToken) {
+    return next(new AppError("you are not logged in", 401));
+  }
+  const decoded = await promisify(jwt.verify)(
+    RefreshToken,
+    process.env.REFRESH_JWT_SECRET
+  );
+  const currentUser = await usersignup.findById(decoded.id).select("+password");
+  if (!currentUser) {
+    return next(
+      new AppError("the user belonging to this token does not exist", 401)
+    );
+  }
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new AppError("user recently changed password! please login again", 401)
+    );
+  }
+  req.user = currentUser;
+  createSendToken(currentUser, 200, res);
+});
+
 const protect = catchasync(async (req, res, next) => {
   // console.log("hello ");
-  let token;
+  let AccessToken;
   // console.log(req.headers.authorization);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
-    token = req.headers.authorization.split(" ")[1];
+    AccessToken = req.headers.authorization.split(" ")[1];
   }
-  if (!token) {
+  if (!AccessToken) {
     return next(new AppError("you are not logged in", 401));
   }
 
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  const decoded = await promisify(jwt.verify)(
+    AccessToken,
+    process.env.ACCESS_JWT_SECRET
+  );
+
   const currentUser = await usersignup.findById(decoded.id).select("+password");
   // console.log(currentUser);
   if (!currentUser) {
@@ -80,4 +123,5 @@ module.exports = {
   signToken,
   createSendToken,
   protect,
+  verifyRefreshToken,
 };

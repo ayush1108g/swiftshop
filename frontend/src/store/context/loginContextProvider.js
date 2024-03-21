@@ -3,23 +3,43 @@ import LoginContext from "./login-context";
 // import axios from "axios";
 // import { ToLink } from "../../constants";
 // import verifyToken from "../utils/verifyToken";
-// import { useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 
 const LoginContextProvider = (props) => {
-  // const [cookie] = useCookies(["token"]);
-  const [token, setToken] = useState(null);
+  const [cookie, setCookie] = useCookies(["AccessToken", "RefreshToken"]);
+  const [loading, setLoading] = useState(false);
+  const [AccessToken, setAccessToken] = useState(null);
+  const [RefreshToken, setRefreshToken] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [name, setName] = useState(null);
 
-  const loginHandler = (token, name) => {
-    setToken(token);
+  const loginHandler = (AccessToken, RefreshToken, name) => {
+    setAccessToken(AccessToken);
+    setRefreshToken(RefreshToken);
     setIsLoggedIn(true);
     setName(name);
   };
   const logoutHandler = () => {
-    setToken(null);
+    setAccessToken(null);
+    setRefreshToken(null);
     setIsLoggedIn(false);
     setName(null);
+  };
+  const updateAccessToken = (newAccessToken) => {
+    console.log(newAccessToken);
+    setCookie("AccessToken", newAccessToken, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 1 * 1.5,
+    });
+    setAccessToken(newAccessToken);
+  };
+  const updateRefreshToken = (newRefreshToken) => {
+    console.log(newRefreshToken);
+    setCookie("RefreshToken", newRefreshToken, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 2 * 1.4,
+    });
+    setRefreshToken(newRefreshToken);
   };
 
   // useEffect(() => {
@@ -40,9 +60,14 @@ const LoginContextProvider = (props) => {
   // }, []);
 
   const context = {
-    token: token,
-    isLoggedIn: isLoggedIn,
     name: name,
+    isLoggedIn: isLoggedIn,
+    loading: loading,
+    AccessToken: AccessToken,
+    RefreshToken: RefreshToken,
+    setLoading: setLoading,
+    setAccessToken: updateAccessToken,
+    setRefreshToken: updateRefreshToken,
     login: loginHandler,
     logout: logoutHandler,
   };

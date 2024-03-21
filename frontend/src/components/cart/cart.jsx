@@ -36,7 +36,7 @@ export default function Cart(props) {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % 4);
   };
   useEffect(() => {
-    const intervalId = setInterval(changeImage, 60000);
+    const intervalId = setInterval(changeImage, 3 * 60000);
     return () => clearInterval(intervalId);
   }, []);
 

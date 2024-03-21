@@ -1,12 +1,12 @@
-import React from "react";
+import React,{ useEffect, useState,useContext } from "react";
 import styles from "../components/medicineFormContainer.module.css"
-// import { useParams } from "react-router";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToLink } from "../constants.js";
 import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import LoginContext from "../store/context/login-context.js";
+import { refreshAccessToken } from "../store/utils/refreshAccessToken.js";
 interface userdata {
     name: string;
     phoneno: string;
@@ -20,8 +20,9 @@ interface pass {
 }
 
 const UpdateDetail:React.FC = () => {
+    const loginCtx = useContext(LoginContext);
     const color = useSelector((state: RootState) => state.themeMode.color);
-    const [cookie,setCookie] = useCookies(['token']);
+    const [cookie,setCookie] = useCookies(['AccessToken',"RefreshToken"]);
     const [userdata, setUserdata] = useState<userdata>({ name: '', phoneno: '', emailid: ''});
     const [address, setAddress] = useState({
         street: '',
@@ -36,13 +37,14 @@ const UpdateDetail:React.FC = () => {
     const [passmessage, setpassmessage] = useState<string>('');
     // const { id } = useParams();
     useEffect(() => {
-        const user = async () => {
+        const user = async (AccessToken) => {
+            console.log(AccessToken);
             try {
                 const data = await axios.get(`${ToLink}/user/update`, {
                     headers: {
-                        Authorization: `Bearer ${cookie.token}`,
+                        Authorization: `Bearer ${AccessToken}`,
                     },});
-                
+                console.log(data);
                 const dataU = {
                     name: data.data.data.name,
                     phoneno: data.data.data.phoneno,
@@ -52,13 +54,17 @@ const UpdateDetail:React.FC = () => {
                 setAddress(data.data.data.address);
                 setmessage('');
             } catch (err) {
+                if(err.message==="jwt expired" ||err?.response?.data?.message==="jwt expired"){
+                    console.log("jwt expired");
+                    return refreshAccessToken(user,loginCtx);
+                }
                 if (err.response && err.response.data && err.response.data.message)
                 setmessage(err.response.data.message + ' Session Expired Please Login to Continue');
                 else if (err.message) setmessage(err.message);
                 else setmessage(err);
             }
         }
-        user();
+        user(loginCtx.AccessToken);
     }, []);
 
     const handleInputChange = (e) => {
@@ -86,22 +92,31 @@ const UpdateDetail:React.FC = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const handler = async (AccessToken) => {
         const body = {...userdata, address};
         try {
               await axios.put(`${ToLink}/user/update`, body, {headers: {
-                    Authorization: `Bearer ${cookie.token}`,
+                    Authorization: `Bearer ${AccessToken}`,
                 },});
             //  console.log(resp.data);
             setmessage("Updated Successfully");
         } catch (err) {
+            if(err.message==="jwt expired"||err?.response?.data?.message==="jwt expired"){
+                console.log("jwt expired");
+
+                return refreshAccessToken(handler,loginCtx);
+            }
             if (err.response && err.response.data && err.response.data.message)
                     setmessage(err.response.data.message + ' Session Expired Please Login to Continue');
                 else if (err.message) setmessage(err.message);
                 else setmessage(err);
         }
     }
+    handler(loginCtx.AccessToken);
+    }
     const handleSubmitPassword = async (e) => {
         e.preventDefault();
+        const handler = async (AccessToken) => {
         if (pass.newpassword !== pass.confirmpassword) {
             setpassmessage('new Password and Confirm Password do not match');
             return;
@@ -118,16 +133,26 @@ const UpdateDetail:React.FC = () => {
            const resp = await axios.put(`${ToLink}/user/updatepassword`, body, {
                 withCredentials: true,
                 headers: {
-                    Authorization: `Bearer ${cookie.token}`,
+                    Authorization: `Bearer ${AccessToken}`,
                 },
             });
-            setCookie('token',resp.data.token);
+
+            setCookie("AccessToken", resp.data.AccessToken, { path: "/", maxAge: 60 * 60 * 24 * 1 * 1.5 });
+            setCookie("RefreshToken", resp.data.RefreshToken, { path: "/", maxAge: 60 * 60 * 24 * 30 * 1.4 });
+
             setpassmessage("Updated Successfully");
             setPass({ oldpassword: '', newpassword: '', confirmpassword: '' });
         }
         catch (err) {
+            console.log(err);
+            if(err.message==="jwt expired" ||err?.response?.data?.message==="jwt expired"){
+                console.log("jwt expired");
+                return refreshAccessToken(handleSubmitPassword,loginCtx);
+            }
             setpassmessage(err.message);
         }
+    }
+    handler(loginCtx.AccessToken);
     }
     return (
         <div className={styles.container}>
@@ -166,7 +191,7 @@ const UpdateDetail:React.FC = () => {
                         <input type="address" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="general"
                             value={address?.general}
                             onChange={handleAddressChange}
-                            disabled={address.general === '' ? true : false}
+                            disabled={address?.general === '' ? true : false}
                         />
                     </div>
 

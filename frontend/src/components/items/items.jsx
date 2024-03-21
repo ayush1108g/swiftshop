@@ -67,7 +67,12 @@ export default function Item(props) {
         }, 1000);
     }
     const addtoCartHandler = () => {
-        cartCtx.addInCart(props.id);
+        setTimeout(() => {
+            cartCtx.addInCart(props.id);
+        }, 1000);
+        setTimeout(() => {
+            cartCtx.refresh();
+        }, 3000);
         deletefromwishHandler();
         // cartCtx.refresh();
     }

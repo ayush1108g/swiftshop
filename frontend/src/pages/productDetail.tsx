@@ -59,7 +59,7 @@ const ProductDetail:React.FC = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        const intervalId = setInterval(changeImage, 15000);
+        const intervalId = setInterval(changeImage, 3*60000);
         return () => clearInterval(intervalId);
     }, []);
     useEffect(() => {
@@ -89,7 +89,7 @@ const ProductDetail:React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const intervalId = setInterval(changeImage, 60000);
+        const intervalId = setInterval(changeImage, 4*60000);
         return () => clearInterval(intervalId);
     }, []);
 

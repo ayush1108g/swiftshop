@@ -1,6 +1,4 @@
 import "./items.css";
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { useSelector } from "react-redux";
 import ItemList from "./itemList.jsx";
 

@@ -7,6 +7,8 @@ router
   .route("/verifytoken")
   .get(authcontroller.protect, usersignupcontroller.verifytoken);
 
+router.route("/verifyrefreshtoken").get(authcontroller.verifyRefreshToken);
+
 router.route("/signup").post(usersignupcontroller.signup);
 router.route("/login").post(usersignupcontroller.login);
 router.route("/forgotpassword").post(usersignupcontroller.forgotPassword);

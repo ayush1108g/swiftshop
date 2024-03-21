@@ -12,7 +12,7 @@ import { useAlert } from "../store/context/Alert-context.js";
 
 const Signin = (props) => {
   const alertCtx = useAlert();
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies, setCookie] = useCookies(["AccessToken", "RefreshToken"]);
   const navigate = useNavigate();
   const [errormsg, setErrormsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -89,8 +89,9 @@ const Signin = (props) => {
         emailInputRef.current.value = "";
         passwordInputRef.current.value = "";
         console.log(resp.data.data.user.name);
-        setCookie("token", resp.data.token, { path: "/", maxAge: 60 * 60 * 24 * 30 * 1.4 });
-        loginCtx.login(resp.data.token, resp.data.data.user.name);
+        setCookie("AccessToken", resp.data.AccessToken, { path: "/", maxAge: 60 * 60 * 24 * 1 * 1.5 });
+        setCookie("RefreshToken", resp.data.RefreshToken, { path: "/", maxAge: 60 * 60 * 24 * 30 * 1.4 });
+        loginCtx.login(resp.data.AccessToken, resp.data.RefreshToken, resp.data.data.user.name);
         setErrormsg("Success");
         // setTimeout(() => {
         // }, 1000);
@@ -140,11 +141,7 @@ const Signin = (props) => {
           className={`border-bottom-0 ${classes.form}`}
         >
           {!isLoading && <p className={classes.loading}> {errormsg}</p>}
-          {isLoading && (
-            <div className="spinner-border text-danger" role="status">
-              {/* <span className="sr-only">Loading...</span> */}
-            </div>
-          )}
+
           <motion.div
             variants={animateVariants}
             animate="show"
@@ -236,7 +233,12 @@ const Signin = (props) => {
               type="submit"
               onClick={signupLoginHandler}
             >
-              {props.pagename}
+              {isLoading && (
+                <div className="spinner-border text-danger" role="status">
+                  {/* <span className="sr-only">Loading...</span> */}
+                </div>
+              )}
+              {!isLoading && props.pagename}
             </button>
           </div>
           <div className={classes.pagechange}>

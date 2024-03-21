@@ -1,18 +1,20 @@
-import { useParams } from "react-router";
+import { useParams, Navigate } from "react-router";
 import classes from "./ForgotPass.module.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 import { ToLink } from "../../constants.js";
 import { useNavigate } from "react-router-dom";
-import { Navigate } from "react-router";
 import { useCookies } from "react-cookie";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
 import { useAlert } from "../../store/context/Alert-context.js";
+import LoginContext from "../../store/context/login-context.js";
+
 
 const ForgotPassConfirmPage = () => {
+  const loginctx = useContext(LoginContext);
   const alertCtx = useAlert();
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies, setCookie] = useCookies(["AccessToken", "RefreshToken"]);
   const [isLoading, setIsLoading] = useState(false);
   const [errormsg, setErrormsg] = useState("");
   const { id } = useParams();
@@ -58,7 +60,9 @@ const ForgotPassConfirmPage = () => {
           timeout: 30000,
         }
       );
-      setCookie("token", resp.data.token);
+      setCookie("AccessToken", resp.data.AccessToken, { path: "/", maxAge: 60 * 60 * 24 * 1 * 1.5 });
+      setCookie("RefreshToken", resp.data.RefreshToken, { path: "/", maxAge: 60 * 60 * 24 * 30 * 1.4 });
+      loginctx.login(resp.data.AccessToken, resp.data.RefreshToken, resp.data.name);
       if (resp.data.status === "success") {
         localStorage.removeItem("Passcode");
         localStorage.removeItem("Passcode2");

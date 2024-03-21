@@ -42,7 +42,7 @@ interface SidebarContextType {
 
 const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
   const color = useSelector((state : RootState) => state.themeMode.color);
-  const [cookie,setCookie,removeCookie] = useCookies(['token']);
+  const [cookie,setCookie,removeCookie] = useCookies(['AccessToken','RefreshToken']);
   const sidebarCtx = useContext<SidebarContextType>(SidebarContext);
   const searchinputref = useRef<HTMLInputElement>(null);
   const [clicked, setClicked] = useState<boolean>(false);
@@ -82,7 +82,8 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
   };
   
   const LogoutHandler = ():void => {
-    removeCookie('token');
+    removeCookie('AccessToken');
+    removeCookie('RefreshToken');
     localStorage.clear();
     cartCtx.clear();
     wishCtx.clear();
@@ -195,7 +196,7 @@ const Navbar :React.FC<NavbarProps> = ({ navStyle }) => {
             <button className="btn"
               // style={{ backgroundColor: 'rgba(160,204,216,255)' }} 
               type="button" id="dropdownMenuButton" data-toggle="dropdown">
-              <div className={classes.circle} style={{ background: color.itembg1 }}> <span className={classes.initial} >{letter}</span></div>
+              <div className={classes.circle} style={{ background: color.itembg1 }}> <span className={classes.initial} >{letter.toUpperCase() }</span></div>
             </button>
             <div className="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton"
               style={{ backgroundColor: color.itembg3, color: color.text, padding: '0px' }}

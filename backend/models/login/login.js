@@ -59,7 +59,10 @@ const signupmodel = new Schema({
   passwordresetexpired: Date,
 });
 signupmodel.pre("save", async function (next) {
-  if (!this.isModified("password") || !this.isNew) return next();
+  console.log("isModifiedpass", this.isModified("password"));
+  console.log("isNew", this.isNew);
+  console.log("password", this.password);
+  if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });

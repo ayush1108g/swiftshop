@@ -30,6 +30,7 @@ import CategoriesMain from "./components/categories/categoriesMain.jsx";
 import MainFooter from "./components/footer/mainFooter.jsx";
 import Navbar from "./components/Navbar.tsx";
 
+import { refreshAccessToken } from "./store/utils/refreshAccessToken.js";
 import DataContextProvider from "./store/context/dataContextProvider.js";
 import SidebarContextProvider from "./store/context/sidebarContextProvider.js";
 import CartContextProvider from "./store/context/cartContextProvider.js";
@@ -42,6 +43,7 @@ import { useCookies } from "react-cookie";
 import  verifyToken  from "./store/utils/verifyToken.js";
 library.add(fas);
 
+import FullAuthLoader from "./components/FullAuthLoader.js";
 
 interface navStyle{
   backgroundColor: string;
@@ -59,25 +61,30 @@ const LocationProvider:React.FC<LocationProviderProps> = ({ children }) => {
 const RoutesWithAnimation:React.FC = () => {
   const location = useLocation();
   console.log(location);
-  const [cookie] = useCookies(["token"]);
+  const [cookie] = useCookies(["AccessToken","RefreshToken"]);
   const authCtx = React.useContext(LoginContext);
 
   useEffect(() => {
-    const asyncFunc = async () => {
+    const asyncFunc = async (AccessToken) => {
       try {
-        const token = cookie.token;
+        const token = AccessToken;
         const response = await verifyToken(token);
-        if (response.isLoggedin === true) {
-          authCtx.login(token, response.name);
+        if (response?.isLoggedin === true) {
+          authCtx.login(token,cookie?.RefreshToken, response?.name);
         }
       } catch (err) {
+        if(err.message==="jwt expired" ||err?.response?.data?.message==="jwt expired"){
+          console.log("jwt expired");
+          return refreshAccessToken(asyncFunc,authCtx);
+      }
         console.log(err);
       }
     };
-    asyncFunc();
+    asyncFunc(cookie.AccessToken);
   }, []);
   
   return (
+    <>
     <Routes location={location} key={location.key}>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/login/forgotpassword" element={<ForgotPassPage />} />
@@ -96,10 +103,11 @@ const RoutesWithAnimation:React.FC = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="*" element={<Errorpage />} />
     </Routes>
+    </>
   );
 }
-
-const App:React.FC = ()=> {
+const MainContent:React.FC = () => {
+  const loginCtx = React.useContext(LoginContext);
   const color = useSelector((state: RootState) => state.themeMode.color);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   
@@ -110,15 +118,30 @@ const App:React.FC = ()=> {
       setIsScrolled(false);
     }
   }
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
   const navStyle:navStyle = {
     backgroundColor: isScrolled ? '' : color.navbg,
     backdropFilter: isScrolled ? 'blur(10px)' : '',
     transition: '0.5s'
   }
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  return (
+    <div style={{ color: color.bodyText, backgroundColor: color.belowNavbg2 }}>
+  {loginCtx.loading && <FullAuthLoader />}
+    <HeaderMain navStyle={navStyle} />
+    <Navbar navStyle={navStyle} />
+    <CategoriesMain/>
+    <RoutesWithAnimation />
+  </div>
+  );
+}
+
+const App:React.FC = ()=> {
+  
+ 
+  
   
 
   return (
@@ -133,12 +156,7 @@ const App:React.FC = ()=> {
               <CartContextProvider>
                 <DataContextProvider>
                   <SidebarContextProvider>
-                    <div style={{ color: color.bodyText, backgroundColor: color.belowNavbg2 }}>
-                      <HeaderMain navStyle={navStyle} />
-                      <Navbar navStyle={navStyle} />
-                      <CategoriesMain/>
-                      <RoutesWithAnimation />
-                    </div>
+                   <MainContent/>
                   </SidebarContextProvider>
                 </DataContextProvider>
               </CartContextProvider>

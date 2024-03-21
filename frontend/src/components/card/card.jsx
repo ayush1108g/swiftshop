@@ -48,7 +48,7 @@ export default function Card(props) {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(changeImage, 60000);
+    const intervalId = setInterval(changeImage, 3 * 60 * 1000);
     return () => clearInterval(intervalId);
   }, []);
 
