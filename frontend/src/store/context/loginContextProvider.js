@@ -24,6 +24,14 @@ const LoginContextProvider = (props) => {
     setRefreshToken(null);
     setIsLoggedIn(false);
     setName(null);
+    setCookie("AccessToken", null, {
+      path: "/",
+      maxAge: 0,
+    });
+    setCookie("RefreshToken", null, {
+      path: "/",
+      maxAge: 0,
+    });
   };
   const updateAccessToken = (newAccessToken) => {
     console.log(newAccessToken);

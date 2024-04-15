@@ -46,14 +46,14 @@ app.use(
 );
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", [
-    "https://ayush1108g.github.io",
-    // "http://localhost:3000",
+    // "https://ayush1108g.github.io",
+    "http://localhost:3000",
   ]);
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
-
+console.log("hi");
 app.use(express.json());
 
 app.use(express.static(`${__dirname}/public`));
@@ -62,22 +62,24 @@ app.use(express.json({ limit: "100kb" }));
 app.use(xss());
 app.use(hpp());
 
-const backendUrl = "https://ecommerce-web-lwxy.onrender.com";
-cron.schedule("*/180 * * * * *", function () {
-  console.log("Restarting server");
+// const backendUrl = "https://ecommerce-web-lwxy.onrender.com";
+// cron.schedule("*/180 * * * * *", async function () {
+//   console.log("Restarting server");
 
-  https
-    .get(backendUrl, (res) => {
-      if (res.statusCode === 200) {
-        console.log("Restarted");
-      } else {
-        console.error(`failed to restart with status code: ${res.statusCode}`);
-      }
-    })
-    .on("error", (err) => {
-      console.error("Error ", err.message);
-    });
-});
+//   await https
+//     .get(backendUrl, (res) => {
+//       if (res.statusCode === 200) {
+//         console.log("Restarted");
+//       } else {
+//         console.error(`failed to restart with status code: ${res.statusCode}`);
+//       }
+//     })
+//     .on("error", (err) => {
+//       console.log("hi");
+//       console.error("Error ", err.message);
+//     });
+// });
+
 app.use("/user", usersignuprouter);
 app.use("/product_data", product);
 app.use("/cart", cart);
