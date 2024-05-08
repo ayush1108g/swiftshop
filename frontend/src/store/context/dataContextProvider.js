@@ -2,15 +2,7 @@ import DataContext from "./data-context";
 import { useState } from "react";
 
 const DataContextProvider = (props) => {
-  const [data, setData] = useState({
-    // electronic: [],
-    // watch: [],
-    // footwear: [],
-    // sunglass: [],
-    // kid: [],
-    // bag: [],
-    // umbrella: [],
-  });
+  const [data, setData] = useState({});
 
   const addDataHandler = (key, newData) => {
     setData((prevData) => {

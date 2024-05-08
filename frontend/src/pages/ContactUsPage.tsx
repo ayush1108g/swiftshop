@@ -1,22 +1,22 @@
-import React from "react";
-import classes from "./ContactUsPage.module.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React,{ useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
-import { ToLink } from "../constants.js";
 import axios from "axios";
+
+import classes from "./ContactUsPage.module.css";
+import { ToLink } from "../constants.js";
 
 const ContactUsPage:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errormsg, setErrormsg] = useState<string>("");
     const numberRef = useRef<HTMLInputElement>(null);
     const queryInputref = useRef<HTMLTextAreaElement>(null);
+
     const name = localStorage.getItem("name") || "";
     const email = localStorage.getItem("email") || "";
 
+    //Function to submit the query
     const proceedtoSubmit = async (event) => {
         event.preventDefault();
-
         const enteredNumber = numberRef.current!.value;
         const enteredQuery = queryInputref.current!.value;
         console.log(enteredNumber);
@@ -26,19 +26,11 @@ const ContactUsPage:React.FC = () => {
           enteredNumber.length !== 10 || enteredNumber.toString().length === 0 ||
           enteredQuery.length === 0
         ) {
-          setErrormsg("Please enter valid details");
-          return;
+            return setErrormsg("Please enter valid details");
         }
-        
-        const body = {
-            name: name,
-            email: email,
-            phoneno: enteredNumber,
-            massage: enteredQuery,
-        };
+        const body = {name: name,email: email,phoneno: enteredNumber, massage: enteredQuery};
         try {
             setIsLoading(true);
-
             const response = await axios.post(`${ToLink}/feedback`, body);
             setErrormsg("Your query has been submitted successfully");
             if (response.status === 200 || response.status === 201) {
@@ -51,7 +43,7 @@ const ContactUsPage:React.FC = () => {
         }
         setIsLoading(false);
     }
-
+    //Animation for form
     const animateVariants = {
         show: {
             scale: [15, 0],
@@ -139,7 +131,6 @@ const ContactUsPage:React.FC = () => {
                             Submit
                         </button>
                     </div>
-
                 </motion.form>}
             </div>
         </>

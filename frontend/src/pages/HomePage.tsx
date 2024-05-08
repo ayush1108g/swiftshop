@@ -1,13 +1,11 @@
 import React from "react";
 import { Outlet } from "react-router";
-import MainItems from "../components/items/itemsMain.jsx";
-import TypeWriter from "../components/dynamicType.tsx";
 import { useNavigate } from "react-router";
 
+import MainItems from "../components/items/itemsMain.jsx";
+import TypeWriter from "../components/dynamicType.tsx";
 
 export default function HomePage() {
-  // const dispatch = useDispatch();
-
   return (
     < div >
       <MainItems />
@@ -15,6 +13,7 @@ export default function HomePage() {
     </div >
   );
 }
+
 interface HeaderMainProps {
   navStyle: {
     backgroundColor: string;
@@ -22,8 +21,6 @@ interface HeaderMainProps {
     transition: string;
   }
 }
-
-
 export const HeaderMain:React.FC<HeaderMainProps> = ({ navStyle }) => {
   const navigate = useNavigate();
 

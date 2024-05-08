@@ -1,42 +1,44 @@
+import React, { useState, useRef } from "react";
 import { useParams } from "react-router";
-import classes from "./ForgotPass.module.css";
-import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { ToLink } from "../../constants.js";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router";
-const ForgotPassIDPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [errormsg, setErrormsg] = useState("");
+
+import { ToLink } from "../../constants.js";
+import classes from "./ForgotPass.module.css";
+
+const ForgotPassIDPage:React.FC = () => {
   const passwordref = useRef();
   const { id } = useParams();
   const navigate = useNavigate();
-
-  if (!id.includes('-') || id.split("-").length !== 2 || !id.includes('@')) {
+  
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errormsg, setErrormsg] = useState<string>("");
+  
+  // Check if the id is valid
+  if (!id?.includes('-') || id?.split("-").length !== 2 || !id?.includes('@')) {
     return <Navigate to={`/*?error=Not%20Authorised`} />;
   }
-  const idw = id.split("-")[1];
+  const idw = id?.split("-")[1];
+
+  // Function to handle the back button
   const loginpageHandler = () => {
     navigate(-2);
   };
 
+  // Function to handle the reset password button
   const proceedtoConfirmhandler = async (event) => {
     event.preventDefault();
-    const passwordEntered = passwordref.current.value;
+    const passwordEntered = passwordref?.current?.value;
     if (passwordEntered.trim().length === 0) {
-      setErrormsg("Please provide all the details");
-      return;
+      return setErrormsg("Please provide all the details");
     }
-    const body = {
-      code: passwordEntered,
-    };
+    const body = {code: passwordEntered,};
     try {
       setErrormsg("");
       setIsLoading(true);
-      const resp = await axios.post(`${ToLink}/user/verifycode`, body, {
-        timeout: 30000,
-      });
+      const resp = await axios.post(`${ToLink}/user/verifycode`, body, {timeout: 30000});
       if (resp.data.status === "success") {
         localStorage.setItem("Passcode2", "1");
         navigate(`/login/forgotpassword/fpass987-${idw}-${body.code}/confirm`);
@@ -77,7 +79,6 @@ const ForgotPassIDPage = () => {
           {!isLoading && <p className={classes.loading}> {errormsg}</p>}
           {isLoading && (
             <div className="spinner-border text-danger" role="status">
-              {/* <span className="sr-only">Loading...</span> */}
             </div>
           )}
           <motion.div

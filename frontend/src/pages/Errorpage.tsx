@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
 import classes from './ErrorPage.module.css';
 
 const Errorpage: React.FC = () => {

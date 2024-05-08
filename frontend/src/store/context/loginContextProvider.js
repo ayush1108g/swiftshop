@@ -6,7 +6,7 @@ import LoginContext from "./login-context";
 import { useCookies } from "react-cookie";
 
 const LoginContextProvider = (props) => {
-  const [cookie, setCookie] = useCookies(["AccessToken", "RefreshToken"]);
+  const [, setCookie] = useCookies(["AccessToken", "RefreshToken"]);
   const [loading, setLoading] = useState(false);
   const [AccessToken, setAccessToken] = useState(null);
   const [RefreshToken, setRefreshToken] = useState(null);
@@ -49,23 +49,6 @@ const LoginContextProvider = (props) => {
     });
     setRefreshToken(newRefreshToken);
   };
-
-  // useEffect(() => {
-  //   const asyncFunc = async () => {
-  //     try {
-  //       const token = cookie.token;
-  //       const response = await verifyToken(token);
-  //       if (response.isLoggedin === true) {
-  //         setToken(token);
-  //         setIsLoggedIn(true);
-  //         setName(response.name);
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   asyncFunc();
-  // }, []);
 
   const context = {
     name: name,

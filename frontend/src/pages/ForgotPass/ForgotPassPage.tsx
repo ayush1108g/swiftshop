@@ -1,39 +1,37 @@
-import axios from "axios";
-import classes from "./ForgotPass.module.css";
-import { motion } from "framer-motion";
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import axios from "axios";
+
+import classes from "./ForgotPass.module.css";
 import { ToLink } from "../../constants.js";
 
-const ForgotPassPage = () => {
+const ForgotPassPage: React.FC = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   const emailInputRef = useRef();
-  const [errormsg, setErrormsg] = useState("");
+  const [isLoading, setIsLoading] = useState <boolean> (false);
+  const [errormsg, setErrormsg] = useState <string> ("");
 
+  // Function to handle the back button
   const loginpageHandler = () => {
     navigate(-1);
   };
 
+  // Function to handle the reset password button
   const proceedtoResethandler = async (event) => {
     event.preventDefault();
-    const emailEntered = emailInputRef.current.value;
+    const emailEntered = emailInputRef?.current?.value;
 
+    // Check if the email is empty
     if (emailEntered.trim().length === 0) {
-      setErrormsg("Please provide all the details");
-      return;
+      return setErrormsg("Please provide all the details");
     }
     const body = {
       emailid: emailEntered,
     };
     try {
       setIsLoading(true);
-      const resp = await axios.post(
-        `${ToLink}/user/forgotpassword`,
-        body,
-        { timeout: 30000 }
-      );
-
+      const resp = await axios.post(`${ToLink}/user/forgotpassword`,body,{ timeout: 30000 });
       if (resp.data.status === "success") {
         setErrormsg(`Password reset email sent to ${emailEntered}`);
         localStorage.setItem("Passcode", "1");
@@ -116,10 +114,7 @@ const ForgotPassPage = () => {
 
           <div className={classes.pagechange}>
             <b>
-              <p
-                onClick={loginpageHandler}
-                className={"small font-monospace text-center row text-dark " + classes.signin}
-              >
+              <p onClick={loginpageHandler} className={"small font-monospace text-center row text-dark " + classes.signin}>
                 Back to Login?
               </p>
             </b>

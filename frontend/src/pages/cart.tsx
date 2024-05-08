@@ -1,9 +1,10 @@
 import React,{ useContext, useEffect} from "react";
-import CartContext from "../store/context/cart-context.js";
-import CartItem from "../components/cart/cart";
-import { useNavigate } from 'react-router-dom';
-import LoginContext from "../store/context/login-context.js";
 import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+
+import CartItem from "../components/cart/cart";
+import CartContext from "../store/context/cart-context.js";
+import LoginContext from "../store/context/login-context.js";
 import { RootState } from "../store/utils/index.js";
 
 const Cart:React.FC = () => {
@@ -16,13 +17,16 @@ const Cart:React.FC = () => {
     const totalPrice = cartCtx.total;
     // console.log(cartCtx.cart);
 
+    //Calculate total price of all items in cart
     useEffect(() => {
         let retailPrice = 0;
-    if(cart.length>0){
-        cart.map((item) => retailPrice += item.retail_price*item.quantity*1);
-    }
-    setRetailPrice(retailPrice);
-},[cart]);
+        if(cart.length>0){
+            cart.map((item) => retailPrice += item?.retail_price*item.quantity*1);
+        }
+        setRetailPrice(retailPrice);
+    },[cart]);
+
+    //Function to navigate to update detail page
     const updateDetailHandler = () => {
         if (!loginCtx.isLoggedIn)
             navigate('/login');

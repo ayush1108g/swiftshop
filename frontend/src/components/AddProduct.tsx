@@ -1,9 +1,10 @@
-import React from 'react'
-import { useState } from 'react'
-import { ToLink } from '../constants';
+import React,{useState} from 'react'
 import axios from 'axios';
-const AddProduct = () => {
-    const [msg, setMsg] = useState('');
+
+import { ToLink } from '../constants';
+
+const AddProduct:React.FC = () => {
+    const [msg, setMsg] = useState<string>('');
     const [product_id, setProduct_id] = useState('');
     const [formData, setFormData] = useState({
         product_name: '',
@@ -18,6 +19,7 @@ const AddProduct = () => {
         product_specifications: '',
     });
 
+    // Function to handle the form data
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -25,6 +27,7 @@ const AddProduct = () => {
             [name]: value,
         }));
     };
+    // Function to format the product specifications
     const formatSpecifications = (input) => {
         const keyValuePairs = input.split(',');
         console.log(keyValuePairs);
@@ -36,6 +39,7 @@ const AddProduct = () => {
         return formattedPairs.join(', ');
     };
 
+    // Function to submit the form data
     const submitFormHandler = async (e) => {
         e.preventDefault();
         let data;
@@ -70,8 +74,6 @@ const AddProduct = () => {
         } catch (err) {
             console.log(err);
         }
-
-
     };
 
 
@@ -117,4 +119,4 @@ const AddProduct = () => {
     )
 };
 
-export default AddProduct
+export default AddProduct;

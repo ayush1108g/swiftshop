@@ -24,9 +24,7 @@ const CartContextProvider = (props) => {
         console.log("resp rendered", cookie.token);
 
         const data = await axios.get(`${ToLink}/cart`, {
-          headers: {
-            Authorization: `Bearer ${AccessToken}`,
-          },
+          headers: { Authorization: `Bearer ${AccessToken}` },
         });
         const ProductId = data.data.data.cart;
         if (ProductId.length === 0) {

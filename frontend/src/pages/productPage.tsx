@@ -1,26 +1,29 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { ToLink } from '../constants.js';
-import classes from './productPage.module.css';
-import Card from '../components/card/card';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
-const ProductPage = () => {
-    const color = useSelector(state => state.themeMode.color);
-    const [length, setlength] = useState(1);
+import { ToLink } from '../constants.js';
+import classes from './productPage.module.css';
+import Card from '../components/card/card.jsx';
+import { RootState } from "../store/utils/index.ts";
+
+const ProductPage:React.FC = () => {
+    const color = useSelector((state:RootState) => state.themeMode.color);
     const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
     const navigate = useNavigate();
-    const [data, setData] = useState([]);
-    const [message, setMessage] = useState('');
-    const [dataLoaded, setDataLoaded] = useState(false);
+    const searchParams = new URLSearchParams(location.search);
 
-    const search = searchParams.get('search');
-    const page = searchParams.get('page');
-    const limit = searchParams.get('limit');
-    const sort = searchParams.get('sort');
+    const [length, setlength] = useState<number>(1);
+    const [data, setData] = useState([]);
+    const [message, setMessage] = useState<string>('');
+    const [dataLoaded, setDataLoaded] = useState<boolean>(false);
+
+    const search: string | null = searchParams.get('search');
+
+    const page:number =parseInt( searchParams.get('page')|| '1');
+    const limit:number = parseInt(searchParams.get('limit')|| '10');
+    const sort:string|null = searchParams.get('sort');
 
 
     useEffect(() => {
@@ -54,9 +57,9 @@ const ProductPage = () => {
     }, [search, page, limit, sort]);
 
     const generateNumber = () => {
-        let numbers = [];
-        let start = Math.max(page * 1 - 2, 1);
-        let end = Math.min(page * 1 + 2, length);
+        let numbers:(number | string)[] = [];
+        let start:number = Math.max(page * 1 - 2, 1);
+        let end:number = Math.min(page * 1 + 2, length);
 
         if (length === 1) {
             numbers.push(1);
@@ -99,11 +102,11 @@ const ProductPage = () => {
     }
     const handlerFilerItem = (e) => {
         const sort = e.target.getAttribute('name');
-        navigate(`/page/?search=${search.split(" ").join('+')}&page=${page}&limit=${limit}&sort=${sort}`);
+        navigate(`/page/?search=${search?.split(" ").join('+')}&page=${page}&limit=${limit}&sort=${sort}`);
     }
 
     const goToPageHandler = (pageno) => {
-        navigate(`/page/?search=${search.split(" ").join('+')}&page=${pageno}&limit=${limit}&sort=${sort}`);
+        navigate(`/page/?search=${search?.split(" ").join('+')}&page=${pageno}&limit=${limit}&sort=${sort}`);
         window.scrollTo(0, 0);
     }
     let arr = [1, 2, 3, 4];

@@ -1,67 +1,58 @@
+import React,{ useState, useRef, useContext } from "react";
 import { useParams, Navigate } from "react-router";
-import classes from "./ForgotPass.module.css";
-import { useState, useRef, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import axios from "axios";
-import { ToLink } from "../../constants.js";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
+import axios from "axios";
+
+import classes from "./ForgotPass.module.css";
+import { ToLink } from "../../constants.js";
 import { useAlert } from "../../store/context/Alert-context.js";
 import LoginContext from "../../store/context/login-context.js";
 
 
-const ForgotPassConfirmPage = () => {
+const ForgotPassConfirmPage:React.FC = () => {
   const loginctx = useContext(LoginContext);
   const alertCtx = useAlert();
-  const [cookies, setCookie] = useCookies(["AccessToken", "RefreshToken"]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errormsg, setErrormsg] = useState("");
+  const [, setCookie] = useCookies(["AccessToken", "RefreshToken"]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errormsg, setErrormsg] = useState<string>("");
   const { id } = useParams();
   const navigate = useNavigate();
   const passwordref = useRef();
   const Confpasswordref = useRef();
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
-  if (!id.includes('-') || id.split("-").length !== 3 || !id.includes('@')) {
+
+  if (!id?.includes('-') || id.split("-").length !== 3 || !id.includes('@')) {
     return <Navigate to={`/*?error=Not%20Authorised`} />;
   }
   const idw = id.split("-")[1];
   const code = id.split("-")[2];
   const proceedtoLogin = async (event) => {
     event.preventDefault();
-    const passwordEntered = passwordref.current.value;
-    const ConfpasswordEntered = Confpasswordref.current.value;
+    const passwordEntered = passwordref?.current?.value;
+    const ConfpasswordEntered = Confpasswordref?.current?.value;
     if (
       passwordEntered.trim().length === 0 ||
       ConfpasswordEntered.trim().length === 0
     ) {
-      setErrormsg("Please provide all the details");
-      return;
+      return setErrormsg("Please provide all the details");
     }
     if (passwordEntered !== ConfpasswordEntered) {
-      setErrormsg("Passwords do not match");
-      return;
+      return setErrormsg("Passwords do not match");
     }
     if (passwordEntered.length < 8) {
-      setErrormsg("Password must be at least 8 characters long");
-      return;
+      return setErrormsg("Password must be at least 8 characters long");
     }
-    const body = {
-      password: passwordEntered,
-    };
+    const body = {password: passwordEntered};
     try {
       setErrormsg("");
       setIsLoading(true);
-      const resp = await axios.patch(
-        `${ToLink}/user/resetpassword/${code}`,
-        body,
-        {
-          timeout: 30000,
-        }
-      );
-      setCookie("AccessToken", resp.data.AccessToken, { path: "/", maxAge: 60 * 60 * 24 * 1 * 1.5 });
-      setCookie("RefreshToken", resp.data.RefreshToken, { path: "/", maxAge: 60 * 60 * 24 * 30 * 1.4 });
+      const resp = await axios.patch(`${ToLink}/user/resetpassword/${code}`,body,{timeout: 30000,});
+      setCookie("AccessToken", resp.data.AccessToken, { path: "/", maxAge: 60 * 60 * 24 * 1 * 1.5 }); // 1.5 days
+      setCookie("RefreshToken", resp.data.RefreshToken, { path: "/", maxAge: 60 * 60 * 24 * 30 * 1.4 }); // 42 days
       loginctx.login(resp.data.AccessToken, resp.data.RefreshToken, resp.data.name);
       if (resp.data.status === "success") {
         localStorage.removeItem("Passcode");
@@ -76,6 +67,8 @@ const ForgotPassConfirmPage = () => {
   };
 
   const isValid = localStorage.getItem("Passcode2");
+
+  // Animation Variants
   const animateVariants = {
     show: {
       scale: [15, 0],

@@ -1,17 +1,17 @@
-import React from "react";
+import React,{ useState, useEffect,useContext } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useParams, useNavigate } from "react-router";
+import Skeleton from "react-loading-skeleton";
+import { FaShareAlt } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { IoIosHeart } from "react-icons/io";
 import { CiHeart } from "react-icons/ci";
-import classes from "./productDetail.module.css";
-import { useState, useEffect,useContext } from "react";
 import axios from "axios";
+
+import classes from "./productDetail.module.css";
 import { ToLink, ImageLink, FromLink } from "../constants.js";
-import { useParams, useNavigate } from "react-router";
 import Items from "../components/items/items.jsx";
-import { FaShareAlt } from "react-icons/fa";
 import Overlay from "../components/modalOverlay/overlay.jsx";
-import Skeleton from "react-loading-skeleton";
-import { useSelector } from "react-redux";
-import { AnimatePresence, motion } from "framer-motion";
 import { CustomisedSkeleton } from "../components/items/items.jsx";
 import { RootState } from "../store/utils/index.ts";
 import CartContext from "../store/context/cart-context.js";
@@ -96,10 +96,7 @@ const ProductDetail:React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(
-                    `${ToLink}/product_data/products/${productid}`
-                );
-
+                const response = await axios.get(`${ToLink}/product_data/products/${productid}`);
                 const specificationsString = response.data.data.product_specifications;
                 const validJSONString = specificationsString.replace(/"=>/g, '": ');
 
@@ -132,14 +129,10 @@ const ProductDetail:React.FC = () => {
 
     const getImage = async () => {
         try {
-            const res = await axios.get(ImageLink + '?' + product?.image[currentIndex], {
-                responseType: "arraybuffer",
-            });
-
+            const res = await axios.get(ImageLink + '?' + product?.image[currentIndex], {responseType: "arraybuffer",});
             const blob = new Blob([res.data], {
                 type: res.headers["content-type"],
             });
-
             const imageUrl = URL.createObjectURL(blob);
             setImage(imageUrl);
             setLoading(false);
