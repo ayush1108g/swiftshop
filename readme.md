@@ -1,6 +1,7 @@
 SwiftShop is a full-stack eCommerce platform built with MERN stack.
 It provides a seamless shopping experience.
 Site Live on: https://ayush1108g.github.io/swiftshop/
+*Note: Backend is on free server, Kindly wait for 30-45 sec for data to be completely loaded
 
 ## Dummy Login id:
 
