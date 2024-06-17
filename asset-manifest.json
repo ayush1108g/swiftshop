@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/swiftshop/static/css/main.843c2556.css",
-    "main.js": "/swiftshop/static/js/main.29a95e2d.js",
-    "static/js/787.9e9f4ffd.chunk.js": "/swiftshop/static/js/787.9e9f4ffd.chunk.js",
+    "main.css": "/swiftshop/static/css/main.fc096e65.css",
+    "main.js": "/swiftshop/static/js/main.d2e8c393.js",
+    "static/js/453.8ab44547.chunk.js": "/swiftshop/static/js/453.8ab44547.chunk.js",
     "static/media/AyushPhoto-removebg-color.png": "/swiftshop/static/media/AyushPhoto-removebg-color.b4f4ef2158fc0b2232ec.png",
     "static/media/Divya-removebg-color.png": "/swiftshop/static/media/Divya-removebg-color.0f04251274ff1a02960d.png",
     "static/media/Pushkar-removebg-color.png": "/swiftshop/static/media/Pushkar-removebg-color.ab4a6ff536bb6bc2321e.png",
@@ -10,12 +10,12 @@
     "static/media/AyushPhoto-removebg-bw.png": "/swiftshop/static/media/AyushPhoto-removebg-bw.8a48d9c79f2bd864aa12.png",
     "static/media/Pushkar-removebg-bw.png": "/swiftshop/static/media/Pushkar-removebg-bw.6e9096ca998f75450a2e.png",
     "index.html": "/swiftshop/index.html",
-    "main.843c2556.css.map": "/swiftshop/static/css/main.843c2556.css.map",
-    "main.29a95e2d.js.map": "/swiftshop/static/js/main.29a95e2d.js.map",
-    "787.9e9f4ffd.chunk.js.map": "/swiftshop/static/js/787.9e9f4ffd.chunk.js.map"
+    "main.fc096e65.css.map": "/swiftshop/static/css/main.fc096e65.css.map",
+    "main.d2e8c393.js.map": "/swiftshop/static/js/main.d2e8c393.js.map",
+    "453.8ab44547.chunk.js.map": "/swiftshop/static/js/453.8ab44547.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.843c2556.css",
-    "static/js/main.29a95e2d.js"
+    "static/css/main.fc096e65.css",
+    "static/js/main.d2e8c393.js"
   ]
 }
