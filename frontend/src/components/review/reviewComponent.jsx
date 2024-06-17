@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react';
+import $ from 'jquery';
 import Review from './Review';
 import { RiStarSFill, RiStarSLine } from "react-icons/ri";
 import { motion, AnimatePresence } from 'framer-motion';

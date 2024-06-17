@@ -65,6 +65,7 @@ const verifyRefreshToken = catchasync(async (req, res, next) => {
   if (!RefreshToken) {
     return next(new AppError("you are not logged in", 401));
   }
+  console.log(RefreshToken, "refresh token");
   const decoded = await promisify(jwt.verify)(
     RefreshToken,
     process.env.REFRESH_JWT_SECRET
@@ -97,6 +98,7 @@ const protect = catchasync(async (req, res, next) => {
   if (!AccessToken) {
     return next(new AppError("you are not logged in", 401));
   }
+  console.log(AccessToken, "access token");
 
   const decoded = await promisify(jwt.verify)(
     AccessToken,

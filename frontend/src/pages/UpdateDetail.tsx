@@ -1,5 +1,5 @@
 import React,{ useEffect, useState,useContext } from "react";
-import styles from "../components/medicineFormContainer.module.css"
+import styles from "../components/medicineFormContainer.module.css";
 import axios from "axios";
 import { ToLink } from "../constants.js";
 import { useCookies } from "react-cookie";
@@ -56,7 +56,7 @@ const UpdateDetail:React.FC = () => {
             } catch (err) {
                 if(err.message==="jwt expired" ||err?.response?.data?.message==="jwt expired"){
                     console.log("jwt expired");
-                    return refreshAccessToken(user,loginCtx);
+                    return refreshAccessToken(user,loginCtx,cookie.RefreshToken);
                 }
                 if (err.response && err.response.data && err.response.data.message)
                 setmessage(err.response.data.message + ' Session Expired Please Login to Continue');
@@ -104,7 +104,7 @@ const UpdateDetail:React.FC = () => {
             if(err.message==="jwt expired"||err?.response?.data?.message==="jwt expired"){
                 console.log("jwt expired");
 
-                return refreshAccessToken(handler,loginCtx);
+                return refreshAccessToken(handler,loginCtx,cookie.RefreshToken);
             }
             if (err.response && err.response.data && err.response.data.message)
                     setmessage(err.response.data.message + ' Session Expired Please Login to Continue');
@@ -147,7 +147,7 @@ const UpdateDetail:React.FC = () => {
             console.log(err);
             if(err.message==="jwt expired" ||err?.response?.data?.message==="jwt expired"){
                 console.log("jwt expired");
-                return refreshAccessToken(handleSubmitPassword,loginCtx);
+                return refreshAccessToken(handleSubmitPassword,loginCtx,cookie.RefreshToken);
             }
             setpassmessage(err.message);
         }

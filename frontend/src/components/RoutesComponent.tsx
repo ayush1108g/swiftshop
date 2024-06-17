@@ -35,6 +35,7 @@ const RoutesComponent: React.FC = () => {
       const asyncFunc = async (AccessToken) => {
         try {
           const token = AccessToken;
+          if(!token) return refreshAccessToken(asyncFunc, authCtx,cookie.RefreshToken);
           const response = await verifyToken(token);
           if (response?.isLoggedin === true) {
             authCtx.login(token, cookie?.RefreshToken, response?.name);
@@ -42,7 +43,7 @@ const RoutesComponent: React.FC = () => {
         } catch (err) {
           if (err.message === "jwt expired" || err?.response?.data?.message === "jwt expired") {
             console.log("jwt expired");
-            return refreshAccessToken(asyncFunc, authCtx);
+            return refreshAccessToken(asyncFunc, authCtx,cookie.RefreshToken);
           }
           console.log(err);
         }

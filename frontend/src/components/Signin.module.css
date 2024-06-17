@@ -6,6 +6,7 @@
   height: 60vh;
   /* width: auto; */
   position: relative;
+  min-width: 300px;
 }
 
 .form {

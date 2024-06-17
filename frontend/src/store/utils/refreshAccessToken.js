@@ -1,7 +1,9 @@
 import axios from "axios";
 import { ToLink } from "./../../constants.js";
-export const refreshAccessToken = async (func, loginCtx) => {
-  const rtoken = loginCtx.RefreshToken;
+export const refreshAccessToken = async (func, loginCtx, refreshToken) => {
+  const rtoken = refreshToken || loginCtx.RefreshToken;
+
+  if (!rtoken) return alert("Please login again");
   loginCtx.setLoading(true);
   try {
     const resp = await axios.get(`${ToLink}/user/verifyrefreshtoken`, {

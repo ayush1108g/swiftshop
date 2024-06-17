@@ -8,14 +8,10 @@ export default function MainItem() {
     let params = ['electronic', 'watch', 'footwear', 'sunglass', 'kid', 'bag', 'umbrella'];
     const color = useSelector(state => state.themeMode.color);
 
-
-
-
     return (
         <div style={{ background: `linear-gradient(${color.belowNavbg2},'#ffffff',${color.belowNavbg1})`, maxWidth: '100%' }}>
             {
-                params.map((item) => <ItemList parameter={item} />)
-
+                params.map((item, index) => <ItemList key={index} parameter={item} />)
             }
         </div>
     );

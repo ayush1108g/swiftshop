@@ -23,12 +23,12 @@ const globalErrorHandler = require("./controllers/errorController");
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-// const limiter = reteLimit({
-//   max: 2000,
-//   windowMs: 60 * 1000,
-//   message: "Too many request from this IP, please try again in few minutes",
-// });
-// app.use("/", limiter);
+const limiter = reteLimit({
+  max: 100,
+  windowMs: 60 * 1000,
+  message: "Too many request from this IP, please try again in few minutes",
+});
+app.use("/image", limiter);
 
 app.use(cookieParser());
 
@@ -53,7 +53,7 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
-console.log("hi");
+
 app.use(express.json());
 
 app.use(express.static(`${__dirname}/public`));
